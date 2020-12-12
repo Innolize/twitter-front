@@ -4,6 +4,7 @@ import { General } from './componentes/main';
 import { CrearComentario } from './componentes/main/CrearComentario';
 import SignIn from './componentes/sign-in/SignIn'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import CreateAccount from './componentes/sign-in/CreateAccount';
 
 function App() {
   return (
@@ -30,6 +31,9 @@ function App() {
           </Route>
           <Route path="/login">
             <SignIn></SignIn>
+          </Route>
+          <Route path="/create-account">
+            <CreateAccount />
           </Route>
         </Router>
       </Container>
