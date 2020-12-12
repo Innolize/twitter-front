@@ -24,7 +24,10 @@ export const General: React.FC<generalProps> = ({ }) => {
     }
 
     return (
-        <Post />
+        <>
+            <Post />
+            <Post />
+        </>
     );
 }
 
