@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,9 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+
+import { useForm } from 'react-hook-form'
+import Axios from 'axios';
 
 function Copyright() {
   return (
@@ -57,8 +60,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide() {
+const SignInSide = () => {
   const classes = useStyles();
+  const { register, handleSubmit } = useForm()
+  const [logginError, setLogginError] = useState("")
+
+  const onSubmit = async (data: any) => {
+    try {
+      const response = await Axios.post('http://localhost:4000/auth', data)
+    } catch (err) {
+      if (err.response.status === 401) {
+        setLogginError("Invalid password. Have you forgotten your password?")
+      }
+    }
+
+
+  }
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -72,7 +89,7 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -83,6 +100,7 @@ export default function SignInSide() {
               name="email"
               autoComplete="email"
               autoFocus
+              inputRef={register}
             />
             <TextField
               variant="outlined"
@@ -94,7 +112,12 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
+              inputRef={register}
             />
+            {logginError &&
+              <Typography variant="body2" align="center" color="secondary">{logginError}</Typography>
+            }
+
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -129,3 +152,5 @@ export default function SignInSide() {
     </Grid>
   );
 }
+
+export default SignInSide

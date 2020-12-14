@@ -61,6 +61,7 @@ const CreateAccount = () => {
             const logged = await axios.post('http://localhost:4000/auth', { email: data.email, password: data.password })
             console.log("logged: ", logged)
         } catch (error) {
+            console.log(error.response)
             if (error.response) {
                 setErrors(error.response.data.message)
             }
