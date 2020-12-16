@@ -5,3 +5,4 @@ export const login = (payload: loginPayload): AuthActionTypes => ({
     type: LOGIN,
     payload: payload
 })
+
