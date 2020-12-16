@@ -1,21 +1,8 @@
-const initialState = {
-    test: "test"
-}
+import { combineReducers } from "redux"
+import authReducer from './authReducer'
 
-type Action = {
-    type: string,
-    payload: string
-}
+const reducers = combineReducers({
+    authReducer
+})
 
-const reducerTest = (state = initialState, { type, payload }: Action) => {
-    switch (type) {
-
-        case "TEST":
-            return { ...state, test: payload }
-
-        default:
-            return state
-    }
-}
-
-export default reducerTest
+export default reducers

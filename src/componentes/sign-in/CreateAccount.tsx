@@ -15,6 +15,8 @@ import Container from '@material-ui/core/Container';
 import axios from 'axios'
 
 import { useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../redux/actions/logginAction';
 
 function Copyright() {
     return (
@@ -51,15 +53,18 @@ const useStyles = makeStyles((theme) => ({
 
 
 const CreateAccount = () => {
+    const dispatch = useDispatch()
+    console.log(useSelector(state => state))
     const classes = useStyles();
     const { register, handleSubmit } = useForm<FormData>()
     const [errors, setErrors] = useState<string[]>([])
 
     const onSubmit = async (data: any) => {
         try {
-            await axios.post('http://localhost:4000/user', data)
-            const logged = await axios.post('http://localhost:4000/auth', { email: data.email, password: data.password })
-            console.log("logged: ", logged)
+            const user = await axios.post('http://localhost:4000/user', data, { withCredentials: true })
+            const logged = await axios.post('http://localhost:4000/auth', { email: data.email, password: data.password }, { withCredentials: true })
+            const userData = logged.data
+            dispatch(login(userData))
         } catch (error) {
             console.log(error.response)
             if (error.response) {

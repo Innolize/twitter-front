@@ -12,9 +12,10 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-
 import { useForm } from 'react-hook-form'
 import Axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { login } from '../../redux/actions/logginAction'
 
 function Copyright() {
   return (
@@ -61,6 +62,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignInSide = () => {
+  const dispatch = useDispatch()
+
   const classes = useStyles();
   const { register, handleSubmit } = useForm()
   const [logginError, setLogginError] = useState("")
@@ -68,6 +71,7 @@ const SignInSide = () => {
   const onSubmit = async (data: any) => {
     try {
       const response = await Axios.post('http://localhost:4000/auth', data)
+      // dispatch(login())
     } catch (err) {
       if (err.response.status === 401) {
         setLogginError("Invalid password. Have you forgotten your password?")
