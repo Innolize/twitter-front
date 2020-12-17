@@ -18,7 +18,8 @@ import { useForm } from 'react-hook-form'
 
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/actions/logginAction';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
+import { RootState } from '../../redux/reducer';
 
 function Copyright() {
     return (
@@ -57,25 +58,19 @@ const useStyles = makeStyles((theme) => ({
 const CreateAccount = () => {
     const history = useHistory()
     const dispatch = useDispatch()
-    console.log(useSelector(state => state))
+    const auth = useSelector((state: RootState) => state.authReducer)
     const classes = useStyles();
     const { register, handleSubmit } = useForm<FormData>()
-    const [errors, setErrors] = useState<string[]>([])
 
     const onSubmit = async (data: any) => {
-        try {
-            const user = await axios.post('http://localhost:4000/user', data, { withCredentials: true })
-            const logged = await axios.post('http://localhost:4000/auth', { email: data.email, password: data.password }, { withCredentials: true })
-            const userData = logged.data
-            dispatch(login(userData))
-            history.push('/')
-        } catch (error) {
-            console.log(error.response)
-            if (error.response) {
-                setErrors(error.response.data.message)
-            }
-        }
+        dispatch(login(data, { new: true }))
     }
+
+    if (auth.user) {
+        console.log('entre')
+        return <Redirect to="/"></Redirect>
+    }
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -140,7 +135,7 @@ const CreateAccount = () => {
                             />
                         </Grid>
                         <ul>
-                            {errors && errors.map((err, i) => <li key={i}>{err}</li>)}
+                            {auth.errors && auth.errors.map((err, i) => <li key={i}>{err}</li>)}
                         </ul>
                         <Grid item xs={12}>
                             <FormControlLabel

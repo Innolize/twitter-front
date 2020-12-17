@@ -1,21 +1,30 @@
 import { User } from '../../types/User'
-import { AuthActionTypes, LOGIN } from '../types/AuthActionTypes'
+import { AuthActionTypes, LOGIN, LOGIN_ERROR, LOADING } from '../types/AuthActionTypes'
 
-const initialState: InitialState = {
+const initialState = {
     user: null,
     token: null,
+    errors: [],
+    loading: false
 }
 
-interface InitialState {
+export interface InitialState {
     user: null | User
     token: null | string
+    errors: string[]
+    loading: boolean
 }
 
-const authReducer = (state = initialState, { type, payload }: AuthActionTypes): InitialState => {
-    switch (type) {
-
+const authReducer = (state: InitialState = initialState, action: AuthActionTypes): InitialState => {
+    switch (action.type) {
         case LOGIN:
-            return { ...state, user: payload.user, token: payload.access_token }
+            return { ...state, user: action.payload.user, token: action.payload.access_token, loading: false }
+
+        case LOGIN_ERROR:
+            return { ...state, errors: action.payload.errors, loading: false }
+
+        case LOADING:
+            return { ...state, loading: true, errors: [], user: null }
 
         default:
             return state

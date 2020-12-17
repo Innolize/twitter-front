@@ -1,17 +1,33 @@
 import { User } from '../../types/User'
 
-export const LOGIN = "LOG_IN"
-export const LOGOUT = "LOG_OUT"
+export const LOGIN = "LOGIN"
+export const LOGIN_ERROR = "LOGIN_ERROR"
+export const LOADING = "LOADING"
 
 export type loginPayload = {
     user: User
     access_token: string
 }
 
-interface Loggin {
+type loginErrorPayload = {
+    errors: string[]
+}
+
+interface Login {
     type: typeof LOGIN
     payload: loginPayload
 }
+
+interface LoginError {
+    type: typeof LOGIN_ERROR
+    payload: loginErrorPayload
+}
+
+interface LoadingUser {
+    type: typeof LOADING
+}
+
+
 
 // interface Logout {
 //     type: typeof LOGOUT
@@ -20,4 +36,4 @@ interface Loggin {
 
 // | Logout
 
-export type AuthActionTypes = Loggin
+export type AuthActionTypes = | Login | LoginError | LoadingUser
