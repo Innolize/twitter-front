@@ -13,11 +13,8 @@ function App() {
         <Router>
           <Route path="/" exact>
             <Grid container>
-              <Grid item xs={3}>
                 <Sidebar>
-
                 </Sidebar>
-              </Grid>
               <Grid item xs={6}>
                 <CrearComentario />
                 <General></General>

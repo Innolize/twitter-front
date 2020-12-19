@@ -1,5 +1,5 @@
 import { User } from '../../types/User'
-import { AuthActionTypes, LOGIN, LOGIN_ERROR, LOADING } from '../types/AuthActionTypes'
+import { AuthActionTypes, LOGIN, LOGIN_ERROR, LOADING, LOG_OUT } from '../types/AuthActionTypes'
 
 const initialState = {
     user: null,
@@ -25,6 +25,9 @@ const authReducer = (state: InitialState = initialState, action: AuthActionTypes
 
         case LOADING:
             return { ...state, loading: true, errors: [], user: null }
+
+        case LOG_OUT:
+            return { ...state, loading: false, errors: [], user: null }
 
         default:
             return state

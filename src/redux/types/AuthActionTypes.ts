@@ -3,6 +3,7 @@ import { User } from '../../types/User'
 export const LOGIN = "LOGIN"
 export const LOGIN_ERROR = "LOGIN_ERROR"
 export const LOADING = "LOADING"
+export const LOG_OUT = "LOG_OUT"
 
 export type loginPayload = {
     user: User
@@ -27,5 +28,9 @@ interface LoadingUser {
     type: typeof LOADING
 }
 
+interface LogOut {
+    type: typeof LOG_OUT
+}
 
-export type AuthActionTypes = Login | LoginError | LoadingUser
+
+export type AuthActionTypes = Login | LoginError | LoadingUser | LogOut

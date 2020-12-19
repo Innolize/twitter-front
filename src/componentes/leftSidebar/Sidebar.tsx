@@ -6,22 +6,31 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
+import { Avatar, Card, CardHeader, Grid, ListItemAvatar } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/reducer';
+import { ProfileButton } from './ProfileButton';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             width: '100%',
+            height: '100vh',
             maxWidth: 360,
             backgroundColor: theme.palette.background.paper,
-        },
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between"
+        }
     }),
 );
 
 const Sidebar = (props: any) => {
     const classes = useStyles();
+    const user = useSelector((state: RootState) => state.authReducer.user)
 
     return (
-        <div className={classes.root}>
+        <Grid item xs={3} className={classes.root}>
             <List component="nav" aria-label="main mailbox folders">
                 <ListItem button>
                     <ListItemIcon>
@@ -42,7 +51,8 @@ const Sidebar = (props: any) => {
                     <ListItemText primary="Notificaciones" />
                 </ListItem>
             </List>
-        </div>
+            {user && <ProfileButton user={user} />}
+        </Grid>
     );
 }
 
