@@ -67,7 +67,6 @@ const CreateAccount = () => {
     }
 
     if (auth.user) {
-        console.log('entre')
         return <Redirect to="/"></Redirect>
     }
 

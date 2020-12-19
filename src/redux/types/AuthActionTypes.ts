@@ -28,12 +28,4 @@ interface LoadingUser {
 }
 
 
-
-// interface Logout {
-//     type: typeof LOGOUT
-//     payload: User
-// }
-
-// | Logout
-
-export type AuthActionTypes = | Login | LoginError | LoadingUser
+export type AuthActionTypes = Login | LoginError | LoadingUser

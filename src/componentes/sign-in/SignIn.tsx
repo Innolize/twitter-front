@@ -14,8 +14,11 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form'
 import Axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/actions/logginAction'
+import { Redirect } from 'react-router-dom';
+import { InitialState } from '../../redux/reducer/authReducer';
+import { RootState } from '../../redux/reducer';
 
 function Copyright() {
   return (
@@ -63,22 +66,18 @@ const useStyles = makeStyles((theme) => ({
 
 const SignInSide = () => {
   const dispatch = useDispatch()
-
+  const auth = useSelector((state: RootState) => state.authReducer)
+  console.log(auth.user)
   const classes = useStyles();
   const { register, handleSubmit } = useForm()
   const [logginError, setLogginError] = useState("")
 
   const onSubmit = async (data: any) => {
-    try {
-      const response = await Axios.post('http://localhost:4000/auth', data)
-      // dispatch(login())
-    } catch (err) {
-      if (err.response.status === 401) {
-        setLogginError("Invalid password. Have you forgotten your password?")
-      }
-    }
+    dispatch(login(data))
+  }
 
-
+  if (auth.user) {
+    return <Redirect to="/"></Redirect>
   }
 
   return (
