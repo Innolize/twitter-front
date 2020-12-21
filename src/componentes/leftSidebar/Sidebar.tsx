@@ -1,12 +1,12 @@
 import React from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
-import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
+import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
-import { Avatar, Card, CardHeader, Grid, ListItemAvatar } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducer';
 import { ProfileButton } from './ProfileButton';
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const Sidebar = (props: any) => {
+export const Sidebar = (props: any) => {
     const classes = useStyles();
     const user = useSelector((state: RootState) => state.authReducer.user)
 
@@ -55,5 +55,3 @@ const Sidebar = (props: any) => {
         </Grid>
     );
 }
-
-export default Sidebar

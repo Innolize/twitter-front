@@ -1,36 +1,23 @@
 import { Container, Grid } from '@material-ui/core';
-import Sidebar from './componentes/leftSidebar/Sidebar';
-import { General } from './componentes/main';
-import { CrearComentario } from './componentes/main/CrearComentario';
-import SignIn from './componentes/sign-in/SignIn'
+import { Sidebar } from './componentes/leftSidebar/Sidebar';
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import CreateAccount from './componentes/sign-in/CreateAccount';
+import { MainPage } from './screens/MainPage';
+import { LogIn } from './screens/LogIn';
+import { CreateAccount } from './screens/CreateAccount';
 
 function App() {
   return (
     <div className="App">
-      <Container>
+      <Container >
         <Router>
-          <Route path="/" exact>
-            <Grid container>
-                <Sidebar>
-                </Sidebar>
-              <Grid item xs={6}>
-                <CrearComentario />
-                <General></General>
-              </Grid>
-              <Grid item xs={3}>
-                <Sidebar>
-
-                </Sidebar>
-              </Grid>
-            </Grid>
+          <Route path="/login" exact>
+            <LogIn />
           </Route>
-          <Route path="/login">
-            <SignIn></SignIn>
-          </Route>
-          <Route path="/create-account">
+          <Route path="/create-account" exact>
             <CreateAccount />
+          </Route>
+          <Route path="/">
+            <MainPage />
           </Route>
         </Router>
       </Container>

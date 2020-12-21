@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import obtenerPostGenerales from '../../api/post/obtenerPostGenerales'
+import { InitialState } from '../../redux/reducer/authReducer'
+import { CrearComentario } from './CrearComentario'
 import { Post } from './post/Post'
 
 interface generalProps {
@@ -11,7 +13,7 @@ interface generalProps {
 
 export const General: React.FC<generalProps> = ({ }) => {
     const [data, setData] = useState<any>("")
-    console.log(useSelector(state => state))
+    const user = useSelector((state: InitialState) => state.user)
 
     // useEffect(() => {
     //     const fetch = async () => {
@@ -27,6 +29,7 @@ export const General: React.FC<generalProps> = ({ }) => {
 
     return (
         <>
+            {user && <CrearComentario />}
             <Post />
             <Post />
         </>

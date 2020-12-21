@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const CreateAccount = () => {
+export const CreateAccount = () => {
     const history = useHistory()
     const dispatch = useDispatch()
     const auth = useSelector((state: RootState) => state.authReducer)
@@ -167,5 +167,3 @@ const CreateAccount = () => {
         </Container>
     );
 }
-
-export default CreateAccount

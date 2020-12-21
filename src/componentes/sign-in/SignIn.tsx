@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SignInSide = () => {
+export const SignInSide = () => {
   const dispatch = useDispatch()
   const auth = useSelector((state: RootState) => state.authReducer)
   console.log(auth.user)
@@ -155,5 +155,3 @@ const SignInSide = () => {
     </Grid>
   );
 }
-
-export default SignInSide
