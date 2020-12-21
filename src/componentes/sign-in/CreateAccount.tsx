@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -66,8 +66,22 @@ export const CreateAccount = () => {
         dispatch(login(data, { new: true }))
     }
 
+    useEffect(() => {
+        let listener = (e: KeyboardEvent) => {
+            if (e.key === "Enter") {
+                handleSubmit(onSubmit)
+            }
+        }
+
+        document.addEventListener("keydown", listener)
+
+        return () => {
+            document.removeEventListener("keydown", listener)
+        }
+    }, [])
+
     if (auth.user) {
-        return <Redirect to="/"></Redirect>
+        return <Redirect to="/main"></Redirect>
     }
 
     return (

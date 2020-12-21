@@ -29,8 +29,6 @@ const useStyles = makeStyles((theme: Theme) =>
             
 
         },
-
-
     })
 )
 
@@ -38,10 +36,10 @@ export const MainPage = () => {
     const classes = useStyles()
 
     return (
-        <Box display="flex" >
+        <Box display="flex">
             <Sidebar />
             <Grid item xs={6} className={classes.contenedorCentral}>
-                <Route path="/" exact >
+                <Route path="/main" exact >
                     <General />
                 </Route>
             </Grid>

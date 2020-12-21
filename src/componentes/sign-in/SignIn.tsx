@@ -77,7 +77,7 @@ export const SignInSide = () => {
   }
 
   if (auth.user) {
-    return <Redirect to="/"></Redirect>
+    return <Redirect to="/main"></Redirect>
   }
 
   return (

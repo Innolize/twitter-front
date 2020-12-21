@@ -16,7 +16,7 @@ function App() {
           <Route path="/create-account" exact>
             <CreateAccount />
           </Route>
-          <Route path="/">
+          <Route path="/main">
             <MainPage />
           </Route>
         </Router>
