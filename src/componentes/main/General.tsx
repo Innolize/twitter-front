@@ -32,6 +32,9 @@ export const General: React.FC<generalProps> = ({ }) => {
             {user && <CrearComentario />}
             <Post />
             <Post />
+            <Post />
+            <Post />
+            <Post />
         </>
     );
 }

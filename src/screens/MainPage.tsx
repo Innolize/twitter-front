@@ -7,10 +7,30 @@ import { Route } from 'react-router-dom'
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         contenedorCentral: {
+            //chrome
+            '&::-webkit-scrollbar': {
+                width: "6px"
+            },
+            // "&::-webkit-scrollbar-track": {
+            //     background: "light-blue"
+            // },
+            '&::-webkit-scrollbar-thumb': {
+                backgroundColor: "gray",
+                borderRadius: "20px",
+                border: "3px solid gray"
+            },
             height: "100vh",
             overflowY: "scroll",
+            //microsoft
+            msOverflowStyle: "none",
+            //mozilla
+            scrollbarWidth: "thin",
+            scrollbarColor: "gray transparent",
+            
 
-        }
+        },
+
+
     })
 )
 
