@@ -1,8 +1,12 @@
-import { Box, Container, createStyles, Grid, makeStyles, Theme } from '@material-ui/core'
-import React from 'react'
-import { General } from '../componentes/main'
+import { Box, createStyles, Grid, makeStyles, Theme } from '@material-ui/core'
+import { RootState } from '../redux/reducer'
+import { useDispatch, useSelector } from 'react-redux'
 import { Sidebar } from '../componentes/leftSidebar/Sidebar'
-import { Route } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
+import { General } from '../componentes/main'
+import Axios from 'axios'
+import { useEffect } from 'react'
+import { handleRefreshToken } from '../redux/actions/logginAction'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -26,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
             //mozilla
             scrollbarWidth: "thin",
             scrollbarColor: "gray transparent",
-            
+
 
         },
     })
@@ -34,16 +38,34 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const MainPage = () => {
     const classes = useStyles()
+    const dispatch = useDispatch()
+    const { user } = useSelector((state: RootState) => state.authReducer)
+
+
+    useEffect(() => {
+        async function checkUser() {
+            if (!user) {
+                dispatch(handleRefreshToken())
+            }
+        }
+        checkUser()
+    }, [user])
+    // if (!user) {
+    //     let a = dispatch(handleRefreshToken())
+    //     if (a === false){
+    //         return 
+    //     }
+
+    // }
 
     return (
-        <Box display="flex">
+        <Box display="flex" justifyContent="center" >
             <Sidebar />
             <Grid item xs={6} className={classes.contenedorCentral}>
                 <Route path="/main" exact >
                     <General />
                 </Route>
             </Grid>
-            <Sidebar />
         </Box>
     )
 }

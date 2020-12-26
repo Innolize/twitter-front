@@ -22,7 +22,7 @@ export const login = (data: logInfo, newAccount?: NewAccount) => async (dispatch
         if (newAccount) {
             await Axios.post('http://localhost:4000/user', data, { withCredentials: true })
         }
-        const loggear = await (await Axios.post('http://localhost:4000/auth', data, { withCredentials: true })).data
+        const loggear = (await Axios.post('http://localhost:4000/auth', data, { withCredentials: true })).data
 
         dispatch({ type: LOGIN, payload: loggear })
     } catch (error) {
@@ -33,3 +33,13 @@ export const login = (data: logInfo, newAccount?: NewAccount) => async (dispatch
     }
 }
 
+export const handleRefreshToken = () => async (dispatch: Dispatch<AuthActionTypes>) => {
+    try {
+        Axios.defaults.withCredentials = true
+        const loggear = (await Axios.post('http://localhost:4000/auth/refresh', { withCredentials: true })).data
+        dispatch({ type: LOGIN, payload: loggear })
+    } catch (err) {
+        return false
+    }
+
+}

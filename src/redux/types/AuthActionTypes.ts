@@ -4,6 +4,7 @@ export const LOGIN = "LOGIN"
 export const LOGIN_ERROR = "LOGIN_ERROR"
 export const LOADING = "LOADING"
 export const LOG_OUT = "LOG_OUT"
+export const USE_REFRESH_TOKEN = "USE_REFRESH_TOKEN"
 
 export type loginPayload = {
     user: User
@@ -12,6 +13,10 @@ export type loginPayload = {
 
 type loginErrorPayload = {
     errors: string[]
+}
+
+interface Refresh {
+    type: typeof USE_REFRESH_TOKEN
 }
 
 interface Login {
@@ -33,4 +38,4 @@ interface LogOut {
 }
 
 
-export type AuthActionTypes = Login | LoginError | LoadingUser | LogOut
+export type AuthActionTypes = Login | LoginError | LoadingUser | LogOut | Refresh

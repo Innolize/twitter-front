@@ -67,7 +67,6 @@ const useStyles = makeStyles((theme) => ({
 export const SignInSide = () => {
   const dispatch = useDispatch()
   const auth = useSelector((state: RootState) => state.authReducer)
-  console.log(auth.user)
   const classes = useStyles();
   const { register, handleSubmit } = useForm()
   const [logginError, setLogginError] = useState("")
