@@ -33,13 +33,24 @@ export const login = (data: logInfo, newAccount?: NewAccount) => async (dispatch
     }
 }
 
+interface RefreshReponse {
+    user: User,
+    message?: string,
+    access_token: string
+}
+
 export const handleRefreshToken = () => async (dispatch: Dispatch<AuthActionTypes>) => {
+
     try {
         Axios.defaults.withCredentials = true
-        const loggear = (await Axios.post('http://localhost:4000/auth/refresh', { withCredentials: true })).data
-        dispatch({ type: LOGIN, payload: loggear })
+        const loggear: RefreshReponse = (await Axios.post('http://localhost:4000/auth/refresh', { withCredentials: true })).data
+        if (loggear.access_token) {
+            dispatch({ type: LOGIN, payload: { user: loggear.user, access_token: loggear.access_token } })
+        } else {
+            dispatch({ type: LOGIN_ERROR, payload: { errors: ["error test"] } })
+        }
     } catch (err) {
-        return false
+        dispatch({ type: LOGIN_ERROR, payload: { errors: ["error test"] } })
     }
 
 }

@@ -50,6 +50,7 @@ export const MainPage = () => {
         }
         checkUser()
     }, [user])
+    
     // if (!user) {
     //     let a = dispatch(handleRefreshToken())
     //     if (a === false){
