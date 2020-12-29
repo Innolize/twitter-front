@@ -1,4 +1,4 @@
-import { Box, createStyles, Grid, makeStyles, Theme } from '@material-ui/core'
+import { Box, CircularProgress, createStyles, Grid, makeStyles, Theme } from '@material-ui/core'
 import { RootState } from '../redux/reducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { Sidebar } from '../componentes/leftSidebar/Sidebar'
@@ -36,37 +36,52 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 )
 
+
 export const MainPage = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
-    const { user } = useSelector((state: RootState) => state.authReducer)
+    const { user, logged, loading } = useSelector((state: RootState) => state.authReducer)
+
 
 
     useEffect(() => {
         async function checkUser() {
+            if (logged === false) {
+                return
+            }
             if (!user) {
                 dispatch(handleRefreshToken())
             }
         }
         checkUser()
     }, [user])
-    
-    // if (!user) {
-    //     let a = dispatch(handleRefreshToken())
-    //     if (a === false){
-    //         return 
-    //     }
 
-    // }
 
-    return (
-        <Box display="flex" justifyContent="center" >
-            <Sidebar />
-            <Grid item xs={6} className={classes.contenedorCentral}>
-                <Route path="/main" exact >
-                    <General />
-                </Route>
-            </Grid>
-        </Box>
-    )
+    if (logged === false) {
+        return <Redirect to="/login"></Redirect>
+    }
+
+
+    if (loading) {
+        return <CircularProgress></CircularProgress>
+    }
+
+
+
+    if (user) {
+        return (
+            <Box display="flex" justifyContent="center" >
+                <Sidebar />
+                <Grid item xs={6} className={classes.contenedorCentral}>
+                    <Route path="/main" exact >
+                        <General />
+                    </Route>
+                </Grid>
+            </Box>
+        )
+    }
+    else {
+        return null
+    }
+
 }

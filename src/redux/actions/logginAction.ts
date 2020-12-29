@@ -42,15 +42,16 @@ interface RefreshReponse {
 export const handleRefreshToken = () => async (dispatch: Dispatch<AuthActionTypes>) => {
 
     try {
+        dispatch({ type: LOADING })
         Axios.defaults.withCredentials = true
         const loggear: RefreshReponse = (await Axios.post('http://localhost:4000/auth/refresh', { withCredentials: true })).data
         if (loggear.access_token) {
             dispatch({ type: LOGIN, payload: { user: loggear.user, access_token: loggear.access_token } })
         } else {
-            dispatch({ type: LOGIN_ERROR, payload: { errors: ["error test"] } })
+            dispatch({ type: LOGIN_ERROR, payload: { errors: [loggear.message ? loggear.message : 'loggin error'] } })
         }
     } catch (err) {
-        dispatch({ type: LOGIN_ERROR, payload: { errors: ["error test"] } })
+        dispatch({ type: LOGIN_ERROR, payload: { errors: ["error "] } })
     }
 
 }
