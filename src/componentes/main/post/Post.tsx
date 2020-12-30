@@ -3,6 +3,8 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ChatIcon from '@material-ui/icons/Chat';
 import ShareIcon from '@material-ui/icons/Share';
 import React from 'react'
+import { Post as IPost } from '../../../types/Post'
+import moment from 'moment';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -21,26 +23,26 @@ const useStyles = makeStyles((theme: Theme) =>
             justifyContent: "space-around"
         }
     })
-
 )
 
-interface PostProps {
-
+interface Props {
+    post: IPost
 }
 
-export const Post: React.FC<PostProps> = ({ }) => {
+export const Post: React.FC<Props> = ({ post }) => {
     const classes = useStyles()
+    const createdSince = moment(post.createdAt).fromNow()
 
     return (
         <Card className={classes.root} id="contenedor-post">
             <CardHeader
                 avatar={<Avatar src="https://s6.eestatic.com/2019/11/14/omicrono/Omicrono_444466491_137907739_1706x960.jpg" className={classes.large} />}
-                title="Nombre usuario"
-                subheader="22:45"
+                title={`${post.author.name} ${post.author.surname}`}
+                subheader={createdSince}
             />
             <CardContent>
                 <Typography variant="body1">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam voluptas obcaecati, placeat deserunt id perspiciatis numquam sequi, cupiditate cum quasi ab a quos accusantium blanditiis architecto voluptate eius impedit at.
+                    {post.message}
                 </Typography>
             </CardContent>
             <CardActions className={classes.cardAction}>

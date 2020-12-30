@@ -1,7 +1,9 @@
 import { User } from "./User";
 
-export interface Post {
+export type Post = {
     _id: string,
     message: string,
-    author: User
+    author: User,
+    createdAt: string,
+    updatedAt: string
 }
