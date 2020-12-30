@@ -10,6 +10,7 @@ import { Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducer';
 import { ProfileButton } from './ProfileButton';
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -32,23 +33,23 @@ export const Sidebar = (props: any) => {
     return (
         <Grid item xs={3} className={classes.root}>
             <List component="nav" aria-label="main mailbox folders">
-                <ListItem button>
+                <ListItem button component={Link} to='/main' >
                     <ListItemIcon>
                         <InboxIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Inicio" />
+                    <ListItemText primary="Home" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button component={Link} to='/profile' >
                     <ListItemIcon>
                         <DraftsIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Perfil" />
+                    <ListItemText primary="Profile" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button component={Link} to='/notifications'>
                     <ListItemIcon>
                         <DraftsIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Notificaciones" />
+                    <ListItemText primary="Notifications" />
                 </ListItem>
             </List>
             {user && <ProfileButton user={user} />}
