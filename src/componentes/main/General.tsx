@@ -24,8 +24,6 @@ export const General: React.FC<generalProps> = ({ }) => {
         }
         fetchPost()
     }, [])
-
-    console.log(posts)
     return (
         <>
             {user && <CrearComentario />}

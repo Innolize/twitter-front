@@ -42,8 +42,6 @@ export const MainPage = () => {
     const dispatch = useDispatch()
     const { user, logged, loading } = useSelector((state: RootState) => state.authReducer)
 
-
-
     useEffect(() => {
         async function checkUser() {
             if (logged === false) {
