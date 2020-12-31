@@ -2,10 +2,13 @@ import { Avatar, Box, Button, createStyles, Input, makeStyles, Theme } from '@ma
 import PhotoIcon from '@material-ui/icons/Photo'
 import YouTubeIcon from '@material-ui/icons/YouTube';
 import SendIcon from '@material-ui/icons/Send';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { User } from '../../types/User';
+import { createPost } from '../../api/post/createPost';
+import { PositionedSnackbar } from '../common/Snackbar'
 
-interface CrearComentarioProps {
-
+interface Props {
+    user: User
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -36,29 +39,53 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export const CrearComentario: React.FC<CrearComentarioProps> = ({ }) => {
+export const CrearComentario: React.FC<Props> = ({ user }) => {
+    const [postContent, setPostContent] = useState("")
+    const [error, setError] = useState<string>("")
+    const [success, setSuccess] = useState<any>(null)
     const classes = useStyles()
-    return (
-        <Box className={classes.root}>
-            <Avatar alt="carlitos test" src="https://s6.eestatic.com/2019/11/14/omicrono/Omicrono_444466491_137907739_1706x960.jpg" className={classes.large}></Avatar>
-            <Box style={{ width: "90%" }}>
-                <Input placeholder="Que querés compartir hoy?" className={classes.textField} />
-                <Box className={classes.contenedorBotones} id="contenedor-botones" >
-                    <Box style={{ flexGrow: 1 }} id="contenedor-multimedia">
-                        <PhotoIcon fontSize="large" />
-                        <YouTubeIcon fontSize="large" />
-                    </Box>
 
-                    <Button
-                        size="small"
-                        variant="contained"
-                        color="primary"
-                        endIcon={<SendIcon />}
-                    >
-                        Enviar
+    const inputOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPostContent(e.target.value)
+    }
+
+    const sendNewPost = async () => {
+        const { success, response } = await createPost(postContent)
+        if (success) {
+            setSuccess(response)
+            setPostContent("")
+        } else {
+            setError(response)
+        }
+        
+    }
+
+    return (
+        <>
+            <Box className={classes.root}>
+                <Avatar alt="carlitos test" src={user.profilePicture || undefined} className={classes.large}></Avatar>
+                <Box style={{ width: "90%" }}>
+                    <Input placeholder="Que querés compartir hoy?" className={classes.textField} value={postContent} onChange={inputOnChange} />
+                    <Box className={classes.contenedorBotones} id="contenedor-botones" >
+                        <Box style={{ flexGrow: 1 }} id="contenedor-multimedia">
+                            <PhotoIcon fontSize="large" />
+                            <YouTubeIcon fontSize="large" />
+                        </Box>
+
+                        <Button
+                            size="small"
+                            variant="contained"
+                            color="primary"
+                            endIcon={<SendIcon />}
+                            onClick={sendNewPost}
+                        >
+                            Enviar
                     </Button>
+                    </Box>
                 </Box>
             </Box>
-        </Box>
+            {success && <PositionedSnackbar open={true} severity="success" message="Posted successfuly!"></PositionedSnackbar>}
+            {error && <PositionedSnackbar open={true} severity="error" message={error || "error"}></PositionedSnackbar>}
+        </>
     );
 }

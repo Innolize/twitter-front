@@ -26,8 +26,8 @@ const reducer = (state: IinitialState = initialState, action: actions): Iinitial
 
 
 interface Props {
-    fetchCallback: (options?: object) => Promise<any>,
-    fetchOptions?: object | undefined
+    fetchCallback: (options?: any) => Promise<any>,
+    fetchOptions?: any
 }
 
 export const useFetchReducer = ({ fetchCallback, fetchOptions }: Props) => {

@@ -15,7 +15,7 @@ export const General: React.FC = () => {
 
     return (
         <>
-            {user && <CrearComentario />}
+            {user && <CrearComentario user={user} />}
             {loading && <CircularProgress />}
             {successData && successData.map((el, i) => <Post post={el} key={i} />)}
         </>

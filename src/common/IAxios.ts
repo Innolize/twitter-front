@@ -6,7 +6,7 @@ export const axiosI = axios.create({
     withCredentials: true
 })
 
-axios.interceptors.request.use(function (config) {
+axiosI.interceptors.request.use(function (config) {
     const token = store.getState().authReducer.token
     const currentToken = config.headers.Authorization
     if (token && (`Bearer ${token}` !== currentToken)) {
