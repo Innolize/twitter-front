@@ -8,7 +8,9 @@ export const axiosI = axios.create({
 
 axios.interceptors.request.use(function (config) {
     const token = store.getState().authReducer.token
-    if (token) {
+    const currentToken = config.headers.Authorization
+    if (token && (`Bearer ${token}` !== currentToken)) {
+        console.log('entre')
         config.headers.Authorization = `Bearer ${token}`
     }
     return config
