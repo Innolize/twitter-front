@@ -1,6 +1,6 @@
 import { Container, Grid } from '@material-ui/core';
 import { Sidebar } from './componentes/leftSidebar/Sidebar';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
 import { MainPage } from './screens/MainPage';
 import { LogIn } from './screens/LogIn';
 import { CreateAccount } from './screens/CreateAccount';
@@ -18,6 +18,9 @@ function App() {
           </Route>
           <Route path="/main" >
             <MainPage />
+          </Route>
+          <Route path="/">
+            <Redirect to="/main"></Redirect>
           </Route>
         </Router>
       </Container>
