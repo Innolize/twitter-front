@@ -37,6 +37,7 @@ export const useFetchReducer = ({ fetchCallback, fetchOptions }: Props) => {
         const customFecth = async () => {
             dispatch({ type: LOADING })
             try {
+                console.log(fetchOptions)
                 const request = await (await fetchCallback(fetchOptions))
                 console.log(request)
                 dispatch({ type: SUCCESS, payload: request })

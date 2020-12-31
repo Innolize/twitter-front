@@ -19,7 +19,7 @@ function App() {
           <Route path="/main" >
             <MainPage />
           </Route>
-          <Route path="/">
+          <Route path="/" exact>
             <Redirect to="/main"></Redirect>
           </Route>
         </Router>

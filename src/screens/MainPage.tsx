@@ -7,6 +7,7 @@ import { General } from '../componentes/main'
 import Axios from 'axios'
 import { useEffect } from 'react'
 import { handleRefreshToken } from '../redux/actions/logginAction'
+import { DetailedPost } from '../componentes/main/post/DetailedPost'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -64,16 +65,18 @@ export const MainPage = () => {
         return <CircularProgress></CircularProgress>
     }
 
-
-
     if (user) {
         return (
             <Box display="flex" justifyContent="center" >
                 <Sidebar />
                 <Grid item xs={6} className={classes.contenedorCentral}>
+                    <Route path="/main/post/:postId" >
+                        <DetailedPost></DetailedPost>
+                    </Route>
                     <Route path="/main" exact >
                         <General />
                     </Route>
+
                 </Grid>
             </Box>
         )

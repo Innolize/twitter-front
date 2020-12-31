@@ -7,9 +7,7 @@ import { User } from '../../types/User';
 import { createPost } from '../../api/post/createPost';
 import { PositionedSnackbar } from '../common/Snackbar'
 
-interface Props {
-    user: User
-}
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -39,6 +37,10 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
+interface Props {
+    user: User
+}
+
 export const CrearComentario: React.FC<Props> = ({ user }) => {
     const [postContent, setPostContent] = useState("")
     const [error, setError] = useState<string>("")
@@ -57,7 +59,7 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
         } else {
             setError(response)
         }
-        
+
     }
 
     return (
