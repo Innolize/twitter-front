@@ -4,30 +4,20 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/reducer'
 import { CrearComentario } from './CrearComentario'
 import { Post } from './post/Post'
-import { Post as PostInterface } from './../../types/Post'
-
-interface generalProps {
-
-}
+import { useFetchReducer } from '../../hooks/useFetch'
+import { getPosts } from '../../api/post/getPosts'
+import { CircularProgress } from '@material-ui/core'
 
 
-
-export const General: React.FC<generalProps> = ({ }) => {
-    const [posts, setPosts] = useState<PostInterface[]>([])
+export const General: React.FC = () => {
     const user = useSelector((state: RootState) => state.authReducer.user)
+    const { errorMessage, loading, successData } = useFetchReducer({ fetchCallback: getPosts })
 
-    useEffect(() => {
-        const fetchPost = async () => {
-            const data = await (await Axios('http://localhost:4000/post')).data
-
-            setPosts(data)
-        }
-        fetchPost()
-    }, [])
     return (
         <>
             {user && <CrearComentario />}
-            {posts && posts.map((el, i) => <Post post={el} key={i} />)}
+            {loading && <CircularProgress />}
+            {successData && successData.map((el, i) => <Post post={el} key={i} />)}
         </>
     );
 }

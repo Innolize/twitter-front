@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios"
 import { useEffect, useReducer } from "react"
 import { ERROR, LOADING, SUCCESS, IinitialState, actions } from './useFetch.types'
 
@@ -27,8 +26,8 @@ const reducer = (state: IinitialState = initialState, action: actions): Iinitial
 
 
 interface Props {
-    fetchCallback: (options: object) => Promise<AxiosResponse>,
-    fetchOptions: object
+    fetchCallback: (options?: object) => Promise<any>,
+    fetchOptions?: object | undefined
 }
 
 export const useFetchReducer = ({ fetchCallback, fetchOptions }: Props) => {
@@ -38,7 +37,8 @@ export const useFetchReducer = ({ fetchCallback, fetchOptions }: Props) => {
         const customFecth = async () => {
             dispatch({ type: LOADING })
             try {
-                const request = await (await fetchCallback(fetchOptions)).data
+                const request = await (await fetchCallback(fetchOptions))
+                console.log(request)
                 dispatch({ type: SUCCESS, payload: request })
             } catch (err) {
                 dispatch({ type: ERROR, payload: err })

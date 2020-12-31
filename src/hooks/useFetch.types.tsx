@@ -1,5 +1,7 @@
+import { Post } from "../types/Post"
+
 export interface IinitialState {
-    successData: object | null,
+    successData: Post[] | null,
     errorMessage: string[],
     loading: boolean
 }
@@ -10,7 +12,7 @@ export const LOADING = "LOADING"
 
 interface successAction {
     type: typeof SUCCESS,
-    payload: object
+    payload: Post[]
 }
 
 interface errorAction {
