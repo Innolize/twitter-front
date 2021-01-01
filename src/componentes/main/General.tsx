@@ -7,6 +7,7 @@ import { Post } from './post/Post'
 import { useFetchReducer } from '../../hooks/useFetch'
 import { getPosts } from '../../api/post/getPosts'
 import { CircularProgress } from '@material-ui/core'
+import { isPostArray } from '../../types/typeguards/PostArray.typeguard'
 
 
 export const General: React.FC = () => {
@@ -17,7 +18,7 @@ export const General: React.FC = () => {
         <>
             {user && <CrearComentario user={user} />}
             {loading && <CircularProgress />}
-            {successData && successData.map((el, i) => <Post post={el} key={i} />)}
+            {successData && isPostArray(successData) && successData.map((el, i) => <Post post={el} key={i} />)}
         </>
     );
 }

@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { User } from '../../types/User';
 import { createPost } from '../../api/post/createPost';
 import { PositionedSnackbar } from '../common/Snackbar'
+import { Post } from '../../types/Post';
 
 
 
@@ -52,12 +53,12 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
     }
 
     const sendNewPost = async () => {
-        const { success, response } = await createPost(postContent)
+        const { success, response, error } = await createPost(postContent)
         if (success) {
             setSuccess(response)
             setPostContent("")
-        } else {
-            setError(response)
+        } else if (error) {
+            setError(error)
         }
 
     }

@@ -1,8 +1,9 @@
 import { useEffect, useReducer } from "react"
+import { Post } from "../types/Post"
 import { ERROR, LOADING, SUCCESS, IinitialState, actions } from './useFetch.types'
 
 const initialState = {
-    successData: null,
+    successData: [],
     errorMessage: [],
     loading: false
 }
@@ -38,7 +39,7 @@ export const useFetchReducer = ({ fetchCallback, fetchOptions }: Props) => {
             dispatch({ type: LOADING })
             try {
                 console.log(fetchOptions)
-                const request = await (await fetchCallback(fetchOptions))
+                const request = (await fetchCallback(fetchOptions))
                 console.log(request)
                 dispatch({ type: SUCCESS, payload: request })
             } catch (err) {

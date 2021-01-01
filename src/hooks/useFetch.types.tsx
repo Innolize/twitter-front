@@ -1,7 +1,7 @@
 import { Post } from "../types/Post"
 
 export interface IinitialState {
-    successData: Post[] | null,
+    successData: Post[] | Post,
     errorMessage: string[],
     loading: boolean
 }
@@ -12,7 +12,7 @@ export const LOADING = "LOADING"
 
 interface successAction {
     type: typeof SUCCESS,
-    payload: Post[]
+    payload: Post | Post[]
 }
 
 interface errorAction {
