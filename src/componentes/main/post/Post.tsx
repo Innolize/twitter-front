@@ -5,7 +5,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import React from 'react'
 import { Post as IPost } from '../../../types/Post'
 import moment from 'moment';
-import { Comment } from '../comment/Comment';
+import { CommentContainer } from '../comment/CommentContainer';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -60,7 +60,7 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
                             <ShareIcon />
                         </IconButton>
                     </CardActions>
-                    <Comment></Comment>
+                    <CommentContainer></CommentContainer>
                 </Card>
 
             </div>
