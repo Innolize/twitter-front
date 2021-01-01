@@ -24,7 +24,7 @@ export const DetailedPost: React.FC = () => {
     }
 
     if (errorMessage) {
-        return <div>errorMessage</div>
+        return <div>{errorMessage}</div>
     }
 
     return (
