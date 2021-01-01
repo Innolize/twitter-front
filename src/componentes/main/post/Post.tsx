@@ -1,4 +1,4 @@
-import { Avatar, Card, CardActions, CardContent, CardHeader, createStyles, IconButton, makeStyles, Theme, Typography } from '@material-ui/core';
+import { Avatar, Card, CardActions, CardContent, CardHeader, createStyles, Fade, IconButton, makeStyles, Theme, Typography } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ChatIcon from '@material-ui/icons/Chat';
 import ShareIcon from '@material-ui/icons/Share';
@@ -27,35 +27,38 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
     post: IPost
+    order?: number
 }
 
-export const Post: React.FC<Props> = ({ post }) => {
+export const Post: React.FC<Props> = ({ post, order = 1 }) => {
     const classes = useStyles()
     const createdSince = moment(post.createdAt).fromNow()
 
     return (
-        <Card className={classes.root} id="contenedor-post">
-            <CardHeader
-                avatar={<Avatar src="https://s6.eestatic.com/2019/11/14/omicrono/Omicrono_444466491_137907739_1706x960.jpg" className={classes.large} />}
-                title={`${post.author.name} ${post.author.surname}`}
-                subheader={createdSince}
-            />
-            <CardContent>
-                <Typography variant="body1">
-                    {post.message}
-                </Typography>
-            </CardContent>
-            <CardActions className={classes.cardAction}>
-                <IconButton>
-                    <FavoriteIcon />
-                </IconButton>
-                <IconButton>
-                    <ChatIcon />
-                </IconButton>
-                <IconButton>
-                    <ShareIcon />
-                </IconButton>
-            </CardActions>
-        </Card>
+        <Fade in={true} style={{ transitionDelay: `${order * 300}ms` }}>
+            <Card className={classes.root} id="contenedor-post">
+                <CardHeader
+                    avatar={<Avatar src="https://s6.eestatic.com/2019/11/14/omicrono/Omicrono_444466491_137907739_1706x960.jpg" className={classes.large} />}
+                    title={`${post.author.name} ${post.author.surname}`}
+                    subheader={createdSince}
+                />
+                <CardContent>
+                    <Typography variant="body1">
+                        {post.message}
+                    </Typography>
+                </CardContent>
+                <CardActions className={classes.cardAction}>
+                    <IconButton>
+                        <FavoriteIcon />
+                    </IconButton>
+                    <IconButton>
+                        <ChatIcon />
+                    </IconButton>
+                    <IconButton>
+                        <ShareIcon />
+                    </IconButton>
+                </CardActions>
+            </Card>
+        </Fade>
     );
 }
