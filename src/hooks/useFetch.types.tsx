@@ -1,7 +1,8 @@
+import { IComment } from "../types/Comment"
 import { Post } from "../types/Post"
 
 export interface IinitialState {
-    successData: Post[] | Post,
+    successData: Post[] | Post | IComment | IComment[],
     errorMessage: string[],
     loading: boolean
 }
@@ -12,7 +13,7 @@ export const LOADING = "LOADING"
 
 interface successAction {
     type: typeof SUCCESS,
-    payload: Post | Post[]
+    payload: Post | Post[] | IComment | IComment[]
 }
 
 interface errorAction {

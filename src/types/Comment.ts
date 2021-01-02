@@ -1,4 +1,4 @@
-export type Comment = {
+export type IComment = {
     postId: string,
     authorId: string,
     message: string,

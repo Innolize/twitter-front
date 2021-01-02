@@ -3,6 +3,8 @@ import { ThumbUp } from '@material-ui/icons'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/reducer'
+import { IComment } from '../../../types/Comment'
+import { OptionsMenu } from '../../common/OptionsMenu'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -27,15 +29,15 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 interface Props {
-
+    comment: IComment
 }
 
-export const Comment: React.FC<Props> = ({ }) => {
-
+export const Comment: React.FC<Props> = ({ comment }) => {
     const [showOptions, setShowOptions] = useState(false)
     const user = useSelector((state: RootState) => state.authReducer.user)
     const classes = useStyles()
 
+    const self = comment.authorId === user?._id
 
     return (
 
@@ -50,12 +52,12 @@ export const Comment: React.FC<Props> = ({ }) => {
                     <Avatar aria-label="recipe" src={user?.profilePicture || undefined} className={classes.avatar} />
 
                 }
-                // action={showOptions && userLogged &&
-                // <Opciones
-                //     self={selfComment}
-                //     payload={{ postID, commentID: id }}
-                //     callbackAction={eliminarComentario}
-                // />}
+                action={showOptions && user &&
+                    <OptionsMenu
+                        self={self}
+                        // payload={{ postID, commentID: id }}
+                        // callbackAction={() => { }}
+                    />}
                 title={<Typography variant="h6">{`${user?.name} ${user?.surname}`}</Typography>}
 
             />
