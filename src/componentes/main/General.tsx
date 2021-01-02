@@ -14,12 +14,20 @@ export const General: React.FC = () => {
     const user = useSelector((state: RootState) => state.authReducer.user)
     const { errorMessage, loading, successData } = useFetchReducer({ fetchCallback: getPosts })
 
-    return (
-        <>
-            {user && <CrearComentario user={user} />}
-            {loading && <CircularProgress />}
-            {successData && isPostArray(successData) && successData.map((el, i) => <Post post={el} order={i} key={i} />)}
-        </>
-    );
+    if (loading) {
+        return <CircularProgress />
+    }
+
+    if (isPostArray(successData)) {
+        return (
+            <>
+                { user && <CrearComentario user={user} />}
+                { successData.map((el, i) => <Post post={el} order={i} key={i} />)}
+            </>
+        )
+    }
+
+    return null
+
 }
 

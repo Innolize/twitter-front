@@ -9,8 +9,8 @@ import { OptionsMenu } from '../../common/OptionsMenu'
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            width: "90%",
-            padding: 0
+            padding: 0,
+            margin: "0px 20px"
         },
         cardHeader: {
             padding: 8
@@ -62,7 +62,7 @@ export const Comment: React.FC<Props> = ({ comment }) => {
             />
             <CardContent>
                 <Typography variant="body2" >
-                    Test comment
+                    {comment.message}
                 </Typography>
             </CardContent>
             <Box display='flex' justifyContent='space-around'>

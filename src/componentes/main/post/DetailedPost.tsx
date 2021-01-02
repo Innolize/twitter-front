@@ -5,7 +5,7 @@ import { useFetchReducer } from '../../../hooks/useFetch';
 import { Post } from './Post'
 import { Post as IPost } from '../../../types/Post';
 import { isPost } from '../../../types/typeguards/Post.typeguard';
-import { CircularProgress } from '@material-ui/core';
+import { Box, CircularProgress } from '@material-ui/core';
 import { CommentContainer } from '../comment/CommentContainer';
 
 interface IParams {
@@ -18,10 +18,10 @@ export const DetailedPost: React.FC = () => {
 
     if (isPost(successData)) {
         return (
-            <>
+            <Box flex id="test">
                 <Post post={successData} ></Post>
                 <CommentContainer postId={successData._id} ></CommentContainer>
-            </>
+            </Box>
         )
     }
 

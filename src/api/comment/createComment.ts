@@ -7,11 +7,11 @@ interface Props {
 }
 
 
-export const createComment = async ({ message, postId }: Props): Promise<IComment> => {
+export const createComment = async ({ message, postId }: Props): Promise<{ success: boolean, response?: IComment, error?: string }> => {
     try {
         const response = await (await (axiosI.post('/comment/create', { message, postId }))).data
-        return response
-    } catch (err) {
-        return err.response
+        return { success: true, response }
+    } catch (error) {
+        return { success: false, error: error.response.data.message }
     }
 }
