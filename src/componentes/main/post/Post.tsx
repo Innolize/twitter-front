@@ -6,6 +6,7 @@ import React from 'react'
 import { Post as IPost } from '../../../types/Post'
 import moment from 'moment';
 import { CommentContainer } from '../comment/CommentContainer';
+import { Link } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -53,14 +54,14 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
                         <IconButton>
                             <FavoriteIcon />
                         </IconButton>
-                        <IconButton>
+                        <IconButton component={Link} to={`/main/post/${post._id}`}>
                             <ChatIcon />
                         </IconButton>
                         <IconButton>
                             <ShareIcon />
                         </IconButton>
                     </CardActions>
-                    <CommentContainer></CommentContainer>
+
                 </Card>
 
             </div>

@@ -55,8 +55,7 @@ export const Comment: React.FC<Props> = ({ comment }) => {
                 action={showOptions && user &&
                     <OptionsMenu
                         self={self}
-                        // payload={{ postID, commentID: id }}
-                        // callbackAction={() => { }}
+                        removeAction={() => console.log(12345)}
                     />}
                 title={<Typography variant="h6">{`${user?.name} ${user?.surname}`}</Typography>}
 

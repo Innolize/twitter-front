@@ -6,11 +6,11 @@ import { getComments } from '../../../api/comment/getComments'
 import { isCommentArray } from '../../../types/typeguards/CommentArray.typeguard'
 
 interface Props {
-    // postId: string
+    postId: string
 }
 
-export const CommentContainer: React.FC<Props> = ({ }) => {
-    const { successData, loading, errorMessage } = useFetchReducer({ fetchCallback: getComments, fetchOptions: { postId: "5fedf21cb6dcad26fc0fb9b8" } })
+export const CommentContainer: React.FC<Props> = ({ postId }) => {
+    const { successData, loading, errorMessage } = useFetchReducer({ fetchCallback: getComments, fetchOptions: { postId } })
 
     if (isCommentArray(successData)) {
         return (
@@ -32,6 +32,6 @@ export const CommentContainer: React.FC<Props> = ({ }) => {
         )
     }
     return (
-        <div></div>
+        null
     )
 }

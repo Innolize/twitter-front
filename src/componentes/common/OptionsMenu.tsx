@@ -4,10 +4,10 @@ import { useState } from "react";
 
 interface Props {
     self: boolean,
-    removeAction?: () => {}
+    removeAction?: () => void
 }
 
-export const OptionsMenu: React.FC<Props> = ({ self, removeAction = () => { } }) => {
+export const OptionsMenu: React.FC<Props> = ({ self, removeAction }) => {
 
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
