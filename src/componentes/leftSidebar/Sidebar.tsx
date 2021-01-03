@@ -39,7 +39,7 @@ export const Sidebar = (props: any) => {
                     </ListItemIcon>
                     <ListItemText primary="Home" />
                 </ListItem>
-                <ListItem button component={Link} to='/profile' >
+                <ListItem button component={Link} to='/main/profile/:userId' >
                     <ListItemIcon>
                         <DraftsIcon />
                     </ListItemIcon>

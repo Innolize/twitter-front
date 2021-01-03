@@ -18,7 +18,7 @@ export const DetailedPost: React.FC = () => {
 
     if (isPost(successData)) {
         return (
-            <Box flex id="test">
+            <Box>
                 <Post post={successData} ></Post>
                 <CommentContainer postId={successData._id} ></CommentContainer>
             </Box>

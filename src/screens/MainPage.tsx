@@ -8,6 +8,9 @@ import Axios from 'axios'
 import { useEffect } from 'react'
 import { handleRefreshToken } from '../redux/actions/logginAction'
 import { DetailedPost } from '../componentes/main/post/DetailedPost'
+import { ProfileImages } from '../componentes/profile/ProfileImages'
+import { ProfileInfo } from '../componentes/profile/ProfileInfo'
+import { ProfilePage } from './ProfilePage'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -72,6 +75,9 @@ export const MainPage = () => {
                 <Grid item xs={6} className={classes.contenedorCentral}>
                     <Route path="/main/post/:postId" >
                         <DetailedPost></DetailedPost>
+                    </Route>
+                    <Route path="/main/profile/:userId" >
+                        <ProfilePage></ProfilePage>
                     </Route>
                     <Route path="/main" exact >
                         <General />

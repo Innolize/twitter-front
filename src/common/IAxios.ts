@@ -10,7 +10,6 @@ axiosI.interceptors.request.use(function (config) {
     const token = store.getState().authReducer.token
     const currentToken = config.headers.Authorization
     if (token && (`Bearer ${token}` !== currentToken)) {
-        console.log('entre')
         config.headers.Authorization = `Bearer ${token}`
     }
     return config

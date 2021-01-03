@@ -6,7 +6,6 @@ interface Props {
 }
 
 export const getComments = async ({ postId }: Props): Promise<IComment[]> => {
-    console.log(postId)
     try {
         const response = await (await (axiosI.get(`/comment/post/${postId}`))).data
         return response

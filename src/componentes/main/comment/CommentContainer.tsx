@@ -25,18 +25,23 @@ export const CommentContainer: React.FC<Props> = ({ postId }) => {
         )
     }
 
+    
+
     if (loading) {
         return (
-            <CircularProgress></CircularProgress>
+            <CircularProgress />
         )
     }
 
-    if (errorMessage) {
+    if (errorMessage.length) {
         return (
             <div>{errorMessage}</div>
         )
     }
+
     return (
-        null
+        <Box>
+            {user && <CreateComment postId={postId} userId={user._id}></CreateComment>}
+        </Box>
     )
 }
