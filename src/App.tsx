@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Container, Grid } from '@material-ui/core';
+import { Sidebar } from './componentes/leftSidebar/Sidebar';
+import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
+import { MainPage } from './screens/MainPage';
+import { LogIn } from './screens/LogIn';
+import { CreateAccount } from './screens/CreateAccount';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          learn react
-        </a>
-      </header>
+      <Container >
+        <Router>
+          <Route path="/login" exact>
+            <LogIn />
+          </Route>
+          <Route path="/create-account" exact>
+            <CreateAccount />
+          </Route>
+          <Route path="/main" >
+            <MainPage />
+          </Route>
+          <Route path="/" exact>
+            <Redirect to="/main"></Redirect>
+          </Route>
+        </Router>
+      </Container>
     </div>
   );
 }
