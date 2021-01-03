@@ -43,6 +43,7 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
                     <CardHeader
                         avatar={<Avatar src="https://s6.eestatic.com/2019/11/14/omicrono/Omicrono_444466491_137907739_1706x960.jpg" className={classes.large} />}
                         title={`${post.author.name} ${post.author.surname}`}
+                        titleTypographyProps={{ variant: "h6", style:{ textTransform: "capitalize" } }}
                         subheader={createdSince}
                     />
                     <CardContent>

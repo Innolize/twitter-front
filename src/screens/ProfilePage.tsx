@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { getUser } from '../api/user/getUser'
 import { ProfileImages } from '../componentes/profile/ProfileImages'
 import { ProfileInfo } from '../componentes/profile/ProfileInfo'
+import { UserSpecificPosts } from '../componentes/profile/UserSpecificPosts'
 import { useFetchReducer } from '../hooks/useFetch'
 import { isUser } from '../types/typeguards/User.typeguard'
 
@@ -21,6 +22,7 @@ export const ProfilePage: React.FC = () => {
             <>
                 <ProfileImages />
                 <ProfileInfo user={successData} />
+                <UserSpecificPosts userId={userId}></UserSpecificPosts>
             </>
         )
     }
