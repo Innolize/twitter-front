@@ -20,7 +20,7 @@ export const ProfilePage: React.FC = () => {
     if (isUser(successData)) {
         return (
             <>
-                <ProfileImages />
+                <ProfileImages user={successData} />
                 <ProfileInfo user={successData} />
                 <UserSpecificPosts userId={userId}></UserSpecificPosts>
             </>

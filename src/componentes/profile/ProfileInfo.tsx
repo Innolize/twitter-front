@@ -6,14 +6,14 @@ import moment from 'moment'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        capitalize: {
-            textTransform: "capitalize"
-        },
         container: {
             '& *': {
                 padding: "5px"
             },
         },
+        header: {
+            textTransform: "capitalize",
+        }
     })
 )
 
@@ -28,7 +28,7 @@ export const ProfileInfo: React.FC<Props> = ({ user }) => {
 
     return (
         <Box display="flex" flexDirection="column" className={classes.container}>
-            <Typography variant="h5" className={classes.capitalize}>{name} {surname}</Typography>
+            <Typography variant="h5" className={classes.header}>{name} {surname}</Typography>
             <Typography variant="body1">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor officiis molestiae inventore magni tenetur voluptas accusamus odio, maiores hic eius ipsa? Nesciunt eaque iste, quam aut laboriosam veritatis unde doloribus.</Typography>
             <Box display="flex">
                 <CalendarTodayOutlinedIcon></CalendarTodayOutlinedIcon>
