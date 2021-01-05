@@ -2,11 +2,13 @@ import { Avatar, Card, CardActions, CardContent, CardHeader, createStyles, Fade,
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ChatIcon from '@material-ui/icons/Chat';
 import ShareIcon from '@material-ui/icons/Share';
-import React from 'react'
+import React, { useState } from 'react'
 import { Post as IPost } from '../../../types/Post'
 import moment from 'moment';
-import { CommentContainer } from '../comment/CommentContainer';
 import { Link } from 'react-router-dom'
+import { RootState } from '../../../redux/reducer';
+import { useSelector } from 'react-redux';
+import { likePost } from '../../../api/post/likePost';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -40,13 +42,21 @@ interface Props {
 export const Post: React.FC<Props> = ({ post, order = 1 }) => {
     const classes = useStyles()
     const createdSince = moment(post.createdAt).fromNow()
+    const user = useSelector((state: RootState) => state.authReducer.user)
+    const postLiked = user && post.likesArr.includes(user._id)
+    const [like, setLike] = useState<Boolean | null>(postLiked)
+
+    const likeAction = async () => {
+        const response = await likePost(post._id)
+        setLike(response)
+    }
 
     return (
         <Fade in={true} style={{ transitionDelay: `${order * 300}ms` }}>
             <div >
                 <Card className={classes.root} id="contenedor-post" variant="outlined">
                     <CardHeader
-                        avatar={<Avatar src="https://s6.eestatic.com/2019/11/14/omicrono/Omicrono_444466491_137907739_1706x960.jpg" className={classes.large} />}
+                        avatar={<Avatar src={post.author.profilePicture || undefined} className={classes.large} />}
                         title={
                             <Typography component={Link} variant="h5" to={`/main/profile/${post.author._id}`} className={classes.title}>
                                 {post.author.name} {post.author.surname}
@@ -60,8 +70,9 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
                         </Typography>
                     </CardContent>
                     <CardActions className={classes.cardAction}>
-                        <IconButton>
-                            <FavoriteIcon />
+                        <IconButton onClick={likeAction}>
+                            <FavoriteIcon color={like ? "primary" : "inherit"} />
+                            <p>{like ? post.likesNumb + 1 : post.likesNumb}</p>
                         </IconButton>
                         <IconButton component={Link} to={`/main/post/${post._id}`}>
                             <ChatIcon />

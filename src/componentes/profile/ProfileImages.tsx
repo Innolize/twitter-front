@@ -13,10 +13,13 @@ const useStyles = makeStyles((theme: Theme) =>
             width: "100%",
             minHeight: 200,
             maxHeight: 450,
+            display: "flex",
+            justifyContent: "center"
         },
         coverImage: {
             maxWidth: "100%",
-            objectFit: "contain"
+            objectFit: "contain",
+            maxHeight: 450,
         },
         editCoverImage: {
             backgroundColor: "black",
@@ -32,13 +35,22 @@ const useStyles = makeStyles((theme: Theme) =>
             alignItems: "center"
         },
         userImageContainer: {
+            borderRadius: "50%",
             position: "absolute",
             left: "30px",
-            bottom: "-90px"
+            bottom: "-90px",
+            width: "180px",
+            height: "180px",
+            display: "flex",
+            justifyContent: "center"
         },
         userImage: {
-            border: "5px solid white",
             borderRadius: "50%",
+            objectFit: "cover",
+            width: "180px",
+            height: "180px",
+            border: "5px solid white",
+            backgroundColor: "gray"
         },
         editUserImage: {
             backgroundColor: "black",
@@ -73,6 +85,7 @@ interface Props {
 }
 
 export const ProfileImages: React.FC<Props> = ({ user }) => {
+    console.log(user.profilePicture)
     const classes = useStyles()
     const [showEditAvatar, setShowEditAvatar] = useState<Boolean>(false)
     const [showEditCover, setShowEditCover] = useState<Boolean>(false)
@@ -93,7 +106,7 @@ export const ProfileImages: React.FC<Props> = ({ user }) => {
                     <img
                         ref={coverRef}
                         onMouseEnter={() => hoverEnter(setShowEditCover)}
-                        alt="user cover" src={"https://picsum.photos/1000/500"} className={classes.coverImage} />
+                        alt="user cover" src={user.cover || "https://picsum.photos/1000/500"} className={classes.coverImage} />
                     <div
                         style={{ height: coverRef.current?.height }}
                         onMouseLeave={() => hoverLeaves(setShowEditCover)}

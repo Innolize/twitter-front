@@ -3,6 +3,7 @@ export type User = {
     email?: string,
     name: string,
     profilePicture: string | null,
+    cover: string | null,
     surname: string,
     updatedAt?: string,
     _id: string
