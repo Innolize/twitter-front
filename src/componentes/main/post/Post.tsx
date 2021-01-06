@@ -1,4 +1,4 @@
-import { Avatar, Card, CardActions, CardContent, CardHeader, createStyles, Fade, IconButton, makeStyles, Theme, Typography } from '@material-ui/core';
+import { Avatar, Box, Card, CardActions, CardContent, CardHeader, createStyles, Fade, IconButton, makeStyles, Theme, Typography } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ChatIcon from '@material-ui/icons/Chat';
 import ShareIcon from '@material-ui/icons/Share';
@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: 10,
             margin: 20,
             border: "solid #E1E8ED 1px",
+        },
+        paddingRemover: {
+            padding: 0
         },
         large: {
             width: theme.spacing(7),
@@ -44,18 +47,21 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
     const createdSince = moment(post.createdAt).fromNow()
     const user = useSelector((state: RootState) => state.authReducer.user)
     const postLiked = user && post.likesArr.includes(user._id)
-    const [like, setLike] = useState<Boolean | null>(postLiked)
+    const [currentLike, setCurrentLike] = useState<Boolean | null>(postLiked)
 
     const likeAction = async () => {
         const response = await likePost(post._id)
-        setLike(response)
+        setCurrentLike(response)
     }
+
+    console.log(Boolean(post.likesNumb))
 
     return (
         <Fade in={true} style={{ transitionDelay: `${order * 300}ms` }}>
             <div >
                 <Card className={classes.root} id="contenedor-post" variant="outlined">
                     <CardHeader
+                        className={classes.paddingRemover}
                         avatar={<Avatar src={post.author.profilePicture || undefined} className={classes.large} />}
                         title={
                             <Typography component={Link} variant="h5" to={`/main/profile/${post.author._id}`} className={classes.title}>
@@ -69,14 +75,20 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
                             {post.message}
                         </Typography>
                     </CardContent>
-                    <CardActions className={classes.cardAction}>
-                        <IconButton onClick={likeAction}>
-                            <FavoriteIcon color={like ? "primary" : "inherit"} />
-                            <p>{like ? post.likesNumb + 1 : post.likesNumb}</p>
-                        </IconButton>
-                        <IconButton component={Link} to={`/main/post/${post._id}`}>
-                            <ChatIcon />
-                        </IconButton>
+                    <CardActions className={`${classes.cardAction} ${classes.paddingRemover}`}>
+
+                        <Box display="flex" alignItems="center">
+                            <IconButton onClick={likeAction}>
+                                <FavoriteIcon color={currentLike ? "primary" : "inherit"} />
+                            </IconButton>
+                            {(post.likesNumb || currentLike) && <Typography variant="h6">{postLiked ? currentLike ? post.likesNumb : post.likesNumb - 1 : currentLike ? post.likesNumb + 1 : post.likesNumb}</Typography>}
+                        </Box>
+                        <Box display="flex" alignItems="center">
+                            <IconButton component={Link} to={`/main/post/${post._id}`}>
+                                <ChatIcon />
+                            </IconButton>
+                            {(!!post.commentsNumb) && <Typography variant="h6">{post.commentsNumb}</Typography>}
+                        </Box>
                         <IconButton>
                             <ShareIcon />
                         </IconButton>
