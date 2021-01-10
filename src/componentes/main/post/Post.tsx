@@ -54,8 +54,6 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
         setCurrentLike(response)
     }
 
-    console.log(Boolean(post.likesNumb))
-
     return (
         <Fade in={true} style={{ transitionDelay: `${order * 300}ms` }}>
             <div >

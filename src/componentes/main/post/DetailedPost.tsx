@@ -20,7 +20,7 @@ export const DetailedPost: React.FC = () => {
         return (
             <Box>
                 <Post post={successData} ></Post>
-                <CommentContainer postId={successData._id} ></CommentContainer>
+                <CommentContainer postId={successData._id} postComments={successData.commentsArr} ></CommentContainer>
             </Box>
         )
     }

@@ -1,3 +1,4 @@
+import { IComment } from "./Comment";
 import { User } from "./User";
 
 export type Post = {
@@ -8,6 +9,6 @@ export type Post = {
     updatedAt: string,
     likesArr: string[],
     likesNumb: number,
-    commentsArr: string[],
+    commentsArr: IComment[],
     commentsNumb: number
 }

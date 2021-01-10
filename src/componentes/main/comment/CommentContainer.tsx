@@ -7,40 +7,21 @@ import { isCommentArray } from '../../../types/typeguards/CommentArray.typeguard
 import { CreateComment } from './CreateComment'
 import { RootState } from '../../../redux/reducer'
 import { useSelector } from 'react-redux'
+import { IComment } from '../../../types/Comment'
 
 interface Props {
-    postId: string
+    postId: string,
+    postComments: IComment[]
 }
 
-export const CommentContainer: React.FC<Props> = ({ postId }) => {
+export const CommentContainer: React.FC<Props> = ({ postId, postComments }) => {
     const user = useSelector((state: RootState) => state.authReducer.user)
-    const { successData, loading, errorMessage } = useFetchReducer({ fetchCallback: getComments, fetchOptions: { postId } })
+    const [comments, setComments] = useState<IComment[]>(postComments)
 
-    if (isCommentArray(successData)) {
-        return (
-            <Box>
-                {successData.map((el, idx) => <Comment comment={el} key={idx}></Comment>)}
-                {user && <CreateComment postId={postId} userId={user._id}></CreateComment>}
-            </Box>
-        )
-    }
-
-    
-
-    if (loading) {
-        return (
-            <CircularProgress />
-        )
-    }
-
-    if (errorMessage.length) {
-        return (
-            <div>{errorMessage}</div>
-        )
-    }
 
     return (
         <Box>
+            {comments && comments.map((el, idx) => <Comment comment={el} key={idx}></Comment>)}
             {user && <CreateComment postId={postId} userId={user._id}></CreateComment>}
         </Box>
     )

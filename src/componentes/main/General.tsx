@@ -18,11 +18,12 @@ export const General: React.FC = () => {
         return <CircularProgress />
     }
 
-    if (isPostArray(successData)) {
+    if (successData) {
+        console.log(successData)
         return (
             <>
                 { user && <CrearComentario user={user} />}
-                { successData.map((el, i) => <Post post={el} order={i} key={i} />)}
+                { isPostArray(successData) && successData.map((el, i) => <Post post={el} order={i} key={i} />)}
             </>
         )
     }
