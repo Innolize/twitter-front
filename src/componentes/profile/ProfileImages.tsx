@@ -3,6 +3,9 @@ import MoreVertIcon from '@material-ui/icons/MoreVertOutlined';
 import React, { useRef, useState } from 'react'
 import EditIcon from '@material-ui/icons/Edit';
 import { User } from '../../types/User';
+import { OptionsMenu, OptionMenuAction } from '../common/OptionsMenu';
+import { useHistory } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -85,11 +88,13 @@ interface Props {
 }
 
 export const ProfileImages: React.FC<Props> = ({ user }) => {
-    console.log(user.profilePicture)
     const classes = useStyles()
+    const history = useHistory()
     const [showEditAvatar, setShowEditAvatar] = useState<Boolean>(false)
     const [showEditCover, setShowEditCover] = useState<Boolean>(false)
     const coverRef = useRef<HTMLImageElement>(null)
+
+
 
     const hoverEnter = (setter: React.Dispatch<React.SetStateAction<Boolean>>) => {
         setter(true)
@@ -98,6 +103,10 @@ export const ProfileImages: React.FC<Props> = ({ user }) => {
     const hoverLeaves = (setter: React.Dispatch<React.SetStateAction<Boolean>>) => {
         setter(false)
     }
+
+    const editProfileMenu: OptionMenuAction[] = [
+        { description: "Edit Profile", action: () => history.push(`/main/editProfile/${user._id}`) }
+    ]
 
     return (
         <>
@@ -127,9 +136,7 @@ export const ProfileImages: React.FC<Props> = ({ user }) => {
                 </div>
             </Box>
             <Box className={classes.buttonContainer}>
-                <IconButton color="primary" className={classes.buttonHeigth}>
-                    <MoreVertIcon></MoreVertIcon>
-                </IconButton>
+                <OptionsMenu selfActions={editProfileMenu}></OptionsMenu>
                 <Button variant="outlined" color="primary" className={classes.buttonHeigth}> Follow</Button>
             </Box>
         </>
