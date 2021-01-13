@@ -37,7 +37,7 @@ export const OptionsMenu: React.FC<Props> = ({ selfActions }) => {
                 open={show}
                 onClose={handleClose}
             >
-                {selfActions && selfActions.map((sAction) => <MenuItem onClick={sAction.action}>{sAction.description}</MenuItem>)}
+                {selfActions && selfActions.map((sAction, i) => <MenuItem onClick={sAction.action} key={i}>{sAction.description}</MenuItem>)}
 
                 <MenuItem onClick={handleClose}>Report</MenuItem>
             </Menu>

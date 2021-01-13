@@ -8,9 +8,8 @@ import Axios from 'axios'
 import { useEffect } from 'react'
 import { handleRefreshToken } from '../redux/actions/logginAction'
 import { DetailedPost } from '../componentes/main/post/DetailedPost'
-import { ProfileImages } from '../componentes/profile/ProfileImages'
-import { ProfileInfo } from '../componentes/profile/ProfileInfo'
 import { ProfilePage } from './ProfilePage'
+import { EditProfilePage } from './EditProfilePage'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -78,6 +77,9 @@ export const MainPage = () => {
                     </Route>
                     <Route path="/main/profile/:userId" >
                         <ProfilePage></ProfilePage>
+                    </Route>
+                    <Route path="/main/editProfile/:userId">
+                        <EditProfilePage />
                     </Route>
                     <Route path="/main" exact >
                         <General />

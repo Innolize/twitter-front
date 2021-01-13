@@ -1,6 +1,6 @@
 import { Box, Button, Container, createStyles, IconButton, makeStyles, Theme } from '@material-ui/core'
-import MoreVertIcon from '@material-ui/icons/MoreVertOutlined';
 import React, { useRef, useState } from 'react'
+import SearchIcon from '@material-ui/icons/Search';
 import EditIcon from '@material-ui/icons/Edit';
 import { User } from '../../types/User';
 import { OptionsMenu, OptionMenuAction } from '../common/OptionsMenu';
@@ -85,9 +85,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
     user: User
+    edit?: boolean
+    onClickCoverImage: () => void
+    onClickProfileImage: () => void
 }
 
-export const ProfileImages: React.FC<Props> = ({ user }) => {
+export const ProfileImages: React.FC<Props> = ({ user, edit, onClickCoverImage, onClickProfileImage }) => {
     const classes = useStyles()
     const history = useHistory()
     const [showEditAvatar, setShowEditAvatar] = useState<Boolean>(false)
@@ -115,12 +118,14 @@ export const ProfileImages: React.FC<Props> = ({ user }) => {
                     <img
                         ref={coverRef}
                         onMouseEnter={() => hoverEnter(setShowEditCover)}
-                        alt="user cover" src={user.cover || "https://picsum.photos/1000/500"} className={classes.coverImage} />
+                        alt="user cover" src={user.cover || "https://picsum.photos/1000/500"} className={classes.coverImage}
+                    />
                     <div
                         style={{ height: coverRef.current?.height }}
                         onMouseLeave={() => hoverLeaves(setShowEditCover)}
+                        onClick={onClickCoverImage}
                         className={`${classes.editCoverImage} ${showEditCover ? classes.visible : ""}`}>
-                        <EditIcon fontSize="large" color="primary"></EditIcon>
+                        {edit ? <EditIcon fontSize="large" color="primary"></EditIcon> : <SearchIcon fontSize="large" color="primary" ></SearchIcon>}
                     </div>
                 </div>
                 <div className={classes.userImageContainer}>
@@ -128,17 +133,17 @@ export const ProfileImages: React.FC<Props> = ({ user }) => {
                         onMouseEnter={() => hoverEnter(setShowEditAvatar)}
                         alt="user profile image" src={user.profilePicture || "https://picsum.photos/180/180"} className={classes.userImage}></img>
                     <div
-
+                        onClick={onClickProfileImage}
                         onMouseLeave={() => hoverLeaves(setShowEditAvatar)}
                         className={`${classes.editUserImage} ${showEditAvatar ? classes.visible : ""}`}>
-                        <EditIcon fontSize="large" color="primary"></EditIcon>
+                        {edit ? <EditIcon fontSize="large" color="primary"></EditIcon> : <SearchIcon fontSize="large" color="primary" ></SearchIcon>}
                     </div>
                 </div>
             </Box>
-            <Box className={classes.buttonContainer}>
+            {!edit && <Box className={classes.buttonContainer}>
                 <OptionsMenu selfActions={editProfileMenu}></OptionsMenu>
                 <Button variant="outlined" color="primary" className={classes.buttonHeigth}> Follow</Button>
-            </Box>
+            </Box>}
         </>
     )
 }
