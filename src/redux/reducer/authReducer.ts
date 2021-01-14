@@ -1,5 +1,5 @@
 import { User } from '../../types/User'
-import { AuthActionTypes, LOGIN, LOGIN_ERROR, LOADING, LOG_OUT } from '../types/AuthActionTypes'
+import { AuthActionTypes, LOGIN, LOGIN_ERROR, LOADING, LOG_OUT, USER_EDITED } from '../types/AuthActionTypes'
 
 const initialState = {
     user: null,
@@ -22,6 +22,10 @@ const authReducer = (state: InitialState = initialState, action: AuthActionTypes
         case LOGIN:
             console.log('login')
             return { ...state, user: action.payload.user, token: action.payload.access_token, loading: false, logged: true }
+
+        case USER_EDITED:
+            console.log('user edited')
+            return { ...state, user: action.payload }
 
         case LOGIN_ERROR:
             console.log('not logged')

@@ -1,8 +1,9 @@
 import { Box, createStyles, makeStyles, Theme } from '@material-ui/core'
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Redirect, useHistory, useParams } from 'react-router-dom'
 import { getUser } from '../api/user/getUser'
+import { EditUser } from '../api/user/updateUser'
 
 import { EditProfileInfo } from '../componentes/profile/editProfile/EditProfileInfo'
 import { ProfileImages } from '../componentes/profile/ProfileImages'
@@ -10,6 +11,8 @@ import { useFetchReducer } from '../hooks/useFetch'
 import { RootState } from '../redux/reducer'
 import { isUser } from '../types/typeguards/User.typeguard'
 import { EditProfileButtons } from '../componentes/profile/editProfile/EditProfileButtons'
+import { updateUser } from '../api/user/updateUser'
+import { USER_EDITED } from '../redux/types/AuthActionTypes'
 
 
 
@@ -18,17 +21,19 @@ interface IParams {
 }
 
 export const EditProfilePage: React.FC = () => {
+    const dispatch = useDispatch()
     const history = useHistory()
     const { userId } = useParams<IParams>()
 
     const user = useSelector((state: RootState) => state.authReducer.user)
+    console.log("redux user", user)
 
     //trae info de usuario de la base de datos y no del store por si el usuario cambio sus datos en otra pestaña
 
     const { errorMessage, loading, successData } = useFetchReducer({ fetchCallback: getUser, fetchOptions: userId })
 
-    const [newCoverImage, setNewCoverImage] = useState<File | undefined>()
-    const [newProfileImage, setNewProfileImage] = useState<File | undefined>()
+    const [newCoverImage, setNewCoverImage] = useState<File | string>("")
+    const [newProfileImage, setNewProfileImage] = useState<File | string>("")
     const [newBio, setNewBio] = useState<string>("")
     const [newName, setNewName] = useState<string>("")
     const [newSurname, setNewSurname] = useState<string>("")
@@ -46,11 +51,13 @@ export const EditProfilePage: React.FC = () => {
 
 
     const removeCoverUpload = () => {
-        setNewCoverImage(undefined)
+        setNewCoverImage("")
+        coverImageRef.current.value = ""
     }
 
     const removeProfileUpload = () => {
-        setNewProfileImage(undefined)
+        setNewProfileImage("")
+        profileImageRef.current.value = ""
     }
 
     const onChangeBio = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,11 +65,31 @@ export const EditProfilePage: React.FC = () => {
     }
 
     const onChangeCoverInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNewCoverImage(e.target.files?.[0])
+        const files = e.target.files
+        if (files && files.length) {
+            setNewCoverImage(files[0])
+        }
     }
 
     const onChangeProfileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNewCoverImage(e.target.files?.[0])
+        const files = e.target.files
+        if (files && files.length) {
+            setNewProfileImage(files[0])
+        }
+    }
+
+    const saveUser = async () => {
+        const myFormData = new FormData()
+        myFormData.append('bio', newBio)
+        myFormData.append('name', newName)
+        myFormData.append('surname', newSurname)
+        if (newCoverImage) myFormData.append('cover', newCoverImage)
+        if (newProfileImage) myFormData.append('profile', newProfileImage)
+
+        const response = await updateUser(userId, myFormData)
+        dispatch({ type: USER_EDITED, payload: response })
+        console.log(response)
+        history.push(`/main/profile/${userId}`)
     }
 
     if (userId !== user?._id) {
@@ -71,12 +98,10 @@ export const EditProfilePage: React.FC = () => {
 
 
     if (isUser(successData)) {
-
-
         return (
             <>
                 <ProfileImages
-                    user={user}
+                    user={successData}
                     edit={true}
                     onClickCoverImage={() => coverImageRef.current.click()}
                     onClickProfileImage={() => profileImageRef.current.click()}
@@ -89,7 +114,7 @@ export const EditProfilePage: React.FC = () => {
                     onClickCancel={
                         () => history.push(`/main/profile/${userId}`)
                     }
-                    onClickSave={() => { }}
+                    onClickSave={saveUser}
                 />
                 <EditProfileInfo
                     name={newName}
