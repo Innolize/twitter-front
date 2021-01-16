@@ -7,33 +7,23 @@ export interface Props {
     open: boolean;
     severity: "error" | "success" | "info" | "warning",
     message: string
+    onCloseAction: () => void
 }
 
 function Alert(props: AlertProps) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export const PositionedSnackbar: React.FC<Props> = ({ open, severity, message }) => {
-    const [state, setState] = useState({
-        open: open,
-        vertical: 'top',
-        horizontal: 'center',
-    });
-
-    const handleClose = () => {
-        setState({ ...state, open: false });
-    };
+export const PositionedSnackbar: React.FC<Props> = ({ open, severity, message, onCloseAction }) => {
 
     return (
         <Snackbar
             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
             autoHideDuration={4000}
-            open={state.open}
-            onClose={handleClose}
-            message="I love snacks"
-            key={state.vertical + state.horizontal}
+            open={open}
+            onClose={onCloseAction}
         >
-            <Alert onClose={handleClose} severity={severity}>{message}</Alert>
+            <Alert onClose={onCloseAction} severity={severity}>{message}</Alert>
         </Snackbar>
     )
 }

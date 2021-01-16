@@ -44,7 +44,7 @@ interface Props {
 
 export const CrearComentario: React.FC<Props> = ({ user }) => {
     const [postContent, setPostContent] = useState("")
-    const [error, setError] = useState<string>("")
+    const [error, setError] = useState<any>(null)
     const [success, setSuccess] = useState<any>(null)
     const classes = useStyles()
 
@@ -62,6 +62,7 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
         }
 
     }
+
 
     return (
         <>
@@ -87,8 +88,8 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
                     </Box>
                 </Box>
             </Box>
-            {success && <PositionedSnackbar open={true} severity="success" message="Posted successfuly!"></PositionedSnackbar>}
-            {error && <PositionedSnackbar open={true} severity="error" message={error || "error"}></PositionedSnackbar>}
+            {success && <PositionedSnackbar onCloseAction={() => setSuccess(false)} open={true} severity="success" message="Posted successfuly!"></PositionedSnackbar>}
+            {error && <PositionedSnackbar onCloseAction={() => setError(false)} open={true} severity="error" message={error || "error"}></PositionedSnackbar>}
         </>
     );
 }
