@@ -36,8 +36,8 @@ export const Comment: React.FC<Props> = ({ comment }) => {
     const [showOptions, setShowOptions] = useState(false)
     const user = useSelector((state: RootState) => state.authReducer.user)
     const classes = useStyles()
-
-    const self = comment.authorId === user?._id
+    const self = comment.author._id === user?._id
+    const { name, profilePicture, surname } = comment.author
 
     return (
 
@@ -49,7 +49,7 @@ export const Comment: React.FC<Props> = ({ comment }) => {
             <CardHeader
                 className={classes.cardHeader}
                 avatar={
-                    <Avatar aria-label="recipe" src={user?.profilePicture || undefined} className={classes.avatar} />
+                    <Avatar aria-label="recipe" src={profilePicture || undefined} className={classes.avatar} />
 
                 }
                 action={showOptions && user &&
@@ -57,7 +57,7 @@ export const Comment: React.FC<Props> = ({ comment }) => {
                         self={self}
                         removeAction={() => console.log(12345)}
                     />}
-                title={<Typography variant="h6">{`${user?.name} ${user?.surname}`}</Typography>}
+                title={<Typography variant="h6">{`${name} ${surname}`}</Typography>}
 
             />
             <CardContent>

@@ -17,10 +17,11 @@ export const DetailedPost: React.FC = () => {
     const { successData, errorMessage, loading } = useFetchReducer({ fetchCallback: getPostById, fetchOptions: { id: postId } })
 
     if (isPost(successData)) {
+        const post = successData
         return (
             <Box>
                 <Post post={successData} ></Post>
-                <CommentContainer postId={successData._id} postComments={successData.commentsArr} ></CommentContainer>
+                <CommentContainer postId={post._id} postComments={post.commentsArr} ></CommentContainer>
             </Box>
         )
     }
