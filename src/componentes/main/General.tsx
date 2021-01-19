@@ -9,6 +9,7 @@ import { getPosts } from '../../api/post/getPosts'
 import { CircularProgress } from '@material-ui/core'
 import { isPostArray } from '../../types/typeguards/PostArray.typeguard'
 import { PostContainer } from './post/PostContainer'
+import { getUserLikeAvatars } from '../../api/user/getUserLikeAvatars'
 
 
 export const General: React.FC = () => {
