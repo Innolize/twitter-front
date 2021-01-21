@@ -1,12 +1,12 @@
 import { Avatar, Box, Button, createStyles, Input, makeStyles, Theme } from '@material-ui/core';
-import PhotoIcon from '@material-ui/icons/Photo'
-import YouTubeIcon from '@material-ui/icons/YouTube';
 import SendIcon from '@material-ui/icons/Send';
-import React, { useEffect, useState } from 'react'
+import React, { RefObject, useEffect, useRef, useState } from 'react'
 import { User } from '../../types/User';
 import { createPost } from '../../api/post/createPost';
 import { PositionedSnackbar } from '../common/Snackbar'
 import { Post } from '../../types/Post';
+import { EmojiButton } from '../common/EmojiButton'
+import { IEmojiData } from 'emoji-picker-react'
 
 
 
@@ -61,7 +61,10 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
         } else if (error) {
             setError(error)
         }
+    }
 
+    const handleEmojiClick = (e: React.MouseEvent<Element, MouseEvent>, data: IEmojiData) => {
+        setPostContent(c => c + data.emoji)
     }
 
 
@@ -70,8 +73,9 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
             <Box className={classes.root}>
                 <Avatar alt="carlitos test" src={user.profilePicture || undefined} className={classes.large}></Avatar>
                 <Box style={{ width: "90%" }}>
-                    <Input placeholder="Que querés compartir hoy?" className={classes.textField} value={postContent} onChange={inputOnChange} />
+                    <Input autoFocusasd placeholder="Que querés compartir hoy?" className={classes.textField} value={postContent} onChange={inputOnChange} />
                     <Box className={classes.contenedorBotones} id="contenedor-botones" >
+                        <EmojiButton onEmojiClick={handleEmojiClick}></EmojiButton>
                         <Button
                             size="small"
                             variant="contained"
