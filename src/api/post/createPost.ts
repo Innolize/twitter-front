@@ -11,6 +11,5 @@ export const createPost = async (message: string): Promise<{ success: boolean, r
         } else {
             return { success: false, error: "this error should never happend" }
         }
-
     }
 }
