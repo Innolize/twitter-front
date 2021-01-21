@@ -52,10 +52,10 @@ export const Comment: React.FC<Props> = ({ comment }) => {
                     <Avatar aria-label="recipe" src={profilePicture || undefined} className={classes.avatar} />
 
                 }
-                action={showOptions && user &&
+                action={
                     <OptionsMenu
                         self={self}
-                        removeAction={() => console.log(12345)}
+                        removeAction={() => console.log("reportado papu")}
                     />}
                 title={<Typography variant="h6">{`${name} ${surname}`}</Typography>}
 
@@ -67,7 +67,7 @@ export const Comment: React.FC<Props> = ({ comment }) => {
             </CardContent>
             <Box display='flex' justifyContent='space-around'>
                 <IconButton >
-                    {/* onClick={userLogged ? (userLike ? quitarLike : darLike) : () => console.log("usuario no logeado")} */}
+                    {/* onClick={userLike ? quitarLike : darLike} */}
                     <ThumbUp color={'primary' || 'inherit'} />
                     {/* {likes.length > 0 ? likes.length : null} */}
                 </IconButton>

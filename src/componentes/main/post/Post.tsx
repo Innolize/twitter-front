@@ -2,6 +2,7 @@ import { Avatar, Box, Card, CardActions, CardContent, CardHeader, createStyles, 
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ChatIcon from '@material-ui/icons/Chat';
 import ShareIcon from '@material-ui/icons/Share';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import React, { useEffect, useState } from 'react'
 import { Post as IPost } from '../../../types/Post'
 import moment from 'moment';
@@ -98,7 +99,9 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
 
                         <Box display="flex" alignItems="center">
                             <IconButton onClick={likeAction}>
-                                <FavoriteIcon color={currentLike ? "primary" : "inherit"} />
+                                {currentLike ?
+                                    <FavoriteIcon color="primary" /> : <FavoriteBorderIcon color="inherit" />}
+
                             </IconButton>
                             {(post.likesNumb || currentLike) && <Typography variant="h6">{postLiked ? currentLike ? post.likesNumb : post.likesNumb - 1 : currentLike ? post.likesNumb + 1 : post.likesNumb}</Typography>}
                             {!!likeAvatars && <AvatarGroup max={4} spacing="medium">

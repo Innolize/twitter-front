@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme: Theme) =>
         contenedorBotones: {
             display: "flex",
             width: "90%",
-            alignItems: "center"
+            alignItems: "center",
+            justifyContent: "flex-end"
         }
     }),
 );
@@ -53,13 +54,13 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
     }
 
     const sendNewPost = async () => {
-            const { success, response, error } = await createPost(postContent)
-            if (success) {
-                setSuccess(response)
-                setPostContent("")
-            } else if (error) {
-                setError(error)
-            }
+        const { success, response, error } = await createPost(postContent)
+        if (success) {
+            setSuccess(response)
+            setPostContent("")
+        } else if (error) {
+            setError(error)
+        }
 
     }
 
@@ -71,11 +72,6 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
                 <Box style={{ width: "90%" }}>
                     <Input placeholder="Que querés compartir hoy?" className={classes.textField} value={postContent} onChange={inputOnChange} />
                     <Box className={classes.contenedorBotones} id="contenedor-botones" >
-                        <Box style={{ flexGrow: 1 }} id="contenedor-multimedia">
-                            <PhotoIcon fontSize="large" />
-                            <YouTubeIcon fontSize="large" />
-                        </Box>
-
                         <Button
                             size="small"
                             variant="contained"

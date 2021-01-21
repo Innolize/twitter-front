@@ -3,10 +3,12 @@ import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/Inbox';
+import HomeIcon from '@material-ui/icons/Home';
 import DraftsIcon from '@material-ui/icons/Drafts';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducer';
 import { ProfileButton } from './ProfileButton';
@@ -35,21 +37,27 @@ export const Sidebar = (props: any) => {
             <List component="nav" aria-label="main mailbox folders">
                 <ListItem button component={Link} to='/main' >
                     <ListItemIcon>
-                        <InboxIcon />
+                        <HomeIcon></HomeIcon>
                     </ListItemIcon>
-                    <ListItemText primary="Home" />
+                    <ListItemText>
+                        <Typography variant="h6">Home</Typography>
+                    </ListItemText>
                 </ListItem>
                 <ListItem button component={Link} to={`/main/profile/${user?._id}`} >
                     <ListItemIcon>
-                        <DraftsIcon />
+                        <AccountBoxIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Profile" />
+                    <ListItemText>
+                        <Typography variant="h6">Profile</Typography>
+                    </ListItemText>
                 </ListItem>
                 <ListItem button component={Link} to='/notifications'>
                     <ListItemIcon>
-                        <DraftsIcon />
+                        <NotificationsIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Notifications" />
+                    <ListItemText >
+                        <Typography variant="h6">Notifications</Typography>
+                    </ListItemText>
                 </ListItem>
             </List>
             {user && <ProfileButton user={user} />}
