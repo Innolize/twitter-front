@@ -33,7 +33,7 @@ export const Sidebar = (props: any) => {
     const user = useSelector((state: RootState) => state.authReducer.user)
 
     return (
-        <Grid item xs={3} className={classes.root}>
+        <Grid item className={classes.root}>
             <List component="nav" aria-label="main mailbox folders">
                 <ListItem button component={Link} to='/main' >
                     <ListItemIcon>

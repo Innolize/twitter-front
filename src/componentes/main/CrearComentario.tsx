@@ -73,7 +73,7 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
             <Box className={classes.root}>
                 <Avatar alt="carlitos test" src={user.profilePicture || undefined} className={classes.large}></Avatar>
                 <Box style={{ width: "90%" }}>
-                    <Input autoFocusasd placeholder="Que querés compartir hoy?" className={classes.textField} value={postContent} onChange={inputOnChange} />
+                    <Input autoFocus placeholder="Que querés compartir hoy?" className={classes.textField} value={postContent} onChange={inputOnChange} />
                     <Box className={classes.contenedorBotones} id="contenedor-botones" >
                         <EmojiButton onEmojiClick={handleEmojiClick}></EmojiButton>
                         <Button

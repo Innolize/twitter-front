@@ -45,7 +45,14 @@ const useStyles = makeStyles((theme: Theme) =>
             width: "180px",
             height: "180px",
             display: "flex",
-            justifyContent: "center"
+            justifyContent: "center",
+            [theme.breakpoints.down('sm')]: {
+                width: "120px",
+                height: "120px",
+                left: "30px",
+                bottom: '-60px'
+            }
+
         },
         userImage: {
             borderRadius: "50%",
@@ -53,7 +60,11 @@ const useStyles = makeStyles((theme: Theme) =>
             width: "180px",
             height: "180px",
             border: "5px solid white",
-            backgroundColor: "gray"
+            backgroundColor: "gray",
+            [theme.breakpoints.down('sm')]: {
+                width: "120px",
+                height: "120px",
+            }
         },
         editUserImage: {
             backgroundColor: "black",
@@ -67,7 +78,12 @@ const useStyles = makeStyles((theme: Theme) =>
             visibility: "hidden",
             display: "flex",
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
+            [theme.breakpoints.down('sm')]: {
+                width: "120px",
+                height: "120px",
+                bottom: '-60px'
+            }
         },
         buttonHeigth: {
             height: "40px"
@@ -119,6 +135,7 @@ export const ProfileImages: React.FC<Props> = ({ user, edit, onClickCoverImage, 
                         ref={coverRef}
                         onMouseEnter={() => hoverEnter(setShowEditCover)}
                         alt="user cover" src={user.cover || "https://picsum.photos/1000/500"} className={classes.coverImage}
+                        onClick={onClickCoverImage}
                     />
                     <div
                         style={{ height: coverRef.current?.height }}
@@ -131,6 +148,7 @@ export const ProfileImages: React.FC<Props> = ({ user, edit, onClickCoverImage, 
                 <div className={classes.userImageContainer}>
                     <img
                         onMouseEnter={() => hoverEnter(setShowEditAvatar)}
+                        onClick={onClickProfileImage}
                         alt="user profile image" src={user.profilePicture || "https://picsum.photos/180/180"} className={classes.userImage}></img>
                     <div
                         onClick={onClickProfileImage}

@@ -11,7 +11,7 @@ import { isUser } from '../types/typeguards/User.typeguard'
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         modalRoot: {
-            backgroundColor: "black",
+            backgroundColor: "rgba(0,0,0,0.8)",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -21,8 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
             right: 0,
             bottom: 0,
             margin: "auto",
-            height: 900,
-            width: 1200,
+            maxHeight: "80vh",
             color: "white",
         }
     })
@@ -58,7 +57,7 @@ export const ProfilePage: React.FC = () => {
                 <Modal open={openModal} onClose={() => setOpenModal(false)}>
                     <Fade in={openModal}>
                         <div className={classes.modalRoot}>
-                            <img style={{ maxWidth: "90%" }} src={modalImage || "https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg"}></img>
+                            <img style={{ maxWidth: "90%", maxHeight:"100%" }} src={modalImage || "https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg"}></img>
                         </div>
                     </Fade>
                 </Modal>
