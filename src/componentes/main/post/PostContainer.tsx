@@ -36,7 +36,7 @@ export const PostContainer: React.FC<Props> = ({ posts }) => {
                 <Box textAlign="center" onClick={newPostNotificationOnClick}>
                     {newPosts.length} new posts
             </Box>}
-            {postArray.map((el, i) => <Post post={el} order={i} key={i} />)}
+            {postArray.map((el, i) => <Post post={el} order={i} key={el._id} />)}
         </>
 
     )

@@ -1,5 +1,5 @@
 import { User } from '../../types/User'
-import { AuthActionTypes, LOGIN, LOGIN_ERROR, LOADING, LOG_OUT, USER_EDITED } from '../types/AuthActionTypes'
+import { AuthActionTypes, LOGIN, LOGIN_ERROR, LOADING, LOG_OUT, USER_EDITED, REFRESH_TOKEN } from '../types/AuthActionTypes'
 
 const initialState = {
     user: null,
@@ -38,6 +38,10 @@ const authReducer = (state: InitialState = initialState, action: AuthActionTypes
         case LOG_OUT:
             console.log('logged out')
             return { ...state, loading: false, errors: [], user: null, logged: false }
+
+        case REFRESH_TOKEN:
+            console.log("refresh token")
+            return { ...state, token: action.payload }
 
         default:
             return state

@@ -102,7 +102,7 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
                             </IconButton>
                             {(post.likesNumb || currentLike) && <Typography variant="h6">{postLiked ? currentLike ? post.likesNumb : post.likesNumb - 1 : currentLike ? post.likesNumb + 1 : post.likesNumb}</Typography>}
                             {!!likeAvatars && <AvatarGroup max={4} spacing="medium">
-                                {likeAvatars.map(avatar => <Avatar alt={avatar.name + " " + avatar.surname} src={avatar.profilePicture} className={classes.small}></Avatar>)}
+                                {likeAvatars.map((avatar, i) => <Avatar alt={avatar.name + " " + avatar.surname} src={avatar.profilePicture} className={classes.small} key={i}></Avatar>)}
 
                             </AvatarGroup>}
                             {likeAvatars.length > 4 && `+ ${likeAvatars.length - 4} persons `}

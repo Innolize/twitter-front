@@ -53,13 +53,15 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
     }
 
     const sendNewPost = async () => {
-        const { success, response, error } = await createPost(postContent)
-        if (success) {
-            setSuccess(response)
-            setPostContent("")
-        } else if (error) {
-            setError(error)
-        }
+        await createPost(postContent)
+            const { success, response, error } = await createPost(postContent)
+            if (success) {
+                setSuccess(response)
+                setPostContent("")
+            } else if (error) {
+                console.log(error)
+                setError(error)
+            }
 
     }
 

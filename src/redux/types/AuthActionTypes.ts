@@ -4,7 +4,7 @@ export const LOGIN = "LOGIN"
 export const LOGIN_ERROR = "LOGIN_ERROR"
 export const LOADING = "LOADING"
 export const LOG_OUT = "LOG_OUT"
-export const USE_REFRESH_TOKEN = "USE_REFRESH_TOKEN"
+export const REFRESH_TOKEN = "REFRESH_TOKEN"
 export const USER_EDITED = "USER_EDITED"
 
 export type loginPayload = {
@@ -17,7 +17,8 @@ type loginErrorPayload = {
 }
 
 interface Refresh {
-    type: typeof USE_REFRESH_TOKEN
+    type: typeof REFRESH_TOKEN
+    payload: string
 }
 
 interface Login {

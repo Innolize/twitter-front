@@ -40,7 +40,7 @@ interface RefreshReponse {
 }
 
 export const handleRefreshToken = () => async (dispatch: Dispatch<AuthActionTypes>) => {
-
+    console.log('entre al handleRefreshToken')
     try {
         dispatch({ type: LOADING })
         const loggear: RefreshReponse = (await axiosI.post('/auth/refresh', { withCredentials: true })).data
