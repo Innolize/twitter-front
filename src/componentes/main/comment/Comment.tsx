@@ -2,9 +2,11 @@ import { Avatar, Box, Card, CardContent, CardHeader, makeStyles, Typography, Ico
 import { ThumbUp } from '@material-ui/icons'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { deleteComment } from '../../../api/comment/deleteComment'
+import { likeComment } from '../../../api/comment/likeComment'
 import { RootState } from '../../../redux/reducer'
 import { IComment } from '../../../types/Comment'
-import { OptionsMenu } from '../../common/OptionsMenu'
+import { OptionMenuAction, OptionsMenu } from '../../common/OptionsMenu'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -38,6 +40,29 @@ export const Comment: React.FC<Props> = ({ comment }) => {
     const classes = useStyles()
     const self = comment.author._id === user?._id
     const { name, profilePicture, surname } = comment.author
+    const commentLiked = user && comment.likesArr.includes(user._id)
+
+    const removeComment = async (commentId: string) => {
+        const result = await deleteComment(commentId)
+        if (result.success) {
+            console.log(result.message)
+        } else {
+            console.log(result.message)
+        }
+    }
+
+    const removeCommentAction: OptionMenuAction = {
+        description: "Delete",
+        action: () => removeComment(comment._id)
+    }
+
+
+    const likeOnClick = async () => {
+        const response = await likeComment(comment._id)
+        console.log(response)
+    }
+    console.log("LikesArr: ", comment.likesArr)
+    console.log("commentLiked: ", commentLiked)
 
     return (
 
@@ -54,8 +79,8 @@ export const Comment: React.FC<Props> = ({ comment }) => {
                 }
                 action={
                     <OptionsMenu
-                        self={self}
                         removeAction={() => console.log("reportado papu")}
+                        selfActions={[removeCommentAction]}
                     />}
                 title={<Typography variant="h6">{`${name} ${surname}`}</Typography>}
 
@@ -66,10 +91,10 @@ export const Comment: React.FC<Props> = ({ comment }) => {
                 </Typography>
             </CardContent>
             <Box display='flex' justifyContent='space-around'>
-                <IconButton >
-                    {/* onClick={userLike ? quitarLike : darLike} */}
-                    <ThumbUp color={'primary' || 'inherit'} />
-                    {/* {likes.length > 0 ? likes.length : null} */}
+                <IconButton onClick={likeOnClick} >
+
+                    <ThumbUp color={commentLiked ? 'primary' : 'inherit'} />
+                    {comment.likesNumb > 0 ? comment.likesNumb : null}
                 </IconButton>
                 <Typography className={classes.centeredText}>
                     {/* {time} */}

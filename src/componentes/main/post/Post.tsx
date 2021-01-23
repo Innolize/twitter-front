@@ -12,6 +12,8 @@ import { useSelector } from 'react-redux';
 import { likePost } from '../../../api/post/likePost';
 import { getUserLikeAvatars, LilUser } from '../../../api/user/getUserLikeAvatars';
 import { AvatarGroup } from '@material-ui/lab';
+import { OptionMenuAction, OptionsMenu } from '../../common/OptionsMenu';
+import { deletePost } from '../../../api/post/deletePost';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -58,6 +60,7 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
     const postLiked = user && post.likesArr.includes(user._id)
     const [currentLike, setCurrentLike] = useState<Boolean | null>(postLiked)
     const [likeAvatars, setLikeAvatars] = useState<LilUser[]>([])
+    const ownPost = user?._id === post.author._id
 
     const likeAction = async () => {
         const response = await likePost(post._id)
@@ -76,6 +79,21 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
 
     }, [])
 
+    const removePost = async (postId: string) => {
+        const result = await deletePost(postId)
+        if (result.success) {
+            console.log(result.message)
+        } else {
+            console.log(result.message)
+        }
+    }
+
+
+    const testAction: OptionMenuAction = {
+        description: "Delete",
+        action: () => removePost(post._id)
+    }
+
     return (
         <Fade in={true} style={{ transitionDelay: `${order * 300}ms` }}>
             <div >
@@ -89,6 +107,8 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
                             </Typography>
                         }
                         subheader={createdSince}
+                        action={
+                            <OptionsMenu selfActions={ownPost ? [testAction] : null} />}
                     />
                     <CardContent>
                         <Typography variant="body1">

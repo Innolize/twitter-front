@@ -8,9 +8,8 @@ export interface OptionMenuAction {
 }
 
 interface Props {
-    self?: boolean,
     removeAction?: () => void
-    selfActions?: OptionMenuAction[]
+    selfActions?: OptionMenuAction[] | null
 }
 
 export const OptionsMenu: React.FC<Props> = ({ selfActions }) => {

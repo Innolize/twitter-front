@@ -6,8 +6,10 @@ type ICommentAuthor = {
 }
 
 export type IComment = {
+    _id: string,
     postId: string,
     author: ICommentAuthor,
     message: string,
-    likes: string[]
+    likesArr: string[],
+    likesNumb: number
 }
