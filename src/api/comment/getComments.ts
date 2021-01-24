@@ -5,9 +5,9 @@ interface Props {
     postId: string
 }
 
-export const getComments = async ({ postId }: Props): Promise<IComment[]> => {
+export const getComments = async (postId: Props): Promise<IComment[]> => {
     try {
-        const response = await (await (axiosI.get(`/comment/post/${postId}`))).data
+        const response = (await (axiosI.get(`/comment/post/${postId}`))).data
         return response
     } catch (err) {
         return err.response

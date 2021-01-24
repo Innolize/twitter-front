@@ -1,9 +1,10 @@
 import { Avatar, Box, Card, CardContent, CardHeader, makeStyles, Typography, IconButton, createStyles, Theme } from '@material-ui/core'
 import { ThumbUp } from '@material-ui/icons'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { deleteComment } from '../../../api/comment/deleteComment'
 import { likeComment } from '../../../api/comment/likeComment'
+import { createSocket } from '../../../api/websockets/server'
 import { RootState } from '../../../redux/reducer'
 import { IComment } from '../../../types/Comment'
 import { OptionMenuAction, OptionsMenu } from '../../common/OptionsMenu'
@@ -35,13 +36,15 @@ interface Props {
 }
 
 export const Comment: React.FC<Props> = ({ comment }) => {
+    // const [currentComment, setCurrentComment] = useState<IComment>(comment)
     const [showOptions, setShowOptions] = useState(false)
     const user = useSelector((state: RootState) => state.authReducer.user)
     const classes = useStyles()
-    const self = comment.author._id === user?._id
-    const { name, profilePicture, surname } = comment.author
-    const commentLiked = user && comment.likesArr.includes(user._id)
 
+    const { name, profilePicture, surname, _id } = comment.author
+    const self = _id === user?._id
+    const commentLiked = user && comment.likesArr.includes(user._id)
+    console.log(commentLiked)
     const removeComment = async (commentId: string) => {
         const result = await deleteComment(commentId)
         if (result.success) {
@@ -61,15 +64,13 @@ export const Comment: React.FC<Props> = ({ comment }) => {
         const response = await likeComment(comment._id)
         console.log(response)
     }
-    console.log("LikesArr: ", comment.likesArr)
-    console.log("commentLiked: ", commentLiked)
 
     return (
 
         <Card className={classes.root}
             variant="outlined"
-            onMouseEnter={() => setShowOptions(true)}
-            onMouseLeave={() => setShowOptions(false)}
+            // onMouseEnter={() => setShowOptions(true)}
+            // onMouseLeave={() => setShowOptions(false)}
         >
             <CardHeader
                 className={classes.cardHeader}

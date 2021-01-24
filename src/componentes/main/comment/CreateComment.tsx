@@ -31,12 +31,13 @@ export const CreateComment: React.FC<Props> = ({ postId }) => {
 
     const buttonOnClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const response = createComment({ message: text, postId })
+        setText('')
         console.log(response)
     }
 
     return (
         <Box display="flex" className={classes.root}>
-            <TextField onChange={textfieldOnChange} variant="outlined" placeholder='Write something...' className={classes.textArea} ></TextField>
+            <TextField value={text} onChange={textfieldOnChange} variant="outlined" placeholder='Write something...' className={classes.textArea} ></TextField>
             <Button onClick={buttonOnClick}> Send</Button>
         </Box>
     )
