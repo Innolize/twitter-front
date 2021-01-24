@@ -1,5 +1,5 @@
 import { Box, createStyles, makeStyles, Theme } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { createSocket } from '../../../api/websockets/server'
 import { RootState } from '../../../redux/reducer'
@@ -19,43 +19,42 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 interface Props {
-    posts: IPost[]
+    initialPosts: IPost[]
 }
 
-export const PostContainer: React.FC<Props> = ({ posts }) => {
+export const PostContainer: React.FC<Props> = ({ initialPosts }) => {
 
     const classes = useStyles()
     const user = useSelector((store: RootState) => store.authReducer.user)
-    const [postArray, setPostArray] = useState<IPost[]>(posts)
+    const [posts, setPosts] = useState<IPost[]>(initialPosts)
     // const [newPosts, setNewPosts] = useState<IPost[]>([])
+
+    const removePostHandler = useCallback((data: IPost) => {
+        const myNewPosts = posts
+        const index = myNewPosts.findIndex(curr => curr._id === data._id)
+        myNewPosts.splice(index, 1)
+        setPosts([...myNewPosts])
+    }, [posts])
+
     useEffect(() => {
         const socket = createSocket()
         socket.emit("joinRoom", "general")
         socket.on("newPost", (data: IPost) => {
 
-            setPostArray(c => [data, ...c])
-            // if (data.author._id === user?._id) {
-            // } else {
-            //     setNewPosts(c => [data, ...c])
+            setPosts(c => [data, ...c])
+        })
+        socket.on("removePost", (newPost: IPost) => {
+            removePostHandler(newPost)
         })
         return () => {
             socket.removeAllListeners()
             socket.disconnect()
         }
-    }, [])
-
-    // const newPostNotificationOnClick = () => {
-    //     setPostArray([...newPosts, ...postArray])
-    //     setNewPosts([])
-    // }
+    }, [removePostHandler])
 
     return (
         <Box className={classes.root}>
-            {/* {!!newPosts.length &&
-                <Box textAlign="center" onClick={newPostNotificationOnClick}>
-                    {newPosts.length} new posts
-            </Box>} */}
-            {postArray.map((el, i) => <Post post={el} order={i} key={el._id} />)}
+            {posts.map((el, i) => <Post post={el} order={i} key={el._id} />)}
         </Box>
 
     )

@@ -25,7 +25,7 @@ export const General: React.FC = () => {
         return (
             <>
                 { user && <CrearComentario user={user} />}
-                { isPostArray(posts) && <PostContainer posts={posts} ></PostContainer>}
+                { isPostArray(posts) && <PostContainer initialPosts={posts} ></PostContainer>}
             </>
         )
     }
