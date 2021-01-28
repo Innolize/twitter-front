@@ -1,7 +1,7 @@
 import { User } from '../../types/User'
 import { AuthActionTypes, LOGIN, LOGIN_ERROR, LOADING, LOG_OUT, USER_EDITED, REFRESH_TOKEN } from '../types/AuthActionTypes'
 
-const initialState = {
+export const initialState = {
     user: null,
     token: null,
     errors: [],
