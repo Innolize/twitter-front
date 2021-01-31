@@ -1,5 +1,4 @@
 import { useEffect, useReducer } from "react"
-import { Post } from "../types/Post"
 import { ERROR, LOADING, SUCCESS, IinitialState, actions } from './useFetch.types'
 
 const initialState = {
@@ -46,7 +45,7 @@ export const useFetchReducer = ({ fetchCallback, fetchOptions }: Props) => {
 
         }
         customFecth()
-    }, [])
+    }, [fetchCallback, fetchOptions])
 
     return state
 }

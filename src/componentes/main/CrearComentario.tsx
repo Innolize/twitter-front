@@ -1,10 +1,9 @@
 import { Avatar, Box, Button, createStyles, Input, makeStyles, Theme } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
-import React, { RefObject, useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { User } from '../../types/User';
 import { createPost } from '../../api/post/createPost';
 import { PositionedSnackbar } from '../common/Snackbar'
-import { Post } from '../../types/Post';
 import { EmojiButton } from '../common/EmojiButton'
 import { IEmojiData } from 'emoji-picker-react'
 

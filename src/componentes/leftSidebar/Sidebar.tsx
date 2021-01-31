@@ -7,7 +7,6 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
-import DraftsIcon from '@material-ui/icons/Drafts';
 import { Grid, Typography } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducer';

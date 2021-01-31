@@ -1,8 +1,6 @@
 import { Box, createStyles, makeStyles, Theme } from '@material-ui/core'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { createSocket } from '../../../api/websockets/server'
-import { RootState } from '../../../redux/reducer'
 import { Post as IPost } from '../../../types/Post'
 import { Post } from './Post'
 
@@ -25,7 +23,6 @@ interface Props {
 export const PostContainer: React.FC<Props> = ({ initialPosts }) => {
 
     const classes = useStyles()
-    const user = useSelector((store: RootState) => store.authReducer.user)
     const [posts, setPosts] = useState<IPost[]>(initialPosts)
     // const [newPosts, setNewPosts] = useState<IPost[]>([])
 

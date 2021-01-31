@@ -1,8 +1,5 @@
 import { Box, createStyles, makeStyles, TextField, Theme, Typography } from '@material-ui/core'
-import CalendarTodayOutlinedIcon from '@material-ui/icons/CalendarTodayOutlined';
-import React, { useState } from 'react'
-import { User } from '../../../types/User'
-import moment from 'moment'
+import React from 'react'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

@@ -1,5 +1,5 @@
 import { Button, Popover } from '@material-ui/core'
-import React, { MutableRefObject, RefObject, useRef, useState } from 'react'
+import React, { MutableRefObject, useRef, useState } from 'react'
 import Picker, { IEmojiData } from 'emoji-picker-react'
 
 

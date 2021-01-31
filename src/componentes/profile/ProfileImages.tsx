@@ -1,4 +1,4 @@
-import { Box, Button, Container, createStyles, IconButton, makeStyles, Theme } from '@material-ui/core'
+import { Box, Button, createStyles, makeStyles, Theme } from '@material-ui/core'
 import React, { useRef, useState } from 'react'
 import SearchIcon from '@material-ui/icons/Search';
 import EditIcon from '@material-ui/icons/Edit';
@@ -149,7 +149,7 @@ export const ProfileImages: React.FC<Props> = ({ user, edit, onClickCoverImage, 
                     <img
                         onMouseEnter={() => hoverEnter(setShowEditAvatar)}
                         onClick={onClickProfileImage}
-                        alt="user profile image" src={user.profilePicture || "https://picsum.photos/180/180"} className={classes.userImage}></img>
+                        alt="user profile " src={user.profilePicture || "https://picsum.photos/180/180"} className={classes.userImage}></img>
                     <div
                         onClick={onClickProfileImage}
                         onMouseLeave={() => hoverLeaves(setShowEditAvatar)}

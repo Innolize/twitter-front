@@ -13,11 +13,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { useForm } from 'react-hook-form'
-import Axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/actions/logginAction'
 import { Redirect } from 'react-router-dom';
-import { InitialState } from '../../redux/reducer/authReducer';
 import { RootState } from '../../redux/reducer';
 
 function Copyright() {
@@ -69,7 +67,7 @@ export const SignInSide = () => {
   const auth = useSelector((state: RootState) => state.authReducer)
   const classes = useStyles();
   const { register, handleSubmit } = useForm()
-  const [logginError, setLogginError] = useState("")
+  const [logginError] = useState("")
 
   const onSubmit = async (data: any) => {
     dispatch(login(data))

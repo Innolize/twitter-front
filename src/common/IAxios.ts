@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { handleRefreshToken } from '../redux/actions/logginAction'
 import { store } from '../redux/store'
 import { User } from '../types/User'
 
@@ -30,7 +29,7 @@ axiosI.interceptors.response.use((response) => {
     if (err.response.status === 401 && !originalRequest._retry) {
         console.log("estoy refresheando token")
         originalRequest._retry = true;
-        const refreshResponse: RefreshReponse = (await axiosI.post('/auth/refresh', { withCredentials: true })).data
+        const refreshResponse: RefreshReponse = (await axiosI.post('/auth/refresh')).data
         store.dispatch({ type: "REFRESH_TOKEN", payload: refreshResponse.access_token })
         originalRequest.headers.Authorization = `Bearer ${refreshResponse.access_token}`
         return axiosI(originalRequest)

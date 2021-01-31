@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,13 +12,12 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import axios from 'axios'
 
 import { useForm } from 'react-hook-form'
 
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/actions/logginAction';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { RootState } from '../../redux/reducer';
 
 function Copyright() {
@@ -56,15 +55,14 @@ const useStyles = makeStyles((theme) => ({
 
 
 export const CreateAccount = () => {
-    const history = useHistory()
     const dispatch = useDispatch()
     const auth = useSelector((state: RootState) => state.authReducer)
     const classes = useStyles();
     const { register, handleSubmit } = useForm<FormData>()
 
-    const onSubmit = async (data: any) => {
+    const onSubmit = useCallback(async (data: any) => {
         dispatch(login(data, { new: true }))
-    }
+    }, [dispatch])
 
     useEffect(() => {
         let listener = (e: KeyboardEvent) => {
@@ -78,7 +76,7 @@ export const CreateAccount = () => {
         return () => {
             document.removeEventListener("keydown", listener)
         }
-    }, [])
+    }, [handleSubmit, onSubmit])
 
     if (auth.user) {
         return <Redirect to="/main"></Redirect>

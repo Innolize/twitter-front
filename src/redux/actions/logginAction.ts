@@ -1,6 +1,6 @@
 import { Dispatch } from 'react'
 import { User } from '../../types/User'
-import { AuthActionTypes, LOGIN, LOADING, LOGIN_ERROR, loginPayload } from '../types/AuthActionTypes'
+import { AuthActionTypes, LOGIN, LOADING, LOGIN_ERROR } from '../types/AuthActionTypes'
 import { InitialState } from '../reducer/authReducer'
 import { axiosI } from '../../common/IAxios'
 

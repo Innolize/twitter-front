@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import NewReleasesIcon from '@material-ui/icons/NewReleases';
-import { Box, Button, Chip, createStyles, IconButton, makeStyles, Theme } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-
+import { Box, Button, Chip, createStyles, makeStyles, Theme } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

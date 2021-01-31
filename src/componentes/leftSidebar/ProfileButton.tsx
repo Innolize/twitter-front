@@ -1,4 +1,4 @@
-import { Avatar, Button, createStyles, List, ListItem, ListItemAvatar, ListItemText, makeStyles, Menu, MenuItem, Theme } from '@material-ui/core'
+import { Avatar, createStyles, List, ListItem, ListItemAvatar, ListItemText, makeStyles, Menu, MenuItem, Theme } from '@material-ui/core'
 import React, { useRef, useState } from 'react'
 import { User } from '../../types/User'
 import { LOG_OUT, } from '../../redux/types/AuthActionTypes'

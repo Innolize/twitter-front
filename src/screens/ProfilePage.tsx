@@ -57,7 +57,7 @@ export const ProfilePage: React.FC = () => {
                 <Modal open={openModal} onClose={() => setOpenModal(false)}>
                     <Fade in={openModal}>
                         <div className={classes.modalRoot}>
-                            <img style={{ maxWidth: "90%", maxHeight:"100%" }} src={modalImage || "https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg"}></img>
+                            <img alt="modal" style={{ maxWidth: "90%", maxHeight:"100%" }} src={modalImage || "https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg"}></img>
                         </div>
                     </Fade>
                 </Modal>

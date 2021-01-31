@@ -1,7 +1,5 @@
-import Snackbar, { SnackbarOrigin } from '@material-ui/core/Snackbar';
-import MuiAlert, { AlertProps } from '@material-ui/lab/alert';
-import { useState } from 'react';
-
+import Snackbar from '@material-ui/core/Snackbar';
+import { Alert as MuiAlert, AlertProps } from '@material-ui/lab';
 
 export interface Props {
     open: boolean;

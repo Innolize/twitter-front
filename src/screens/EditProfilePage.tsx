@@ -1,10 +1,7 @@
-import { Box, createStyles, makeStyles, Theme } from '@material-ui/core'
 import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect, useHistory, useParams } from 'react-router-dom'
 import { getUser } from '../api/user/getUser'
-import { EditUser } from '../api/user/updateUser'
-
 import { EditProfileInfo } from '../componentes/profile/editProfile/EditProfileInfo'
 import { ProfileImages } from '../componentes/profile/ProfileImages'
 import { useFetchReducer } from '../hooks/useFetch'
@@ -13,6 +10,7 @@ import { isUser } from '../types/typeguards/User.typeguard'
 import { EditProfileButtons } from '../componentes/profile/editProfile/EditProfileButtons'
 import { updateUser } from '../api/user/updateUser'
 import { USER_EDITED } from '../redux/types/AuthActionTypes'
+import { CircularProgress } from '@material-ui/core'
 
 
 
@@ -95,6 +93,16 @@ export const EditProfilePage: React.FC = () => {
     if (userId !== user?._id) {
         return <Redirect to="/"></Redirect>
     }
+
+    if (loading) {
+        return <CircularProgress></CircularProgress>
+    }
+
+    if (errorMessage) {
+        return <div>{errorMessage}</div>
+    }
+
+
 
 
     if (isUser(successData)) {

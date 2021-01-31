@@ -1,8 +1,6 @@
 import { Box } from '@material-ui/core'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Comment } from './Comment'
-import { RootState } from '../../../redux/reducer'
-import { useSelector } from 'react-redux'
 import { IComment } from '../../../types/Comment'
 import { createSocket } from '../../../api/websockets/server'
 
@@ -13,7 +11,6 @@ interface Props {
 }
 
 export const CommentContainer: React.FC<Props> = ({ postId, postComments }) => {
-    const user = useSelector((state: RootState) => state.authReducer.user)
     const [comments, setComments] = useState<IComment[]>(postComments)
 
     const handleUpdateComment = useCallback((comment: IComment) => {
@@ -49,7 +46,7 @@ export const CommentContainer: React.FC<Props> = ({ postId, postComments }) => {
             socket.removeAllListeners()
             socket.disconnect()
         }
-    }, [handleUpdateComment, handleUpdateComment, postId])
+    }, [handleUpdateComment, handleRemoveComment, postId])
 
     return (
         <Box>

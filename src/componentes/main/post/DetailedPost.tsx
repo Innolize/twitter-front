@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { getPostById } from '../../../api/post/getPostById';
 import { useFetchReducer } from '../../../hooks/useFetch';
 import { Post } from './Post'
-import { Post as IPost } from '../../../types/Post';
 import { isPost } from '../../../types/typeguards/Post.typeguard';
 import { Box, CircularProgress } from '@material-ui/core';
 import { CommentContainer } from '../comment/CommentContainer';

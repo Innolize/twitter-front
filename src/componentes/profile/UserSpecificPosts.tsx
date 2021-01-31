@@ -25,6 +25,9 @@ export const UserSpecificPosts: React.FC<Props> = ({ userId }) => {
             </Box>
         )
     }
+    if (errorMessage) {
+        <div>{errorMessage}</div>
+    }
 
     return null
 }
