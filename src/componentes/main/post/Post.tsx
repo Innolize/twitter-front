@@ -77,7 +77,7 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
         }
         asyncFunction()
 
-    }, [])
+    }, [post.likesArr])
 
     const removePost = async (postId: string) => {
         const result = await deletePost(postId)

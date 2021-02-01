@@ -2,7 +2,7 @@ import { useEffect, useReducer } from "react"
 import { ERROR, LOADING, SUCCESS, IinitialState, actions } from './useFetch.types'
 
 const initialState = {
-    successData: [],
+    successData: null,
     errorMessage: [],
     loading: false
 }
@@ -45,7 +45,7 @@ export const useFetchReducer = ({ fetchCallback, fetchOptions }: Props) => {
 
         }
         customFecth()
-    }, [fetchCallback, fetchOptions])
+    }, [])
 
     return state
 }

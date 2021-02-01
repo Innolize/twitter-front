@@ -3,14 +3,16 @@ import { useParams } from 'react-router-dom';
 import { getPostById } from '../../../api/post/getPostById';
 import { useFetchReducer } from '../../../hooks/useFetch';
 import { Post } from './Post'
+import { Post as IPost } from '../../../types/Post'
 import { isPost } from '../../../types/typeguards/Post.typeguard';
-import { Box, CircularProgress } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { CommentContainer } from '../comment/CommentContainer';
 import { getComments } from '../../../api/comment/getComments';
-import { isCommentArray } from '../../../types/typeguards/CommentArray.typeguard';
 import { CreateComment } from '../comment/CreateComment';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/reducer';
+import { Loading } from '../../common/Loading';
+import { IComment } from '../../../types/Comment';
 
 interface IParams {
     postId: string
@@ -23,19 +25,20 @@ export const DetailedPost: React.FC = () => {
     const responseComments = useFetchReducer({ fetchCallback: getComments, fetchOptions: postId })
 
     if (responsePost.successData && responseComments.successData) {
-        const post = responsePost.successData
-        const comments = responseComments.successData
+        console.log('esto es valido')
+        const post = responsePost.successData as IPost
+        const comments = responseComments.successData as IComment[]
         return (
             <Box>
                 {isPost(post) && <Post post={post} ></Post>}
-                {isPost(post) && <CommentContainer postId={post._id} postComments={isCommentArray(comments) ? comments : []} ></CommentContainer>}
+                {<CommentContainer postId={post._id} postComments={comments} ></CommentContainer>}
                 {user && <CreateComment postId={postId} userId={user._id}></CreateComment>}
             </Box>
         )
     }
 
 
-    if (responsePost.errorMessage || responseComments.errorMessage) {
+    if (responsePost.errorMessage.length || responseComments.errorMessage.length) {
         return (
             <>
                 <div>{responsePost.errorMessage}</div>
@@ -45,7 +48,7 @@ export const DetailedPost: React.FC = () => {
     }
 
     if (responsePost.loading || responseComments.loading) {
-        return <CircularProgress></CircularProgress>
+        return <Loading size={40} ></Loading>
     }
 
     return (

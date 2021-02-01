@@ -2,7 +2,7 @@ import { IComment } from "../types/Comment"
 import { Post } from "../types/Post"
 
 export interface IinitialState {
-    successData: Post[] | Post | IComment | IComment[],
+    successData: Post[] | Post | IComment | IComment[] | null,
     errorMessage: string[],
     loading: boolean
 }

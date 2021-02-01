@@ -1,4 +1,4 @@
-import { CircularProgress, createStyles, Grid, Hidden, makeStyles, Theme } from '@material-ui/core'
+import { createStyles, Grid, Hidden, makeStyles, Theme } from '@material-ui/core'
 import { RootState } from '../redux/reducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { Sidebar } from '../componentes/leftSidebar/Sidebar'
@@ -9,6 +9,7 @@ import { handleRefreshToken } from '../redux/actions/logginAction'
 import { DetailedPost } from '../componentes/main/post/DetailedPost'
 import { ProfilePage } from './ProfilePage'
 import { EditProfilePage } from './EditProfilePage'
+import { Loading } from '../componentes/common/Loading'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -63,7 +64,7 @@ export const MainPage = () => {
 
 
     if (loading) {
-        return <CircularProgress></CircularProgress>
+        return <Loading></Loading>
     }
 
     if (user) {

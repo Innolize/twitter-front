@@ -98,7 +98,8 @@ export const EditProfilePage: React.FC = () => {
         return <CircularProgress></CircularProgress>
     }
 
-    if (errorMessage) {
+    if (errorMessage.length) {
+        console.log(errorMessage)
         return <div>{errorMessage}</div>
     }
 

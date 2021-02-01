@@ -1,7 +1,8 @@
-import { CircularProgress, createStyles, Fade, makeStyles, Modal, Theme } from '@material-ui/core'
+import { createStyles, Fade, makeStyles, Modal, Theme } from '@material-ui/core'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getUser } from '../api/user/getUser'
+import { Loading } from '../componentes/common/Loading'
 import { ProfileImages } from '../componentes/profile/ProfileImages'
 import { ProfileInfo } from '../componentes/profile/ProfileInfo'
 import { UserSpecificPosts } from '../componentes/profile/UserSpecificPosts'
@@ -57,7 +58,7 @@ export const ProfilePage: React.FC = () => {
                 <Modal open={openModal} onClose={() => setOpenModal(false)}>
                     <Fade in={openModal}>
                         <div className={classes.modalRoot}>
-                            <img alt="modal" style={{ maxWidth: "90%", maxHeight:"100%" }} src={modalImage || "https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg"}></img>
+                            <img alt="modal" style={{ maxWidth: "90%", maxHeight: "100%" }} src={modalImage || "https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg"}></img>
                         </div>
                     </Fade>
                 </Modal>
@@ -66,7 +67,7 @@ export const ProfilePage: React.FC = () => {
     }
 
     if (loading) {
-        return <CircularProgress></CircularProgress>
+        return <Loading ></Loading>
     }
 
     if (errorMessage) {

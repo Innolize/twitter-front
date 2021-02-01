@@ -13,31 +13,41 @@ interface Props {
 export const CommentContainer: React.FC<Props> = ({ postId, postComments }) => {
     const [comments, setComments] = useState<IComment[]>(postComments)
 
-    const handleUpdateComment = useCallback((comment: IComment) => {
+    const handleUpdateComment = useCallback((comment: IComment, action: "remove" | "update") => {
         const index = comments.findIndex(x => x._id === comment._id)
-        const newArray = comments
-        newArray[index] = comment
-        console.log(newArray)
-        setComments([...newArray])
-    }, [comments])
+        console.log(comments.findIndex(x => x._id === comment._id))
+        if (index === -1) {
+            // -1 significa que no encontro index
+            return console.log('no se encontro index')
+        }
 
-    const handleRemoveComment = useCallback((commentId: string) => {
-        const index = comments.findIndex(x => x._id === commentId)
-        console.log(index)
         const newArray = comments
-        newArray.splice(index, 1)
-        setComments([...newArray])
+
+        if (action === "update") {
+            newArray[index] = comment
+            console.log("Array actualizado: ", newArray)
+            setComments([...newArray])
+            return
+        } if (action === "remove") {
+
+            newArray.splice(index, 1)
+            console.log("Comentario eliminado: ", newArray)
+            setComments([...newArray])
+            return
+        } else {
+            console.log("esto nunca debe pasar utilizando typescript")
+        }
     }, [comments])
 
     useEffect(() => {
         const socket = createSocket()
         socket.emit('joinRoom', postId)
         socket.on('updateComment', (data: IComment) => {
-            handleUpdateComment(data)
+            handleUpdateComment(data, "update")
         })
         socket.on('removeComment', (data: IComment) => {
             console.log('data: ', data)
-            handleRemoveComment(data._id)
+            handleUpdateComment(data, "remove")
         })
         socket.on('newComment', (newComment: IComment) => {
             setComments(c => [...c, newComment])
@@ -46,7 +56,7 @@ export const CommentContainer: React.FC<Props> = ({ postId, postComments }) => {
             socket.removeAllListeners()
             socket.disconnect()
         }
-    }, [handleUpdateComment, handleRemoveComment, postId])
+    }, [handleUpdateComment, postId])
 
     return (
         <Box>

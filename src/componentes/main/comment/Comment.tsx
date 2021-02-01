@@ -42,7 +42,6 @@ export const Comment: React.FC<Props> = ({ comment }) => {
     const { name, profilePicture, surname } = comment.author
     // const self = _id === user?._id
     const commentLiked = user && comment.likesArr.includes(user._id)
-    console.log(commentLiked)
     const removeComment = async (commentId: string) => {
         const result = await deleteComment(commentId)
         if (result.success) {
