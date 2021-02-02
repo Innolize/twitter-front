@@ -19,12 +19,13 @@ interface IParams {
 }
 
 export const DetailedPost: React.FC = () => {
-    const { postId } = useParams<IParams>()
+    const param = useParams<IParams>()
     const user = useSelector((state: RootState) => state.authReducer.user)
-    const responsePost = useFetchReducer({ fetchCallback: getPostById, fetchOptions: { id: postId } })
-    const responseComments = useFetchReducer({ fetchCallback: getComments, fetchOptions: postId })
+    const responsePost = useFetchReducer({ fetchCallback: getPostById, fetchOptions: { id: param.postId } })
+    const responseComments = useFetchReducer({ fetchCallback: getComments, fetchOptions: param.postId })
 
     if (responsePost.successData && responseComments.successData) {
+
         console.log('esto es valido')
         const post = responsePost.successData as IPost
         const comments = responseComments.successData as IComment[]
@@ -32,7 +33,7 @@ export const DetailedPost: React.FC = () => {
             <Box>
                 {isPost(post) && <Post post={post} ></Post>}
                 {<CommentContainer postId={post._id} postComments={comments} ></CommentContainer>}
-                {user && <CreateComment postId={postId} userId={user._id}></CreateComment>}
+                {user && <CreateComment postId={param.postId} userId={user._id}></CreateComment>}
             </Box>
         )
     }
@@ -52,6 +53,6 @@ export const DetailedPost: React.FC = () => {
     }
 
     return (
-        null
+        <div> test</div>
     );
 }

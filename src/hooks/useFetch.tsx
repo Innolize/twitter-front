@@ -35,8 +35,10 @@ export const useFetchReducer = ({ fetchCallback, fetchOptions }: Props) => {
 
     useEffect(() => {
         const customFecth = async () => {
+            console.log("loading")
             dispatch({ type: LOADING })
             try {
+                console.log("voy a fetchear")
                 const request = (await fetchCallback(fetchOptions))
                 dispatch({ type: SUCCESS, payload: request })
             } catch (err) {
@@ -45,6 +47,7 @@ export const useFetchReducer = ({ fetchCallback, fetchOptions }: Props) => {
 
         }
         customFecth()
+        // eslint-disable-next-line
     }, [])
 
     return state

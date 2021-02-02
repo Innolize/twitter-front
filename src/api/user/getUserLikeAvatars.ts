@@ -9,7 +9,6 @@ export type LilUser = {
 
 export const getUserLikeAvatars = async (idArray: string[]): Promise<LilUser[]> => {
     const promisesArray = idArray.map(async (userId) => {
-        console.log('elementosArray: ', userId)
         let response = (await axiosI(`/user/ShortenedUser?user=${userId}`)).data
         return response
     })
