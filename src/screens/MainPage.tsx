@@ -10,6 +10,7 @@ import { DetailedPost } from '../componentes/main/post/DetailedPost'
 import { ProfilePage } from './ProfilePage'
 import { EditProfilePage } from './EditProfilePage'
 import { Loading } from '../componentes/common/Loading'
+import MyFollows from '../componentes/follows/MyFollows'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -80,6 +81,9 @@ export const MainPage = () => {
                 <Grid item xs={12} sm={8} md={6} lg={6} xl={6} className={classes.contenedorCentral}>
                     <Route path="/main/post/:postId" >
                         <DetailedPost></DetailedPost>
+                    </Route>
+                    <Route path="/main/myFollows" >
+                        <MyFollows></MyFollows>
                     </Route>
                     <Route path="/main/profile/:userId" >
                         <ProfilePage></ProfilePage>
