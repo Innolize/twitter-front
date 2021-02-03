@@ -1,5 +1,5 @@
 import { User } from '../../types/User'
-import { AuthActionTypes, LOGIN, LOGIN_ERROR, LOADING, LOG_OUT, USER_EDITED, REFRESH_TOKEN } from '../types/AuthActionTypes'
+import { AuthActionTypes, LOGIN, LOGIN_ERROR, LOADING, LOG_OUT, USER_EDITED, REFRESH_TOKEN, USER_FOLLOW_EDITED } from '../types/AuthActionTypes'
 
 export const initialState = {
     user: null,
@@ -26,6 +26,10 @@ const authReducer = (state: InitialState = initialState, action: AuthActionTypes
         case USER_EDITED:
             console.log('user edited')
             return { ...state, user: action.payload }
+
+        case USER_FOLLOW_EDITED:
+            console.log('user edited')
+            return { ...state, user: Object.assign(state.user,action.payload) }
 
         case LOGIN_ERROR:
             console.log('not logged')

@@ -7,5 +7,7 @@ export type User = {
     cover: string | null,
     surname: string,
     updatedAt?: string,
-    _id: string
+    _id: string,
+    followersArr: string[],
+    followersNumb: number
 }

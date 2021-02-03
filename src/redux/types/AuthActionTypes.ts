@@ -6,6 +6,7 @@ export const LOADING = "LOADING"
 export const LOG_OUT = "LOG_OUT"
 export const REFRESH_TOKEN = "REFRESH_TOKEN"
 export const USER_EDITED = "USER_EDITED"
+export const USER_FOLLOW_EDITED = "USER_FOLLOW_EDITED"
 
 export type loginPayload = {
     user: User
@@ -44,5 +45,15 @@ interface UserEdited {
     payload: User
 }
 
+type userFollowEditedPayload = {
+    followArr: string[],
+    followNumb: number
+}
 
-export type AuthActionTypes = Login | LoginError | LoadingUser | LogOut | Refresh | UserEdited
+interface userFollowEdited {
+    type: typeof USER_FOLLOW_EDITED
+    payload: userFollowEditedPayload
+}
+
+
+export type AuthActionTypes = Login | LoginError | LoadingUser | LogOut | Refresh | UserEdited | userFollowEdited

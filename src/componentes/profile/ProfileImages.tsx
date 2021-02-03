@@ -1,10 +1,13 @@
-import { Box, Button, createStyles, makeStyles, Theme } from '@material-ui/core'
+import { Box, createStyles, makeStyles, Theme } from '@material-ui/core'
 import React, { useRef, useState } from 'react'
 import SearchIcon from '@material-ui/icons/Search';
 import EditIcon from '@material-ui/icons/Edit';
 import { User } from '../../types/User';
 import { OptionsMenu, OptionMenuAction } from '../common/OptionsMenu';
 import { useHistory } from 'react-router-dom';
+import { FollowButton } from '../follows/UsersFollowed';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/reducer';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -107,6 +110,7 @@ interface Props {
 }
 
 export const ProfileImages: React.FC<Props> = ({ user, edit, onClickCoverImage, onClickProfileImage }) => {
+    const userRedux = useSelector((state: RootState) => state.authReducer.user)
     const classes = useStyles()
     const history = useHistory()
     const [showEditAvatar, setShowEditAvatar] = useState<Boolean>(false)
@@ -160,8 +164,21 @@ export const ProfileImages: React.FC<Props> = ({ user, edit, onClickCoverImage, 
             </Box>
             {!edit && <Box className={classes.buttonContainer}>
                 <OptionsMenu selfActions={editProfileMenu}></OptionsMenu>
-                <Button variant="outlined" color="primary" className={classes.buttonHeigth}> Follow</Button>
+                {user._id !== userRedux?._id && <FollowButtonContainer userId={user._id} followersArray={userRedux?.followersArr || []} />}
             </Box>}
         </>
+    )
+}
+
+interface FollowButtonContainerProps {
+    userId: string,
+    followersArray: string[]
+}
+
+const FollowButtonContainer: React.FC<FollowButtonContainerProps> = ({ userId, followersArray }) => {
+
+    const initialState = followersArray.includes(userId)
+    return (
+        < FollowButton userId={userId} initialIsFollowed={initialState}></FollowButton>
     )
 }

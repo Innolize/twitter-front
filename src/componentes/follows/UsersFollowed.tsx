@@ -1,24 +1,30 @@
 import { Avatar, Box, Button, CardHeader } from '@material-ui/core'
 import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { followUser } from '../../api/user/followUser'
 import { getFollowUser } from '../../api/user/getFollowsUser'
+import { USER_FOLLOW_EDITED } from '../../redux/types/AuthActionTypes'
 import { UserShort } from '../../types/UserShort'
 
-interface Props {
-
-}
-
-export const UsersFollowed: React.FC<Props> = (props) => {
+export const UsersFollowed: React.FC = () => {
+    const dispatch = useDispatch()
     const [users, setUsers] = useState<UserShort[]>([])
-
 
     useEffect(() => {
         const getFollows = async () => {
-            const response = await getFollowUser()
-            setUsers(response)
+            try {
+                const response = await getFollowUser()
+                setUsers(response)
+                console.log(response)
+                // dispatch({ type: USER_FOLLOW_EDITED, payload: response })
+            } catch (err) {
+                console.log(err)
+            }
         }
         getFollows()
-    }, [])
+    }, [dispatch])
+
+
     return (
         <div>
             {users && users.map(user => <TinyUserCard
@@ -50,23 +56,29 @@ export const TinyUserCard: React.FC<UserCardProp> = ({ avatar, title, userId }) 
 }
 
 interface AddUserProps {
-    userId: string
+    userId: string,
+    initialIsFollowed?: boolean
 }
 
-const FollowButton: React.FC<AddUserProps> = ({ userId }) => {
-    const [deleted, setDeleted] = useState<boolean>(false)
+export const FollowButton: React.FC<AddUserProps> = ({ userId, initialIsFollowed = true }) => {
+    console.log(userId)
+    const dispatch = useDispatch()
+    const [isFollowed, setIsFollowed] = useState<boolean>(initialIsFollowed)
 
-    const handleAddUser = () => {
-        const response = followUser(userId)
-        console.log(response)
+    const handleFollowUser = async () => {
+        const response = await followUser(userId)
+        setIsFollowed(true)
+        dispatch({ type: USER_FOLLOW_EDITED, payload: response })
     }
 
-    const handleDeleteUser = () => {
-        setDeleted(true)
+    const handleUnfollowUser = async () => {
+        const response = await followUser(userId)
+        setIsFollowed(false)
+        dispatch({ type: USER_FOLLOW_EDITED, payload: response })
     }
     return (
         <div>
-            {deleted ? <Button onClick={handleAddUser}>Follow </Button> : <Button onClick={handleDeleteUser}>Unfollow</Button>}
+            {isFollowed ? <Button onClick={handleUnfollowUser}>Unfollow</Button> : <Button onClick={handleFollowUser}>Follow </Button>}
         </div>
     )
 }
