@@ -50,12 +50,12 @@ export const Sidebar = (props: any) => {
                         <Typography variant="h6">Profile</Typography>
                     </ListItemText>
                 </ListItem>
-                <ListItem button component={Link} to='/notifications'>
+                <ListItem button component={Link} to='/main/myFollows'>
                     <ListItemIcon>
                         <NotificationsIcon />
                     </ListItemIcon>
                     <ListItemText >
-                        <Typography variant="h6">Notifications</Typography>
+                        <Typography variant="h6">My Follows</Typography>
                     </ListItemText>
                 </ListItem>
             </List>

@@ -32,7 +32,7 @@ export const DetailedPost: React.FC = () => {
         return (
             <Box>
                 {isPost(post) && <Post post={post} ></Post>}
-                {<CommentContainer postId={post._id} postComments={comments} ></CommentContainer>}
+                <CommentContainer postId={post._id} postComments={comments} ></CommentContainer>
                 {user && <CreateComment postId={param.postId} userId={user._id}></CreateComment>}
             </Box>
         )

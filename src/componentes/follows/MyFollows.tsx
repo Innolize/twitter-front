@@ -17,8 +17,8 @@ const MyFollows: React.FC<Props> = () => {
     return (
         <Paper square>
             <Tabs value={value} variant={'fullWidth'} onChange={handleChange}>
-                <Tab label="item1"></Tab>
-                <Tab label="item1"></Tab>
+                <Tab label="Follow Posts"></Tab>
+                <Tab label="Follow Users"></Tab>
             </Tabs>
             {value === 0 && <FollowPosts />}
             {value === 1 && <UsersFollowed />}
