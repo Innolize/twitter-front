@@ -11,6 +11,7 @@ import { ProfilePage } from './ProfilePage'
 import { EditProfilePage } from './EditProfilePage'
 import { Loading } from '../componentes/common/Loading'
 import MyFollows from '../componentes/follows/MyFollows'
+import { BurgerSideBar } from '../componentes/leftSidebar/BurgerSideBar'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -72,11 +73,14 @@ export const MainPage = () => {
         return (
             // <Box display="flex" justifyContent="center" >
             <Grid container justify="center" >
-
+                <Hidden mdUp>
+                    <BurgerSideBar />
+                </Hidden>
                 <Grid item md={3}>
                     <Hidden smDown>
                         <Sidebar />
                     </Hidden>
+
                 </Grid>
                 <Grid item xs={12} sm={8} md={6} lg={6} xl={6} className={classes.contenedorCentral}>
                     <Route path="/main/post/:postId" >

@@ -1,40 +1,40 @@
 import { Avatar, Box, Button, CardHeader } from '@material-ui/core'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { followUser } from '../../api/user/followUser'
 import { getFollowUser } from '../../api/user/getFollowsUser'
+import { useFetchReducer } from '../../hooks/useFetch'
 import { USER_FOLLOW_EDITED } from '../../redux/types/AuthActionTypes'
 import { UserShort } from '../../types/UserShort'
+import { Loading } from '../common/Loading'
 
 export const UsersFollowed: React.FC = () => {
-    const dispatch = useDispatch()
-    const [users, setUsers] = useState<UserShort[]>([])
+    const { errorMessage, loading, successData } = useFetchReducer({ fetchCallback: getFollowUser })
 
-    useEffect(() => {
-        const getFollows = async () => {
-            try {
-                const response = await getFollowUser()
-                setUsers(response)
-                console.log(response)
-                // dispatch({ type: USER_FOLLOW_EDITED, payload: response })
-            } catch (err) {
-                console.log(err)
-            }
-        }
-        getFollows()
-    }, [dispatch])
+    if (errorMessage.length) {
+        return <div>{errorMessage}</div>
+    }
 
+    if (loading) {
+        return <Loading></Loading>
+    }
 
-    return (
-        <div>
-            {users && users.map(user => <TinyUserCard
-                avatar={user.profilePicture || ""}
-                title={user.name + " " + user.surname}
-                userId={user._id}
-                key={user._id}
-            />)}
-        </div>
-    )
+    if (successData) {
+        const users = successData as UserShort[]
+        return (
+            <div>
+                {
+                    users && users.map(user => <TinyUserCard
+                        avatar={user.profilePicture || ""}
+                        title={user.name + " " + user.surname}
+                        userId={user._id}
+                        key={user._id}
+                    />)
+                }
+            </div>)
+    }
+
+    return null
 }
 
 interface UserCardProp {
