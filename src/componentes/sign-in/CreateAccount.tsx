@@ -146,7 +146,7 @@ export const CreateAccount = () => {
                             />
                         </Grid>
                         <ul>
-                            {auth.errors && auth.errors.map((err, i) => <li key={i}>{err}</li>)}
+                            {auth.errorsMessage && <li>{auth.errorsMessage}</li>}
                         </ul>
                         <Grid item xs={12}>
                             <FormControlLabel

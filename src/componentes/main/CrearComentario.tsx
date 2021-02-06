@@ -3,9 +3,10 @@ import SendIcon from '@material-ui/icons/Send';
 import React, { useState } from 'react'
 import { User } from '../../types/User';
 import { createPost } from '../../api/post/createPost';
-import { PositionedSnackbar } from '../common/Snackbar'
 import { EmojiButton } from '../common/EmojiButton'
 import { IEmojiData } from 'emoji-picker-react'
+import { useDispatch } from 'react-redux';
+import { SET_ERROR, SET_SUCCESS } from '../../redux/types/AuthActionTypes';
 
 
 
@@ -43,9 +44,8 @@ interface Props {
 }
 
 export const CrearComentario: React.FC<Props> = ({ user }) => {
+    const dispatch = useDispatch()
     const [postContent, setPostContent] = useState("")
-    const [error, setError] = useState<any>(null)
-    const [success, setSuccess] = useState<any>(null)
     const classes = useStyles()
 
     const inputOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,12 +53,12 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
     }
 
     const sendNewPost = async () => {
-        const { success, response, error } = await createPost(postContent)
+        const { success, error } = await createPost(postContent)
         if (success) {
-            setSuccess(response)
+            dispatch({ type: SET_SUCCESS, payload: "Post successfuly created!" })
             setPostContent("")
         } else if (error) {
-            setError(error)
+            dispatch({ type: SET_ERROR, payload: error })
         }
     }
 
@@ -87,8 +87,6 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
                     </Box>
                 </Box>
             </Box>
-            {success && <PositionedSnackbar onCloseAction={() => setSuccess(false)} open={true} severity="success" message="Posted successfuly!"></PositionedSnackbar>}
-            {error && <PositionedSnackbar onCloseAction={() => setError(false)} open={true} severity="error" message={error || "error"}></PositionedSnackbar>}
         </>
     );
 }

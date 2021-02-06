@@ -4,7 +4,6 @@ import { Comment } from './Comment'
 import { IComment } from '../../../types/Comment'
 import { createSocket } from '../../../api/websockets/server'
 
-
 interface Props {
     postId: string
     postComments: IComment[]
@@ -25,13 +24,11 @@ export const CommentContainer: React.FC<Props> = ({ postId, postComments }) => {
 
         if (action === "update") {
             newArray[index] = comment
-            console.log("Array actualizado: ", newArray)
             setComments([...newArray])
             return
         } if (action === "remove") {
 
             newArray.splice(index, 1)
-            console.log("Comentario eliminado: ", newArray)
             setComments([...newArray])
             return
         } else {

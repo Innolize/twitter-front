@@ -31,12 +31,12 @@ export const ProfileInfo: React.FC<Props> = ({ user }) => {
         <Box display="flex" flexDirection="column" className={classes.container}>
             <Typography variant="h5" className={classes.header}>{name} {surname}</Typography>
             <Typography variant="body1">{bio || "i haven't set my bio yet!"}</Typography>
-            <Box display="flex">
+            <Box display="flex" id="personal-info-row-1">
                 <Box display="flex">
                     <CalendarTodayOutlinedIcon></CalendarTodayOutlinedIcon>
                     <Typography>Joined at {joinedDate}</Typography>
                 </Box>
-                
+
                 {followersNumb && <Box display="flex">
                     <GroupIcon></GroupIcon>
                     <Typography>Following {followersNumb} {followersNumb === 1 ? "person" : "people"}</Typography>

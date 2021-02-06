@@ -12,6 +12,8 @@ import { EditProfilePage } from './EditProfilePage'
 import { Loading } from '../componentes/common/Loading'
 import MyFollows from '../componentes/follows/MyFollows'
 import { BurgerSideBar } from '../componentes/leftSidebar/BurgerSideBar'
+import { PositionedSnackbar } from '../componentes/common/Snackbar'
+import { SET_ERROR, SET_SUCCESS } from '../redux/types/AuthActionTypes'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -45,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const MainPage = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
-    const { user, logged, loading } = useSelector((state: RootState) => state.authReducer)
+    const { user, logged, loading, errorsMessage, successMessage } = useSelector((state: RootState) => state.authReducer)
 
     useEffect(() => {
         async function checkUser() {
@@ -100,8 +102,9 @@ export const MainPage = () => {
                     </Route>
 
                 </Grid>
+                {successMessage && <PositionedSnackbar onCloseAction={() => dispatch({ type: SET_SUCCESS, payload: "" })} open={true} severity="success" message={successMessage}></PositionedSnackbar>}
+                {errorsMessage && <PositionedSnackbar onCloseAction={() => dispatch({ type: SET_ERROR, payload: "" })} open={true} severity="warning" message={errorsMessage} />}
             </Grid>
-            // </Box>
         )
     }
     else {

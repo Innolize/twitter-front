@@ -28,11 +28,10 @@ export const login = (data: logInfo, newAccount?: NewAccount) => async (dispatch
     } catch (error) {
         if (error.response) {
             let errors = error.response.data.message
-            dispatch({ type: LOGIN_ERROR, payload: { errors: errors } })
+            dispatch({ type: LOGIN_ERROR, payload: errors })
         }
     }
 }
-
 interface RefreshReponse {
     user: User,
     message?: string,
@@ -47,10 +46,10 @@ export const handleRefreshToken = () => async (dispatch: Dispatch<AuthActionType
         if (loggear.access_token) {
             dispatch({ type: LOGIN, payload: { user: loggear.user, access_token: loggear.access_token } })
         } else {
-            dispatch({ type: LOGIN_ERROR, payload: { errors: [loggear.message ? loggear.message : 'loggin error'] } })
+            dispatch({ type: LOGIN_ERROR, payload: { error: loggear.message ? loggear.message : 'loggin error' } })
         }
     } catch (err) {
-        dispatch({ type: LOGIN_ERROR, payload: { errors: ["error "] } })
+        dispatch({ type: LOGIN_ERROR, payload: { error: "error " } })
     }
 
 }
