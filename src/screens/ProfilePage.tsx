@@ -1,4 +1,4 @@
-import { createStyles, Fade, makeStyles, Modal, Theme } from '@material-ui/core'
+import { Box, createStyles, Fade, makeStyles, Modal, Theme } from '@material-ui/core'
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getUser } from '../api/user/getUser'
@@ -57,8 +57,10 @@ export const ProfilePage: React.FC = () => {
                     onClickCoverImage={() => handleImageClick(successData.cover)}
                     onClickProfileImage={() => handleImageClick(successData.profilePicture)}
                 />
-                <ProfileOptions profileUserId={userId} loggedUserId={userLogged?._id || ""}></ProfileOptions>
-                <ProfileInfo user={successData} />
+                <Box m="20px">
+                    <ProfileOptions profileUserId={userId} loggedUserId={userLogged?._id || ""}></ProfileOptions>
+                    <ProfileInfo user={successData} />
+                </Box>
                 <UserSpecificPosts userId={userId}></UserSpecificPosts>
                 <Modal open={openModal} onClose={() => setOpenModal(false)}>
                     <Fade in={openModal}>

@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, CardActions, CardContent, CardHeader, createStyles, Fade, IconButton, makeStyles, Theme, Typography } from '@material-ui/core';
+import { Avatar, Box, Card, CardActions, CardContent, CardHeader, createStyles, Fade, Grid, IconButton, makeStyles, Theme, Typography } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ChatIcon from '@material-ui/icons/Chat';
 import ShareIcon from '@material-ui/icons/Share';
@@ -54,11 +54,11 @@ const useStyles = makeStyles((theme: Theme) =>
             color: "inherit",
             textDecoration: "none",
             textTransform: "capitalize",
-            [theme.breakpoints.up('sm')]:{
-                width:250
+            [theme.breakpoints.up('sm')]: {
+                width: 250
             },
-            [theme.breakpoints.up('md')]:{
-                width:300
+            [theme.breakpoints.up('md')]: {
+                width: 300
             }
         }
     })
@@ -77,6 +77,7 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
     const [currentLike, setCurrentLike] = useState<Boolean | null>(postLiked)
     const [likeAvatars, setLikeAvatars] = useState<LilUser[]>([])
     const ownPost = user?._id === post.author._id
+    console.log(post)
 
     const likeAction = async () => {
         const response = await likePost(post._id)
@@ -86,7 +87,8 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
     useEffect(() => {
         const asyncFunction = async () => {
             if (!!post.likesArr.length) {
-                const userArray = post.likesArr.slice(0, 4)
+                const userArray = post.likesArr.slice(0, 5)
+                console.log(userArray)
                 let userAvatarsResponse = await getUserLikeAvatars(userArray)
                 setLikeAvatars(userAvatarsResponse)
             }
@@ -132,29 +134,36 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
                         </Typography>
                     </CardContent>
                     <CardActions className={`${classes.cardAction} ${classes.paddingRemover}`}>
+                        <Grid container>
+                            <Grid item xs>
+                                <Box display="flex" alignItems="center" justifyContent="center">
+                                    <IconButton onClick={likeAction}>
+                                        {currentLike ?
+                                            <FavoriteIcon color="primary" /> : <FavoriteBorderIcon color="inherit" />}
 
-                        <Box display="flex" alignItems="center">
-                            <IconButton onClick={likeAction}>
-                                {currentLike ?
-                                    <FavoriteIcon color="primary" /> : <FavoriteBorderIcon color="inherit" />}
-
-                            </IconButton>
-                            {(post.likesNumb || currentLike) && <Typography variant="h6">{postLiked ? currentLike ? post.likesNumb : post.likesNumb - 1 : currentLike ? post.likesNumb + 1 : post.likesNumb}</Typography>}
-                            {!!likeAvatars && <AvatarGroup max={4} spacing="medium">
-                                {likeAvatars.map((avatar, i) => <Avatar alt={avatar.name + " " + avatar.surname} src={avatar.profilePicture} className={classes.small} key={i}></Avatar>)}
-
-                            </AvatarGroup>}
-                            {likeAvatars.length > 4 && `+ ${likeAvatars.length - 4} persons `}
-                        </Box>
-                        <Box display="flex" alignItems="center">
-                            <IconButton component={Link} to={`/main/post/${post._id}`}>
-                                <ChatIcon />
-                            </IconButton>
-                            {(!!post.commentsNumb) && <Typography variant="h6">{post.commentsNumb}</Typography>}
-                        </Box>
-                        <IconButton>
-                            <ShareIcon />
-                        </IconButton>
+                                    </IconButton>
+                                    {(post.likesNumb || currentLike) && <Typography variant="h6">{postLiked ? currentLike ? post.likesNumb : post.likesNumb - 1 : currentLike ? post.likesNumb + 1 : post.likesNumb}</Typography>}
+                                    {!!likeAvatars && <AvatarGroup max={3} spacing="medium" classes={{ avatar: classes.small }}>
+                                        {likeAvatars.map((avatar, i) => <Avatar alt={avatar.name + " " + avatar.surname} src={avatar.profilePicture} key={i}></Avatar>)}
+                                    </AvatarGroup>}
+                                </Box>
+                            </Grid>
+                            <Grid item xs>
+                                <Box display="flex" alignItems="center" justifyContent="center">
+                                    <IconButton component={Link} to={`/main/post/${post._id}`}>
+                                        <ChatIcon />
+                                    </IconButton>
+                                    {(!!post.commentsNumb) && <Typography variant="h6">{post.commentsNumb}</Typography>}
+                                </Box>
+                            </Grid>
+                            <Grid item xs>
+                                <Box display="flex" alignItems="center" justifyContent="center">
+                                    <IconButton>
+                                        <ShareIcon />
+                                    </IconButton>
+                                </Box>
+                            </Grid>
+                        </Grid>
                     </CardActions>
 
                 </Card>
