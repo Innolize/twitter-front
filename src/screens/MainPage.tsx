@@ -20,22 +20,20 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         contenedorCentral: {
             //chrome
-            '&::-webkit-scrollbar': {
-                width: "6px"
+            '&::-webkit-scrollbar': {              
+                width: "6px",
             },
-            // "&::-webkit-scrollbar-track": {
-            //     background: "light-blue"
-            // },
             '&::-webkit-scrollbar-thumb': {
                 backgroundColor: "gray",
-                borderRadius: "20px",
-                border: "3px solid gray"
+                // height:"15px",
+                // borderRadius: "20px",
+
             },
             height: "100vh",
             overflowY: "scroll",
-            //microsoft
+            // //microsoft
             msOverflowStyle: "none",
-            //mozilla
+            // //mozilla
             scrollbarWidth: "thin",
             scrollbarColor: "gray transparent",
 

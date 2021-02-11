@@ -1,6 +1,6 @@
 import { Avatar, Box, Button, createStyles, Input, makeStyles, Theme } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { User } from '../../types/User';
 import { createPost } from '../../api/post/createPost';
 import { EmojiButton } from '../common/EmojiButton'
@@ -48,9 +48,13 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
     const [postContent, setPostContent] = useState("")
     const classes = useStyles()
 
+
+
     const inputOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPostContent(e.target.value)
     }
+
+
 
     const sendNewPost = async () => {
         const { success, error } = await createPost(postContent)
@@ -62,9 +66,24 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
         }
     }
 
+    const sendNewPostCallback = useCallback(sendNewPost, [dispatch, postContent])
+
     const handleEmojiClick = (e: React.MouseEvent<Element, MouseEvent>, data: IEmojiData) => {
         setPostContent(c => c + data.emoji)
     }
+
+    useEffect(() => {
+        const enterEventListener = (e: KeyboardEvent) => {
+            if (e.key === 'Enter') {
+                sendNewPostCallback()
+            }
+        }
+
+        document.addEventListener('keydown', enterEventListener)
+        return () => {
+            document.removeEventListener('keydown', enterEventListener)
+        }
+    }, [sendNewPostCallback])
 
 
     return (

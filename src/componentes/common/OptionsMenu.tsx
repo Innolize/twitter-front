@@ -35,7 +35,6 @@ export const OptionsMenu: React.FC<Props> = ({ selfActions }) => {
                 keepMounted
                 open={show}
                 onClose={handleClose}
-
             >
                 {selfActions && selfActions.map((sAction, i) => <MenuItem onClick={sAction.action} key={i}>{sAction.description}</MenuItem>)}
 

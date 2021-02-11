@@ -77,7 +77,6 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
     const [currentLike, setCurrentLike] = useState<Boolean | null>(postLiked)
     const [likeAvatars, setLikeAvatars] = useState<LilUser[]>([])
     const ownPost = user?._id === post.author._id
-    console.log(post)
 
     const likeAction = async () => {
         const response = await likePost(post._id)
