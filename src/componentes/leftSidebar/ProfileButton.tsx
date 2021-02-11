@@ -34,7 +34,7 @@ export const ProfileButton = ({ user }: ProfileButtonProps) => {
 
     return (
         <List>
-            <ListItem button className={classes.rounded} ref={buttonRef} onClick={() => { setShow(true); console.log('no tengo que entrar aca') }}>
+            <ListItem button className={classes.rounded} ref={buttonRef} onClick={() => { setShow(true) }}>
                 <ListItemAvatar>
                     <Avatar src={user && user.profilePicture ? user.profilePicture : undefined}
                         alt={user.name}
@@ -52,12 +52,13 @@ export const ProfileButton = ({ user }: ProfileButtonProps) => {
                 keepMounted
                 open={show}
                 onClose={() => setShow(false)}
+                anchorOrigin={{ vertical: "top", horizontal: "left" }}
+                transformOrigin={{ vertical: 100, horizontal: -100, }}
             >
+                <MenuItem>My Profile</MenuItem>
                 <MenuItem onClick={logout}>Log out</MenuItem>
-                {/* <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem> */}
             </Menu>
-        </List>
+        </List >
     )
 
 }
