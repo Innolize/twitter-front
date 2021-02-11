@@ -3,12 +3,6 @@ import React, { useRef, useState } from 'react'
 import SearchIcon from '@material-ui/icons/Search';
 import EditIcon from '@material-ui/icons/Edit';
 import { User } from '../../types/User';
-import { OptionsMenu, OptionMenuAction } from '../common/OptionsMenu';
-import { useHistory } from 'react-router-dom';
-import { FollowButton } from '../follows/UsersFollowed';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/reducer';
-
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -110,9 +104,7 @@ interface Props {
 }
 
 export const ProfileImages: React.FC<Props> = ({ user, edit, onClickCoverImage, onClickProfileImage }) => {
-    const userRedux = useSelector((state: RootState) => state.authReducer.user)
     const classes = useStyles()
-    const history = useHistory()
     const [showEditAvatar, setShowEditAvatar] = useState<Boolean>(false)
     const [showEditCover, setShowEditCover] = useState<Boolean>(false)
     const coverRef = useRef<HTMLImageElement>(null)
@@ -127,9 +119,7 @@ export const ProfileImages: React.FC<Props> = ({ user, edit, onClickCoverImage, 
         setter(false)
     }
 
-    const editProfileMenu: OptionMenuAction[] = [
-        { description: "Edit Profile", action: () => history.push(`/main/editProfile/${user._id}`) }
-    ]
+
 
     return (
         <>
@@ -162,10 +152,6 @@ export const ProfileImages: React.FC<Props> = ({ user, edit, onClickCoverImage, 
                     </div>
                 </div>
             </Box>
-            {!edit && <Box className={classes.buttonContainer}>
-                <OptionsMenu selfActions={editProfileMenu}></OptionsMenu>
-                {user._id !== userRedux?._id && <FollowButton userId={user._id}/>}
-            </Box>}
         </>
     )
 }

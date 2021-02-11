@@ -38,10 +38,10 @@ export const ProfileInfo: React.FC<Props> = ({ user }) => {
                     <Typography>Joined at {joinedDate}</Typography>
                 </Box>
 
-                {followersNumb && <Box display="flex">
+                <Box display="flex">
                     <GroupIcon></GroupIcon>
                     <Typography>Following {followersNumb} {followersNumb === 1 ? "person" : "people"}</Typography>
-                </Box>}
+                </Box>
             </Box>
         </Box>
     )

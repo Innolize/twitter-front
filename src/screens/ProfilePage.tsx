@@ -5,9 +5,12 @@ import { getUser } from '../api/user/getUser'
 import { Loading } from '../componentes/common/Loading'
 import { ProfileImages } from '../componentes/profile/ProfileImages'
 import { ProfileInfo } from '../componentes/profile/ProfileInfo'
+import { ProfileOptions } from '../componentes/profile/ProfileOptions'
 import { UserSpecificPosts } from '../componentes/profile/UserSpecificPosts'
 import { useFetchReducer } from '../hooks/useFetch'
+import { RootState } from '../redux/reducer'
 import { isUser } from '../types/typeguards/User.typeguard'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -35,6 +38,7 @@ interface IParams {
 export const ProfilePage: React.FC = () => {
     const classes = useStyles()
     const { userId } = useParams<IParams>()
+    const userLogged = useSelector((state: RootState) => state.authReducer.user)
     const [openModal, setOpenModal] = useState<boolean>(false)
 
     const [modalImage, setModalImage] = useState<string | null>('')
@@ -53,6 +57,7 @@ export const ProfilePage: React.FC = () => {
                     onClickCoverImage={() => handleImageClick(successData.cover)}
                     onClickProfileImage={() => handleImageClick(successData.profilePicture)}
                 />
+                <ProfileOptions profileUserId={userId} loggedUserId={userLogged?._id || ""}></ProfileOptions>
                 <ProfileInfo user={successData} />
                 <UserSpecificPosts userId={userId}></UserSpecificPosts>
                 <Modal open={openModal} onClose={() => setOpenModal(false)}>
