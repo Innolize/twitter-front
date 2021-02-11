@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         header: {
             textTransform: "capitalize",
+            overflowWrap: "break-word"
         }
     })
 )

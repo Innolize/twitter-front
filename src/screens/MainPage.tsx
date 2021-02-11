@@ -14,6 +14,7 @@ import MyFollows from '../componentes/follows/MyFollows'
 import { BurgerSideBar } from '../componentes/leftSidebar/BurgerSideBar'
 import { PositionedSnackbar } from '../componentes/common/Snackbar'
 import { SET_ERROR, SET_SUCCESS } from '../redux/types/AuthActionTypes'
+import { FindPeople } from '../componentes/findPeople/FindPeople'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -84,7 +85,7 @@ export const MainPage = () => {
                     </Hidden>
 
                 </Grid>
-                <Grid item xs={12} sm={8} md={6} lg={6} xl={6} className={classes.contenedorCentral}>
+                <Grid item xs={12} sm={9} md={6} lg={6} xl={6} className={classes.contenedorCentral}>
                     <Route path="/main/post/:postId" >
                         <DetailedPost></DetailedPost>
                     </Route>
@@ -96,6 +97,9 @@ export const MainPage = () => {
                     </Route>
                     <Route path="/main/editProfile/:userId">
                         <EditProfilePage />
+                    </Route>
+                    <Route path="/main/find" >
+                        <FindPeople />
                     </Route>
                     <Route path="/main" exact >
                         <General />

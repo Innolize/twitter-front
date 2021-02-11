@@ -40,10 +40,26 @@ const useStyles = makeStyles((theme: Theme) =>
             display: "flex",
             justifyContent: "space-around"
         },
-        title: {
+        // title: {
+        //     color: "inherit",
+        //     textDecorationLine: "none",
+
+        // },
+        nombreUsuario: {
+            display: "block",
+            overflow: "hidden",
+            width: "200px",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
             color: "inherit",
-            textDecorationLine: "none",
-            textTransform: "capitalize"
+            textDecoration: "none",
+            textTransform: "capitalize",
+            [theme.breakpoints.up('sm')]:{
+                width:250
+            },
+            [theme.breakpoints.up('md')]:{
+                width:300
+            }
         }
     })
 )
@@ -102,7 +118,7 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
                         className={classes.paddingRemover}
                         avatar={<Avatar src={post.author.profilePicture || undefined} className={classes.large} />}
                         title={
-                            <Typography component={Link} variant="h5" to={`/main/profile/${post.author._id}`} className={classes.title}>
+                            <Typography component={Link} variant="h5" to={`/main/profile/${post.author._id}`} className={classes.nombreUsuario}>
                                 {post.author.name} {post.author.surname}
                             </Typography>
                         }

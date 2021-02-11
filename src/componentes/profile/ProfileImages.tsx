@@ -164,21 +164,8 @@ export const ProfileImages: React.FC<Props> = ({ user, edit, onClickCoverImage, 
             </Box>
             {!edit && <Box className={classes.buttonContainer}>
                 <OptionsMenu selfActions={editProfileMenu}></OptionsMenu>
-                {user._id !== userRedux?._id && <FollowButtonContainer userId={user._id} followersArray={userRedux?.followersArr || []} />}
+                {user._id !== userRedux?._id && <FollowButton userId={user._id}/>}
             </Box>}
         </>
-    )
-}
-
-interface FollowButtonContainerProps {
-    userId: string,
-    followersArray: string[]
-}
-
-const FollowButtonContainer: React.FC<FollowButtonContainerProps> = ({ userId, followersArray }) => {
-
-    const initialState = followersArray.includes(userId)
-    return (
-        < FollowButton userId={userId} initialIsFollowed={initialState}></FollowButton>
     )
 }

@@ -9,9 +9,9 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             // display: "flex",
             // flexDirection: "row",
-            [theme.breakpoints.down('sm')]: {
-                width: "100%"
-            }
+            // [theme.breakpoints.down('sm')]: {
+            //     width: "100%"
+            // }
         }
     })
 )

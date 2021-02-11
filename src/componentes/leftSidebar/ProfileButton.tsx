@@ -1,4 +1,4 @@
-import { Avatar, createStyles, List, ListItem, ListItemAvatar, ListItemText, makeStyles, Menu, MenuItem, Theme } from '@material-ui/core'
+import { Avatar, createStyles, List, ListItem, ListItemAvatar, ListItemText, makeStyles, Menu, MenuItem, Theme, Typography } from '@material-ui/core'
 import React, { useRef, useState } from 'react'
 import { User } from '../../types/User'
 import { LOG_OUT, } from '../../redux/types/AuthActionTypes'
@@ -8,6 +8,13 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         rounded: {
             borderRadius: '25px'
+        },
+        profileButton: {
+            display: "block",
+            overflow: "hidden",
+            width: "200px",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
         }
     })
 )
@@ -27,14 +34,15 @@ export const ProfileButton = ({ user }: ProfileButtonProps) => {
 
     return (
         <List>
-            <ListItem button className={classes.rounded} ref={buttonRef} onClick={() => {setShow(true); console.log('no tengo que entrar aca')}}>
+            <ListItem button className={classes.rounded} ref={buttonRef} onClick={() => { setShow(true); console.log('no tengo que entrar aca') }}>
                 <ListItemAvatar>
                     <Avatar src={user && user.profilePicture ? user.profilePicture : undefined}
                         alt={user.name}
                     ></Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                    primary={"" + user.name + " " + user.surname}
+                    disableTypography
+                    primary={<Typography noWrap className={classes.profileButton} title={user.name + " " + user.surname}>{user.name} {user.surname}</Typography>}
                 >
                 </ListItemText>
             </ListItem>

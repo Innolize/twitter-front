@@ -1,9 +1,11 @@
-import { Avatar, Box, Button, CardHeader } from '@material-ui/core'
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { Avatar, Box, Button, CardHeader, createStyles, Theme, Typography, makeStyles } from '@material-ui/core'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { followUser } from '../../api/user/followUser'
 import { getFollowUser } from '../../api/user/getFollowsUser'
 import { useFetchReducer } from '../../hooks/useFetch'
+import { RootState } from '../../redux/reducer'
 import { USER_FOLLOW_EDITED } from '../../redux/types/AuthActionTypes'
 import { UserShort } from '../../types/UserShort'
 import { Loading } from '../common/Loading'
@@ -40,45 +42,79 @@ export const UsersFollowed: React.FC = () => {
 interface UserCardProp {
     avatar: string,
     title: string,
-    userId: string
+    userId: string,
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            border: "lightgray 1px solid",
+            borderRadius: "5px",
+            marginBottom: "10px",
+        },
+        nombreUsuario: {
+            display: "block",
+            overflow: "hidden",
+            width: "200px",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            color: "inherit",
+            textDecoration: "none"
+        }
+    })
+)
+
 export const TinyUserCard: React.FC<UserCardProp> = ({ avatar, title, userId }) => {
+    const classes = useStyles()
+
     return (
-        <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Box className={classes.root}>
             <CardHeader
                 avatar={<Avatar src={avatar}></Avatar>}
-                title={title}
+                title={
+                    <Typography noWrap component={Link} variant="h6" to={`/main/profile/${userId}`} className={classes.nombreUsuario} title={title}>
+                        {title}
+                    </Typography>
+                }
+
             />
-            {<FollowButton userId={userId} />}
-        </Box>
+            <FollowButton userId={userId} />
+        </Box >
     )
 }
 
 interface AddUserProps {
-    userId: string,
-    initialIsFollowed?: boolean
+    userId: string
 }
 
-export const FollowButton: React.FC<AddUserProps> = ({ userId, initialIsFollowed = true }) => {
-    console.log(userId)
+export const FollowButton: React.FC<AddUserProps> = ({ userId }) => {
+    const user = useSelector((state: RootState) => state.authReducer.user)
     const dispatch = useDispatch()
-    const [isFollowed, setIsFollowed] = useState<boolean>(initialIsFollowed)
+    const isFollowed = user?.followersArr.includes(userId)
 
     const handleFollowUser = async () => {
         const response = await followUser(userId)
-        setIsFollowed(true)
         dispatch({ type: USER_FOLLOW_EDITED, payload: response })
     }
 
     const handleUnfollowUser = async () => {
         const response = await followUser(userId)
-        setIsFollowed(false)
         dispatch({ type: USER_FOLLOW_EDITED, payload: response })
     }
+
+    if (user?._id === userId) {
+        return null
+    }
+
     return (
-        <div>
-            {isFollowed ? <Button onClick={handleUnfollowUser}>Unfollow</Button> : <Button onClick={handleFollowUser}>Follow </Button>}
-        </div>
+        <Box mx="16px">
+            {isFollowed ? <Button variant="outlined" onClick={handleUnfollowUser}>Unfollow</Button> : <Button variant="outlined" onClick={handleFollowUser}>Follow </Button>}
+        </Box>
     )
+
+
+
 }

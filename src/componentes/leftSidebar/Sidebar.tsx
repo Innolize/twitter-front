@@ -7,6 +7,7 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
+import GroupIcon from '@material-ui/icons/Group';
 import { Grid, Typography } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducer';
@@ -58,6 +59,15 @@ export const Sidebar = (props: any) => {
                         <Typography variant="h6">My Follows</Typography>
                     </ListItemText>
                 </ListItem>
+                <ListItem button component={Link} to="/main/find">
+                    <ListItemIcon>
+                        <GroupIcon />
+                    </ListItemIcon>
+                    <ListItemText >
+                        <Typography variant="h6">Find Friends</Typography>
+                    </ListItemText>
+                </ListItem>
+
             </List>
             {user && <ProfileButton user={user} />}
         </Grid>
