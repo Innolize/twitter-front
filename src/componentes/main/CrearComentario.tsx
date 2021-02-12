@@ -73,6 +73,7 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
     }
 
     useEffect(() => {
+        
         const enterEventListener = (e: KeyboardEvent) => {
             if (e.key === 'Enter') {
                 sendNewPostCallback()

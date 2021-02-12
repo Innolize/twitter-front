@@ -8,7 +8,7 @@ import { Post as IPost } from '../../../types/Post'
 import moment from 'moment';
 import { Link } from 'react-router-dom'
 import { RootState } from '../../../redux/reducer';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { likePost } from '../../../api/post/likePost';
 import { getUserLikeAvatars, LilUser } from '../../../api/user/getUserLikeAvatars';
 import { AvatarGroup } from '@material-ui/lab';
@@ -71,6 +71,7 @@ interface Props {
 
 export const Post: React.FC<Props> = ({ post, order = 1 }) => {
     const classes = useStyles()
+    const dispatch = useDispatch()
     const createdSince = moment(post.createdAt).fromNow()
     const user = useSelector((state: RootState) => state.authReducer.user)
     const postLiked = user && post.likesArr.includes(user._id)
@@ -99,9 +100,9 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
     const removePost = async (postId: string) => {
         const result = await deletePost(postId)
         if (result.success) {
-            console.log(result.message)
+            dispatch({ type: "SET_SUCCESS", payload: "Post deleted successfuly" })
         } else {
-            console.log(result.message)
+            dispatch({ type: "SET_ERROR", payload: result.message })
         }
     }
 

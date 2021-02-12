@@ -1,6 +1,6 @@
 import { Box, Button, createStyles, makeStyles, TextField, Theme } from '@material-ui/core'
 import { IEmojiData } from 'emoji-picker-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { createComment } from '../../../api/comment/createComment'
 import { SET_ERROR, SET_SUCCESS } from '../../../redux/types/AuthActionTypes'
@@ -36,18 +36,30 @@ export const CreateComment: React.FC<Props> = ({ postId }) => {
         setText(e.target.value)
     }
 
-    const buttonOnClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        const { success, error } = await createComment({ message: text, postId })
-        if (success) {
-            setText('')
-            dispatch({ type: SET_SUCCESS, payload: "Comment created" })
-        } else {
-            dispatch({ type: SET_ERROR, payload: error })
+    const buttonOnClick = useCallback(
+        async () => {
+            const { success, error } = await createComment({ message: text, postId })
+            if (success) {
+                setText('')
+                dispatch({ type: SET_SUCCESS, payload: "Comment created" })
+            } else {
+                dispatch({ type: SET_ERROR, payload: error })
+            }
+        }
+        , [dispatch, postId, text])
+
+    useEffect(() => {
+        const enterEventListener = (e: KeyboardEvent) => {
+            if (e.key === 'Enter') {
+                buttonOnClick()
+            }
         }
 
-
-
-    }
+        document.addEventListener('keydown', enterEventListener)
+        return () => {
+            document.removeEventListener('keydown', enterEventListener)
+        }
+    }, [buttonOnClick])
 
     const addEmoji = (e: React.MouseEvent<Element, MouseEvent>, data: IEmojiData) => {
         setText(c => c + data.emoji)
