@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
             display: "flex",
             alignItems: "center",
             padding: "10px",
-            margin: "0px 20px",
+            margin: "10px 30px",
             border: "1px solid rgba(0, 0, 0, 0.12)"
         },
         textArea: {
@@ -22,13 +22,11 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 interface Props {
-    userId: string,
     postId: string
 }
 
 export const CreateComment: React.FC<Props> = ({ postId }) => {
     const dispatch = useDispatch()
-    console.log(postId)
     const classes = useStyles()
     const [text, setText] = useState("")
 

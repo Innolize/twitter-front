@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
             display: "flex",
             padding: 10,
             margin: 20,
-            border: "solid #E1E8ED 1px"
+            border: "solid #E1E8ED 3px"
         },
         contenedorMultimedia: {
             flexGrow: 1

@@ -11,8 +11,9 @@ import { OptionMenuAction, OptionsMenu } from '../../common/OptionsMenu'
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            padding: 0,
-            margin: "0px 20px"
+            padding: 10,
+            margin: "10px 30px",
+            border: "solid #E1E8ED 2px",
         },
         cardHeader: {
             padding: 8
@@ -24,8 +25,22 @@ const useStyles = makeStyles((theme: Theme) =>
             margin: 'auto 0px'
         },
         avatar: {
-            width: theme.spacing(3),
-            height: theme.spacing(3)
+            width: theme.spacing(5),
+            height: theme.spacing(5)
+        },
+        nombreUsuario: {
+            display: "block",
+            overflow: "hidden",
+            width: "200px",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            textTransform: "capitalize",
+            [theme.breakpoints.up('sm')]: {
+                width: 250
+            },
+            [theme.breakpoints.up('md')]: {
+                width: 300
+            }
         }
     })
 )
@@ -66,8 +81,8 @@ export const Comment: React.FC<Props> = ({ comment }) => {
 
         <Card className={classes.root}
             variant="outlined"
-            // onMouseEnter={() => setShowOptions(true)}
-            // onMouseLeave={() => setShowOptions(false)}
+        // onMouseEnter={() => setShowOptions(true)}
+        // onMouseLeave={() => setShowOptions(false)}
         >
             <CardHeader
                 className={classes.cardHeader}
@@ -80,7 +95,7 @@ export const Comment: React.FC<Props> = ({ comment }) => {
                         removeAction={() => console.log("reportado papu")}
                         selfActions={[removeCommentAction]}
                     />}
-                title={<Typography variant="h6">{`${name} ${surname}`}</Typography>}
+                title={<Typography variant="h6" title={`${name} ${surname}`} className={classes.nombreUsuario}>{`${name} ${surname}`}</Typography>}
 
             />
             <CardContent>
@@ -88,7 +103,7 @@ export const Comment: React.FC<Props> = ({ comment }) => {
                     {comment.message}
                 </Typography>
             </CardContent>
-            <Box display='flex' justifyContent='space-around'>
+            <Box display='flex' pl="16px">
                 <IconButton onClick={likeOnClick} >
 
                     <ThumbUp color={commentLiked ? 'primary' : 'inherit'} />

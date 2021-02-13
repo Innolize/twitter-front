@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             padding: 10,
             margin: 20,
-            border: "solid #E1E8ED 1px",
+            border: "solid #E1E8ED 3px",
         },
         paddingRemover: {
             padding: 0
@@ -107,7 +107,7 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
     }
 
 
-    const testAction: OptionMenuAction = {
+    const selfAction: OptionMenuAction = {
         description: "Delete",
         action: () => removePost(post._id)
     }
@@ -126,7 +126,7 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
                         }
                         subheader={createdSince}
                         action={
-                            <OptionsMenu selfActions={ownPost ? [testAction] : null} />}
+                            <OptionsMenu selfActions={ownPost ? [selfAction] : null} />}
                     />
                     <CardContent>
                         <Typography variant="body1">

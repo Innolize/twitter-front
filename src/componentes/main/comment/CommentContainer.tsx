@@ -1,8 +1,17 @@
-import { Box } from '@material-ui/core'
+import { Box, createStyles, makeStyles, Theme } from '@material-ui/core'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Comment } from './Comment'
 import { IComment } from '../../../types/Comment'
 import { createSocket } from '../../../api/websockets/server'
+import { CreateComment } from './CreateComment'
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            // backgroundColor: "gray"
+        }
+    })
+)
 
 interface Props {
     postId: string
@@ -10,6 +19,7 @@ interface Props {
 }
 
 export const CommentContainer: React.FC<Props> = ({ postId, postComments }) => {
+    const classes = useStyles()
     const [comments, setComments] = useState<IComment[]>(postComments)
 
     const handleUpdateComment = useCallback((comment: IComment, action: "remove" | "update") => {
@@ -56,8 +66,9 @@ export const CommentContainer: React.FC<Props> = ({ postId, postComments }) => {
     }, [handleUpdateComment, postId])
 
     return (
-        <Box>
+        <Box className={classes.root}>
             {comments && comments.map((el, idx) => <Comment comment={el} key={idx}></Comment>)}
+            <CreateComment postId={postId}></CreateComment>
         </Box>
     )
 }
