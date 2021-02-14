@@ -13,7 +13,8 @@ const useStyles = makeStyles((theme: Theme) =>
             alignItems: "center",
             padding: "10px",
             margin: "10px 30px",
-            border: "1px solid rgba(0, 0, 0, 0.12)"
+            border: "solid #E1E8ED 2px",
+            borderRadius: "4px"
         },
         textArea: {
             flexGrow: 1

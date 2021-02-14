@@ -50,12 +50,10 @@ interface Props {
 }
 
 export const Comment: React.FC<Props> = ({ comment }) => {
-    // const [currentComment, setCurrentComment] = useState<IComment>(comment)
     const user = useSelector((state: RootState) => state.authReducer.user)
     const classes = useStyles()
 
     const { name, profilePicture, surname } = comment.author
-    // const self = _id === user?._id
     const commentLiked = user && comment.likesArr.includes(user._id)
     const removeComment = async (commentId: string) => {
         const result = await deleteComment(commentId)
@@ -73,16 +71,14 @@ export const Comment: React.FC<Props> = ({ comment }) => {
 
 
     const likeOnClick = async () => {
-        const response = await likeComment(comment._id)
-        console.log(response)
+        await likeComment(comment._id)
+        console.log("hice click al boton de like: ")
     }
 
     return (
 
         <Card className={classes.root}
             variant="outlined"
-        // onMouseEnter={() => setShowOptions(true)}
-        // onMouseLeave={() => setShowOptions(false)}
         >
             <CardHeader
                 className={classes.cardHeader}
@@ -92,7 +88,7 @@ export const Comment: React.FC<Props> = ({ comment }) => {
                 }
                 action={
                     <OptionsMenu
-                        removeAction={() => console.log("reportado papu")}
+                        removeAction={() => console.log("reported")}
                         selfActions={[removeCommentAction]}
                     />}
                 title={<Typography variant="h6" title={`${name} ${surname}`} className={classes.nombreUsuario}>{`${name} ${surname}`}</Typography>}

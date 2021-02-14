@@ -2,14 +2,11 @@ import React from 'react'
 import { useParams } from 'react-router-dom';
 import { getPostById } from '../../../api/post/getPostById';
 import { useFetchReducer } from '../../../hooks/useFetch';
-import { Post } from './Post'
 import { Post as IPost } from '../../../types/Post'
-import { isPost } from '../../../types/typeguards/Post.typeguard';
-import { Box } from '@material-ui/core';
-import { CommentContainer } from '../comment/CommentContainer';
 import { getComments } from '../../../api/comment/getComments';
 import { Loading } from '../../common/Loading';
 import { IComment } from '../../../types/Comment';
+import ExtendedPost from './ExtendedPost';
 
 interface IParams {
     postId: string
@@ -24,10 +21,7 @@ export const DetailedPost: React.FC = () => {
         const post = responsePost.successData as IPost
         const comments = responseComments.successData as IComment[]
         return (
-            <Box>
-                {isPost(post) && <Post post={post} ></Post>}
-                <CommentContainer postId={post._id} postComments={comments} ></CommentContainer>
-            </Box>
+            <ExtendedPost comments={comments} post={post} />
         )
     }
 
