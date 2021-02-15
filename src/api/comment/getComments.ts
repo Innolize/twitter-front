@@ -10,6 +10,6 @@ export const getComments = async (postId: Props): Promise<IComment[]> => {
         const response = (await (axiosI.get(`/comment/post/${postId}`))).data
         return response
     } catch (err) {
-        return err.response
+        return err.response.data.message
     }
 }

@@ -1,18 +1,11 @@
 import { axiosI } from "../../common/IAxios"
 
-interface deleteCommentI {
-    success: boolean,
-    message: string
-}
-
-export const deleteComment = async (id: string): Promise<deleteCommentI> => {
+export const deleteComment = async (id: string): Promise<{ success: true, data: string } | { success: false, error: string }> => {
     try {
-        const response = (await axiosI.delete(`/comment/delete/${id}`)).data
-        console.log(response)
-        return { success: true, message: 'comment deleted successfully!' }
+        await axiosI.delete(`/comment/delete/${id}`)
+        return { success: true, data: 'comment deleted successfully!' }
     } catch (err) {
-        console.log(err.response.data)
-        return { success: false, message: err.response.data.message }
+        return { success: false, error: err.response.data.message }
     }
 
 }

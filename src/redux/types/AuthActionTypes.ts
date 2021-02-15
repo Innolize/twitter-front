@@ -62,7 +62,7 @@ interface userFollowEdited {
     payload: userFollowEditedPayload
 }
 
-interface SetError {
+export interface SetError {
     type: typeof SET_ERROR
     payload: string
 }

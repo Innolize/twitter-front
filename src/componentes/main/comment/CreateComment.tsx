@@ -37,12 +37,12 @@ export const CreateComment: React.FC<Props> = ({ postId }) => {
 
     const buttonOnClick = useCallback(
         async () => {
-            const { success, error } = await createComment({ message: text, postId })
-            if (success) {
+            const response = await createComment({ message: text, postId })
+            if (!response.success) {
+                dispatch({ type: SET_ERROR, payload: response.error })
+            } else {
                 setText('')
                 dispatch({ type: SET_SUCCESS, payload: "Comment created" })
-            } else {
-                dispatch({ type: SET_ERROR, payload: error })
             }
         }
         , [dispatch, postId, text])

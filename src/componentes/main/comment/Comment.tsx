@@ -1,10 +1,11 @@
 import { Avatar, Box, Card, CardContent, CardHeader, makeStyles, Typography, IconButton, createStyles, Theme } from '@material-ui/core'
 import { ThumbUp } from '@material-ui/icons'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { deleteComment } from '../../../api/comment/deleteComment'
 import { likeComment } from '../../../api/comment/likeComment'
 import { RootState } from '../../../redux/reducer'
+import { SET_ERROR, SET_SUCCESS } from '../../../redux/types/AuthActionTypes'
 import { IComment } from '../../../types/Comment'
 import { OptionMenuAction, OptionsMenu } from '../../common/OptionsMenu'
 
@@ -52,15 +53,17 @@ interface Props {
 export const Comment: React.FC<Props> = ({ comment }) => {
     const user = useSelector((state: RootState) => state.authReducer.user)
     const classes = useStyles()
+    const dispatch = useDispatch()
 
     const { name, profilePicture, surname, _id: authorId } = comment.author
     const commentLiked = user && comment.likesArr.includes(user._id)
     const removeComment = async (commentId: string) => {
         const result = await deleteComment(commentId)
-        if (result.success) {
-            console.log(result.message)
+        if (!result.success) {
+            console.log(result.error)
+            dispatch({ type: SET_ERROR, payload: result.error })
         } else {
-            console.log(result.message)
+            dispatch({ type: SET_SUCCESS, payload: result.data })
         }
     }
 
