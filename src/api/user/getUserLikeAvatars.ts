@@ -1,13 +1,7 @@
 import { axiosI } from '../../common/IAxios'
+import { UserShort } from '../../types/UserShort'
 
-export type LilUser = {
-    profilePicture: string,
-    name: string,
-    surname: string,
-    _id: string
-}
-
-export const getUserLikeAvatars = async (idArray: string[]): Promise<LilUser[]> => {
+export const getUserLikeAvatars = async (idArray: string[]): Promise<UserShort[]> => {
     const promisesArray = idArray.map(async (userId) => {
         let response = (await axiosI(`/user/ShortenedUser?user=${userId}`)).data
         return response

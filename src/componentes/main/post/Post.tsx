@@ -10,10 +10,11 @@ import { Link } from 'react-router-dom'
 import { RootState } from '../../../redux/reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { likePost } from '../../../api/post/likePost';
-import { getUserLikeAvatars, LilUser } from '../../../api/user/getUserLikeAvatars';
+import { getUserLikeAvatars } from '../../../api/user/getUserLikeAvatars';
 import { AvatarGroup } from '@material-ui/lab';
 import { OptionMenuAction, OptionsMenu } from '../../common/OptionsMenu';
 import { deletePost } from '../../../api/post/deletePost';
+import { UserShort } from '../../../types/UserShort';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -70,7 +71,7 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
     const createdSince = moment(post.createdAt).fromNow()
     const user = useSelector((state: RootState) => state.authReducer.user)
     const postLiked = user && post.likesArr.includes(user._id)
-    const [likeAvatars, setLikeAvatars] = useState<LilUser[]>([])
+    const [likeAvatars, setLikeAvatars] = useState<UserShort[]>([])
 
     const likeAction = async () => {
         const response = await likePost(post._id)
@@ -139,7 +140,7 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
                                     </IconButton>
                                     <Typography variant="h6">{post.likesNumb}</Typography>
                                     {!!likeAvatars && <AvatarGroup max={3} spacing="medium" classes={{ avatar: classes.small }}>
-                                        {likeAvatars.map((avatar, i) => <Avatar alt={avatar.name + " " + avatar.surname} src={avatar.profilePicture} key={i}></Avatar>)}
+                                        {likeAvatars && likeAvatars.map((avatar, i) => <Avatar alt={avatar.name + " " + avatar.surname} src={avatar.profilePicture || ""} key={i}></Avatar>)}
                                     </AvatarGroup>}
                                 </Box>
                             </Grid>
