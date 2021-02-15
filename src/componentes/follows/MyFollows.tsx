@@ -1,13 +1,18 @@
-import { Paper, Tab, Tabs } from '@material-ui/core'
+import { createStyles, makeStyles, Paper, Tab, Tabs, Theme } from '@material-ui/core'
 import React, { useState } from 'react'
 import { FollowPosts } from './FollowPosts';
 import { UsersFollowed } from './UsersFollowed';
 
-interface Props {
+const useStyles = makeStyles((theme: Theme) => (
+    createStyles({
+        tab: {
+            fontWeight: "bold"
+        }
+    })
+))
 
-}
-
-const MyFollows: React.FC<Props> = () => {
+const MyFollows: React.FC = () => {
+    const classes = useStyles()
     const [value, setValue] = useState<number>(0)
 
     const handleChange = (event: React.ChangeEvent<{}>, eValue: number) => {
@@ -16,9 +21,9 @@ const MyFollows: React.FC<Props> = () => {
 
     return (
         <Paper square>
-            <Tabs value={value} variant={'fullWidth'} onChange={handleChange}>
-                <Tab label="Follow Posts"></Tab>
-                <Tab label="Follow Users"></Tab>
+            <Tabs indicatorColor="primary" value={value} variant={'fullWidth'} onChange={handleChange}>
+                <Tab className={classes.tab} label="Follow Posts"></Tab>
+                <Tab className={classes.tab} label="Follow Users"></Tab>
             </Tabs>
             {value === 0 && <FollowPosts />}
             {value === 1 && <UsersFollowed />}

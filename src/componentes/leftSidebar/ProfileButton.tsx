@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme: Theme) =>
             borderRadius: '25px'
         },
         profileButton: {
+            fontSize: "1.25rem",
             display: "block",
             overflow: "hidden",
             width: "200px",
@@ -41,8 +42,8 @@ export const ProfileButton = ({ user }: ProfileButtonProps) => {
                     ></Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                    disableTypography
-                    primary={<Typography noWrap className={classes.profileButton} title={user.name + " " + user.surname}>{user.name} {user.surname}</Typography>}
+                    // disableTypography
+                    primary={<Typography component="h1" noWrap className={classes.profileButton} title={user.name + " " + user.surname}>{user.name} {user.surname}</Typography>}
                 >
                 </ListItemText>
             </ListItem>
