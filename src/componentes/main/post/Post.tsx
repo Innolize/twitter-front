@@ -40,11 +40,6 @@ const useStyles = makeStyles((theme: Theme) =>
             display: "flex",
             justifyContent: "space-around"
         },
-        // title: {
-        //     color: "inherit",
-        //     textDecorationLine: "none",
-
-        // },
         nombreUsuario: {
             display: "block",
             overflow: "hidden",
@@ -75,13 +70,11 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
     const createdSince = moment(post.createdAt).fromNow()
     const user = useSelector((state: RootState) => state.authReducer.user)
     const postLiked = user && post.likesArr.includes(user._id)
-    const [currentLike, setCurrentLike] = useState<Boolean | null>(postLiked)
     const [likeAvatars, setLikeAvatars] = useState<LilUser[]>([])
-    const ownPost = user?._id === post.author._id
 
     const likeAction = async () => {
         const response = await likePost(post._id)
-        setCurrentLike(response)
+        console.log(response)
     }
 
     useEffect(() => {
@@ -91,6 +84,8 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
                 console.log(userArray)
                 let userAvatarsResponse = await getUserLikeAvatars(userArray)
                 setLikeAvatars(userAvatarsResponse)
+            } else {
+                setLikeAvatars([])
             }
         }
         asyncFunction()
@@ -126,7 +121,7 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
                         }
                         subheader={createdSince}
                         action={
-                            <OptionsMenu selfActions={ownPost ? [selfAction] : null} />}
+                            <OptionsMenu selfActions={[selfAction]} authorId={post.author._id} />}
                     />
                     <CardContent>
                         <Typography variant="body1">
@@ -138,11 +133,11 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
                             <Grid item xs>
                                 <Box display="flex" alignItems="center" justifyContent="center">
                                     <IconButton onClick={likeAction}>
-                                        {currentLike ?
+                                        {postLiked ?
                                             <FavoriteIcon color="primary" /> : <FavoriteBorderIcon color="inherit" />}
 
                                     </IconButton>
-                                    {(post.likesNumb || currentLike) && <Typography variant="h6">{postLiked ? currentLike ? post.likesNumb : post.likesNumb - 1 : currentLike ? post.likesNumb + 1 : post.likesNumb}</Typography>}
+                                    <Typography variant="h6">{post.likesNumb}</Typography>
                                     {!!likeAvatars && <AvatarGroup max={3} spacing="medium" classes={{ avatar: classes.small }}>
                                         {likeAvatars.map((avatar, i) => <Avatar alt={avatar.name + " " + avatar.surname} src={avatar.profilePicture} key={i}></Avatar>)}
                                     </AvatarGroup>}

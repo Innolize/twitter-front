@@ -32,7 +32,7 @@ export const ProfileOptions: React.FC<ProfileOptionsProps> = ({ loggedUserId, pr
     ]
     return (
         <Box className={classes.buttonContainer}>
-            <OptionsMenu selfActions={profileUserId === loggedUserId ? editProfileMenu : []}></OptionsMenu>
+            <OptionsMenu selfActions={editProfileMenu} authorId={profileUserId}></OptionsMenu>
             {profileUserId !== loggedUserId && <FollowButton userId={profileUserId} />}
         </Box>
     )

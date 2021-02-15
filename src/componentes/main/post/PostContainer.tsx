@@ -26,11 +26,22 @@ export const PostContainer: React.FC<Props> = ({ initialPosts }) => {
     const [posts, setPosts] = useState<IPost[]>(initialPosts)
     // const [newPosts, setNewPosts] = useState<IPost[]>([])
 
-    const removePostHandler = useCallback((data: IPost) => {
+    const handlePostUpdate = useCallback((data: IPost, action: "newPost" | "removePost" | "updatePost") => {
+
         const myNewPosts = posts
         const index = myNewPosts.findIndex(curr => curr._id === data._id)
-        myNewPosts.splice(index, 1)
-        setPosts([...myNewPosts])
+
+        if (action === "updatePost") {
+            myNewPosts[index] = data
+            setPosts([...myNewPosts])
+        }
+        if (action === "removePost") {
+            myNewPosts.splice(index, 1)
+            setPosts([...myNewPosts])
+            return
+        }
+
+
     }, [posts])
 
     useEffect(() => {
@@ -40,14 +51,18 @@ export const PostContainer: React.FC<Props> = ({ initialPosts }) => {
 
             setPosts(c => [data, ...c])
         })
-        socket.on("removePost", (newPost: IPost) => {
-            removePostHandler(newPost)
+        socket.on('updatePost', (post: IPost) => {
+            handlePostUpdate(post, "updatePost")
+        })
+
+        socket.on("removePost", (post: IPost) => {
+            handlePostUpdate(post, "removePost")
         })
         return () => {
             socket.removeAllListeners()
             socket.disconnect()
         }
-    }, [removePostHandler])
+    }, [handlePostUpdate])
 
     return (
         <Box className={classes.root}>

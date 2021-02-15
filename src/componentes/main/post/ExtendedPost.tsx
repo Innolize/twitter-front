@@ -16,8 +16,9 @@ const ExtendedPost: React.FC<ExtendedPostProps> = ({ post, comments }) => {
 
     const handleUpdatePost = useCallback((comment: IComment, action: "remove" | "update" | "newComment") => {
 
-
+        console.log(action)
         if (action === 'newComment') {
+            console.log('new comment: ', comment)
             setCommentsData([...commentsData, comment])
             setPostData({ ...postData, commentsNumb: postData.commentsNumb + 1 })
         }
@@ -41,8 +42,6 @@ const ExtendedPost: React.FC<ExtendedPostProps> = ({ post, comments }) => {
             setPostData({ ...postData, commentsNumb: postData.commentsNumb - 1 })
             return
 
-        } else {
-            console.log("esto nunca debe pasar utilizando typescript")
         }
     }, [postData, commentsData])
 
@@ -55,8 +54,11 @@ const ExtendedPost: React.FC<ExtendedPostProps> = ({ post, comments }) => {
         socket.on('removeCommentArray', (data: IComment) => {
             handleUpdatePost(data, "remove")
         })
-        socket.on('newComment', (newComment: IComment) => {
-            setCommentsData(c => [...c, newComment])
+        socket.on('newComment', (data: IComment) => {
+            handleUpdatePost(data, "newComment")
+        })
+        socket.on("updateSpecificPost", (data: IPost) => {
+            setPostData(data)
         })
         return () => {
             socket.removeAllListeners()

@@ -1,6 +1,8 @@
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import { MoreVert } from "@material-ui/icons";
 import { useRef, useState } from "react";
+import { RootState } from "../../redux/reducer";
+import { useSelector } from 'react-redux'
 
 export interface OptionMenuAction {
     description: string,
@@ -9,12 +11,15 @@ export interface OptionMenuAction {
 
 interface Props {
     removeAction?: () => void
-    selfActions?: OptionMenuAction[] | null
+    selfActions?: OptionMenuAction[]
+    authorId: string
 }
 
-export const OptionsMenu: React.FC<Props> = ({ selfActions }) => {
+export const OptionsMenu: React.FC<Props> = ({ selfActions, authorId }) => {
     const [show, setShow] = useState(false)
     const buttonRef = useRef<HTMLButtonElement | null>(null)
+    const user = useSelector((state: RootState) => state.authReducer.user)
+    const self = authorId === user?._id
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         setShow(true)
@@ -36,7 +41,7 @@ export const OptionsMenu: React.FC<Props> = ({ selfActions }) => {
                 open={show}
                 onClose={handleClose}
             >
-                {selfActions && selfActions.map((sAction, i) => <MenuItem onClick={sAction.action} key={i}>{sAction.description}</MenuItem>)}
+                {self && selfActions && selfActions.map((sAction, i) => <MenuItem onClick={sAction.action} key={i}>{sAction.description}</MenuItem>)}
 
                 <MenuItem onClick={handleClose}>Report</MenuItem>
             </Menu>

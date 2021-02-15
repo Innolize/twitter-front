@@ -53,7 +53,7 @@ export const Comment: React.FC<Props> = ({ comment }) => {
     const user = useSelector((state: RootState) => state.authReducer.user)
     const classes = useStyles()
 
-    const { name, profilePicture, surname } = comment.author
+    const { name, profilePicture, surname, _id: authorId } = comment.author
     const commentLiked = user && comment.likesArr.includes(user._id)
     const removeComment = async (commentId: string) => {
         const result = await deleteComment(commentId)
@@ -89,6 +89,7 @@ export const Comment: React.FC<Props> = ({ comment }) => {
                 action={
                     <OptionsMenu
                         removeAction={() => console.log("reported")}
+                        authorId={authorId}
                         selfActions={[removeCommentAction]}
                     />}
                 title={<Typography variant="h6" title={`${name} ${surname}`} className={classes.nombreUsuario}>{`${name} ${surname}`}</Typography>}
