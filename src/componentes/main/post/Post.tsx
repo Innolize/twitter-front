@@ -93,11 +93,11 @@ export const Post: React.FC<Props> = ({ post, order = 1 }) => {
     }, [post.likesArr])
 
     const removePost = async (postId: string) => {
-        const result = await deletePost(postId)
-        if (result.success) {
+        const response = await deletePost(postId)
+        if (response.success) {
             dispatch({ type: "SET_SUCCESS", payload: "Post deleted successfuly" })
         } else {
-            dispatch({ type: "SET_ERROR", payload: result.message })
+            dispatch({ type: "SET_ERROR", payload: response.error })
         }
     }
 

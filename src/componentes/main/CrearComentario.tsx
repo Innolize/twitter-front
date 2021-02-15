@@ -57,12 +57,13 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
 
 
     const sendNewPost = async () => {
-        const { success, error } = await createPost(postContent)
-        if (success) {
+        const response = await createPost(postContent)
+        if (!response.success) {
+            dispatch({ type: SET_ERROR, payload: response.error })
+
+        } else {
             dispatch({ type: SET_SUCCESS, payload: "Post successfuly created!" })
             setPostContent("")
-        } else if (error) {
-            dispatch({ type: SET_ERROR, payload: error })
         }
     }
 
@@ -73,7 +74,7 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
     }
 
     useEffect(() => {
-        
+
         const enterEventListener = (e: KeyboardEvent) => {
             if (e.key === 'Enter') {
                 sendNewPostCallback()

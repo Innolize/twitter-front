@@ -1,15 +1,11 @@
 import { axiosI } from "../../common/IAxios"
 import { Post } from "../../types/Post"
 
-export const createPost = async (message: string): Promise<{ success: boolean, response?: Post, error?: string }> => {
+export const createPost = async (message: string): Promise<{ success: true, data: Post } | { success: false, error: string }> => {
     try {
         const response = (await axiosI.post('/post/create', { message })).data
-        return { success: true, response }
+        return { success: true, data: response }
     } catch (err) {
-        if (err) {
-            return { success: false, error: err.response.data.message }
-        } else {
-            return { success: false, error: "this error should never happend" }
-        }
+        return { success: false, error: err.response.data.message }
     }
 }
