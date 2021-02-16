@@ -35,11 +35,10 @@ export const BurgerSideBar: React.FC = () => {
                 anchor="left"
                 open={open}
                 onClose={handleClose}
-                onOpen={() => { console.log('aca triggerea') }}
-                onClick={handleClose}
+                onOpen={() => { }}
+            // onClick={handleClose}
             >
-                <Sidebar>
-                </Sidebar>
+                <Sidebar onClickClose={handleClose}/>
             </SwipeableDrawer>
         </Box >
     )

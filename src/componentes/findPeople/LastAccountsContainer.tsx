@@ -12,7 +12,7 @@ interface Props {
     searchParam: string
 }
 
-export const LastAccountsContainer: React.FC<Props> = ({ searchParam }) => {
+export const LastAccounts: React.FC<Props> = ({ searchParam }) => {
     const { data, error, loading: searchLoading } = useFetchWithTimeout({ fetchResource: FindUserByParam, param: searchParam, timeout: 500 })
     const { successData, errorMessage, loading } = useFetchReducer({ fetchCallback: getUsers })
 
@@ -25,7 +25,7 @@ export const LastAccountsContainer: React.FC<Props> = ({ searchParam }) => {
         return (
             <Box>
                 {
-                    searchParam ? <Container usersArray={data} ></Container> : <Container usersArray={UsersArray} ></Container>
+                    searchParam ? <LastAccountsContainer usersArray={data} ></LastAccountsContainer> : <LastAccountsContainer usersArray={UsersArray} ></LastAccountsContainer>
                 }
             </Box>
         )
@@ -44,11 +44,11 @@ export const LastAccountsContainer: React.FC<Props> = ({ searchParam }) => {
 
 }
 
-interface PropsContainer {
+interface LastAccountsContainerProps {
     usersArray: UserShort[],
 }
 
-const Container: React.FC<PropsContainer> = ({ usersArray }) => {
+const LastAccountsContainer: React.FC<LastAccountsContainerProps> = ({ usersArray }) => {
 
     return <Box>
         {usersArray.map((user: UserShort, idx: number) => {

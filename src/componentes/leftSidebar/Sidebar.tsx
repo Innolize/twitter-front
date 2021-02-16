@@ -28,14 +28,18 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export const Sidebar = (props: any) => {
+interface SidebarProps {
+    onClickClose?: () => void
+}
+
+export const Sidebar: React.FC<SidebarProps> = ({ onClickClose = () => { } }) => {
     const classes = useStyles();
     const user = useSelector((state: RootState) => state.authReducer.user)
 
     return (
         <Grid item className={classes.root}>
             <List component="nav" aria-label="main mailbox folders">
-                <ListItem button component={Link} to='/main' >
+                <ListItem button component={Link} onClick={onClickClose} to='/main' >
                     <ListItemIcon>
                         <HomeIcon></HomeIcon>
                     </ListItemIcon>
@@ -43,7 +47,7 @@ export const Sidebar = (props: any) => {
                         <Typography variant="h6">Home</Typography>
                     </ListItemText>
                 </ListItem>
-                <ListItem button component={Link} to={`/main/profile/${user?._id}`} >
+                <ListItem button component={Link} onClick={onClickClose} to={`/main/profile/${user?._id}`} >
                     <ListItemIcon>
                         <AccountBoxIcon />
                     </ListItemIcon>
@@ -51,7 +55,7 @@ export const Sidebar = (props: any) => {
                         <Typography variant="h6">Profile</Typography>
                     </ListItemText>
                 </ListItem>
-                <ListItem button component={Link} to='/main/myFollows'>
+                <ListItem button component={Link} onClick={onClickClose} to='/main/myFollows'>
                     <ListItemIcon>
                         <NotificationsIcon />
                     </ListItemIcon>
@@ -59,7 +63,7 @@ export const Sidebar = (props: any) => {
                         <Typography variant="h6">My Follows</Typography>
                     </ListItemText>
                 </ListItem>
-                <ListItem button component={Link} to="/main/find">
+                <ListItem button component={Link} onClick={onClickClose} to="/main/find">
                     <ListItemIcon>
                         <GroupIcon />
                     </ListItemIcon>
@@ -69,7 +73,7 @@ export const Sidebar = (props: any) => {
                 </ListItem>
 
             </List>
-            {user && <ProfileButton user={user} />}
+            {user && <ProfileButton user={user} onClickDrawer={onClickClose} />}
         </Grid>
     );
 }

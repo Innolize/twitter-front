@@ -24,7 +24,6 @@ export const PostContainer: React.FC<Props> = ({ initialPosts }) => {
 
     const classes = useStyles()
     const [posts, setPosts] = useState<IPost[]>(initialPosts)
-    // const [newPosts, setNewPosts] = useState<IPost[]>([])
 
     const handlePostUpdate = useCallback((data: IPost, action: "newPost" | "removePost" | "updatePost") => {
 

@@ -2,11 +2,11 @@ import { axiosI } from "../../common/IAxios"
 import { Post } from "../../types/Post"
 
 
-export const getPostById = async ({ id }: any): Promise<{ success: true, data: Post } | { success: false, error: string }> => {
+export const getPostById = async ({ id }: any): Promise<Post | string> => {
     try {
         const response = (await axiosI.get(`/post/${id}`)).data
-        return { success: true, data: response }
+        return response
     } catch (err) {
-        return { success: false, error: err.response.data.message }
+        return err.response.data.message
     }
 }

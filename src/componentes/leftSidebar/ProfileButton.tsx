@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import { User } from '../../types/User'
 import { LOG_OUT, } from '../../redux/types/AuthActionTypes'
 import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -22,9 +23,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface ProfileButtonProps {
     user: User
+    onClickDrawer?: () => void
 }
 
-export const ProfileButton = ({ user }: ProfileButtonProps) => {
+export const ProfileButton: React.FC<ProfileButtonProps> = ({ user, onClickDrawer = () => { } }) => {
     const dispatch = useDispatch()
     const classes = useStyles()
     const buttonRef = useRef<HTMLDivElement>(null)
@@ -56,7 +58,7 @@ export const ProfileButton = ({ user }: ProfileButtonProps) => {
                 anchorOrigin={{ vertical: "top", horizontal: "left" }}
                 transformOrigin={{ vertical: 100, horizontal: -100, }}
             >
-                <MenuItem>My Profile</MenuItem>
+                <MenuItem button component={Link} onClick={onClickDrawer} to={`/main/profile/${user?._id}`}>My Profile</MenuItem>
                 <MenuItem onClick={logout}>Log out</MenuItem>
             </Menu>
         </List >

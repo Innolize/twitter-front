@@ -18,6 +18,7 @@ export const FollowPosts: React.FC = () => {
     }
 
     if (successData) {
+        console.log(successData)
         const postArray = successData as IPost[]
         return (
             < div >

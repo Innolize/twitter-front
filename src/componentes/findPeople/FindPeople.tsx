@@ -1,6 +1,6 @@
 import { Box, Typography } from '@material-ui/core'
 import React, { useState } from 'react'
-import { LastAccountsContainer } from './LastAccountsContainer'
+import { LastAccounts } from './LastAccountsContainer'
 import { SearchBar } from './SearchBar'
 
 export const FindPeople: React.FC = () => {
@@ -20,7 +20,7 @@ export const FindPeople: React.FC = () => {
             <Typography variant="h5" align="center">
                 {searchParam ? `Results for users with "${searchParam}"` : "Latests users created"}
             </Typography>
-            <LastAccountsContainer searchParam={searchParam}></LastAccountsContainer>
+            <LastAccounts searchParam={searchParam}></LastAccounts>
         </Box>
     )
 }

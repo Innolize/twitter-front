@@ -12,14 +12,14 @@ const useStyles = makeStyles((theme: Theme) =>
         coverImageContainer: {
             width: "100%",
             minHeight: 200,
-            maxHeight: 450,
+            maxHeight: 350,
             display: "flex",
             justifyContent: "center"
         },
         coverImage: {
             maxWidth: "100%",
             objectFit: "contain",
-            maxHeight: 450,
+            maxHeight: 350,
         },
         editCoverImage: {
             backgroundColor: "black",
@@ -109,18 +109,13 @@ export const ProfileImages: React.FC<Props> = ({ user, edit, onClickCoverImage, 
     const [showEditCover, setShowEditCover] = useState<Boolean>(false)
     const coverRef = useRef<HTMLImageElement>(null)
 
-
-
     const hoverEnter = (setter: React.Dispatch<React.SetStateAction<Boolean>>) => {
         setter(true)
     }
-
     const hoverLeaves = (setter: React.Dispatch<React.SetStateAction<Boolean>>) => {
         setter(false)
     }
-
-
-
+    
     return (
         <>
             <Box className={classes.container} >
@@ -128,7 +123,7 @@ export const ProfileImages: React.FC<Props> = ({ user, edit, onClickCoverImage, 
                     <img
                         ref={coverRef}
                         onMouseEnter={() => hoverEnter(setShowEditCover)}
-                        alt="user cover" src={user.cover || "https://picsum.photos/1000/500"} className={classes.coverImage}
+                        alt="user cover" src={user.cover || "/images/placeholder-image.png"} className={classes.coverImage}
                         onClick={onClickCoverImage}
                     />
                     <div
@@ -143,7 +138,7 @@ export const ProfileImages: React.FC<Props> = ({ user, edit, onClickCoverImage, 
                     <img
                         onMouseEnter={() => hoverEnter(setShowEditAvatar)}
                         onClick={onClickProfileImage}
-                        alt="user profile " src={user.profilePicture || "https://picsum.photos/180/180"} className={classes.userImage}></img>
+                        alt="user profile " src={user.profilePicture || "/images/avatar-default.png"} className={classes.userImage}></img>
                     <div
                         onClick={onClickProfileImage}
                         onMouseLeave={() => hoverLeaves(setShowEditAvatar)}

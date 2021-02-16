@@ -66,6 +66,7 @@ interface Props {
 }
 
 export const Post: React.FC<Props> = ({ post, order = 1 }) => {
+    console.log("aca: ",post)
     const classes = useStyles()
     const dispatch = useDispatch()
     const createdSince = moment(post.createdAt).fromNow()
