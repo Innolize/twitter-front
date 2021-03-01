@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core'
+import { Box, Typography } from '@material-ui/core'
 import React from 'react'
 import { getUserPosts } from '../../api/user/getUserPosts'
 import { useFetchReducer } from '../../hooks/useFetch'
@@ -13,21 +13,34 @@ interface Props {
 export const UserSpecificPosts: React.FC<Props> = ({ userId }) => {
 
     const { errorMessage, loading, successData } = useFetchReducer({ fetchCallback: getUserPosts, fetchOptions: userId })
-    console.log(successData)
+
+    if (errorMessage) {
+        console.log(errorMessage)
+        return (
+            <div style={{ margin: 20, padding: "5px" }}>
+                <Typography variant="h6" align="center" >
+                    {errorMessage}
+                </Typography>
+            </div>
+        )
+
+
+
+    }
+
     if (loading) {
         return <Loading></Loading>
     }
 
     if (isPostArray(successData)) {
+        console.log(successData)
         return (
             <Box>
                 { successData.map((el, i) => <Post post={el} order={i} key={i} />)}
             </Box>
         )
     }
-    if (errorMessage) {
-        <div>{errorMessage}</div>
-    }
+
 
     return null
 }

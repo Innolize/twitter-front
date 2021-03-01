@@ -9,7 +9,7 @@ import { RootState } from '../redux/reducer'
 import { isUser } from '../types/typeguards/User.typeguard'
 import { EditProfileButtons } from '../componentes/profile/editProfile/EditProfileButtons'
 import { updateUser } from '../api/user/updateUser'
-import { USER_EDITED } from '../redux/types/AuthActionTypes'
+import { SET_ERROR, USER_EDITED } from '../redux/types/AuthActionTypes'
 import { CircularProgress } from '@material-ui/core'
 
 
@@ -84,10 +84,18 @@ export const EditProfilePage: React.FC = () => {
         if (newCoverImage) myFormData.append('cover', newCoverImage)
         if (newProfileImage) myFormData.append('profile', newProfileImage)
 
+        console.log(myFormData)
         const response = await updateUser(userId, myFormData)
-        dispatch({ type: USER_EDITED, payload: response })
-        console.log(response)
-        history.push(`/main/profile/${userId}`)
+
+        if (response.success) {
+            dispatch({ type: USER_EDITED, payload: response.data })
+            history.push(`/main/profile/${userId}`)
+        } else {
+            dispatch({ type: SET_ERROR, payload: response.error })
+        }
+
+
+
     }
 
     if (userId !== user?._id) {

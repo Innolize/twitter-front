@@ -1,4 +1,5 @@
 import { axiosI } from "../../common/IAxios"
+import { User } from "../../types/User"
 
 export interface EditUser {
     name?: string
@@ -8,7 +9,7 @@ export interface EditUser {
     cover?: File
 }
 
-export const updateUser = async (id: string, data: any) => {
+export const updateUser = async (id: string, data: any): Promise<{ success: true, data: User } | { success: false, error: any }> => {
     try {
         const config = {
             headers: {
@@ -16,10 +17,8 @@ export const updateUser = async (id: string, data: any) => {
             }
         }
         const response = (await axiosI.put(`/user/${id}`, data, config)).data
-        return response
-    } catch (error) {
-        if (error) {
-            console.log(error.response)
-        }
+        return { success: true, data: response }
+    } catch (err) {
+        return { success: false, error: err.response.data.message }
     }
 }

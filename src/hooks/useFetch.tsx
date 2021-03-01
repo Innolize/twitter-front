@@ -40,7 +40,7 @@ export const useFetchReducer = ({ fetchCallback, fetchOptions }: Props) => {
                 const request = (await fetchCallback(fetchOptions))
                 dispatch({ type: SUCCESS, payload: request })
             } catch (err) {
-                dispatch({ type: ERROR, payload: err })
+                dispatch({ type: ERROR, payload: err.response.data.message })
             }
 
         }

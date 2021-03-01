@@ -9,7 +9,7 @@ import { Post } from '../main/post/Post'
 export const FollowPosts: React.FC = () => {
     const { errorMessage, loading, successData } = useFetchReducer({ fetchCallback: getPostByFollow })
 
-    if (errorMessage.length) {
+    if (errorMessage) {
         return <div>{errorMessage}</div>
     }
 
@@ -22,7 +22,7 @@ export const FollowPosts: React.FC = () => {
         const postArray = successData as IPost[]
         return (
             < div >
-                { postArray.length && postArray.map(x => <Post post={x} key={x._id}></Post>)}
+                { postArray.map(x => <Post post={x} key={x._id}></Post>)}
             </div >
         )
     }
