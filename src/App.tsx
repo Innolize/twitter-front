@@ -1,5 +1,4 @@
-import { Container, Grid } from '@material-ui/core';
-import { Sidebar } from './componentes/leftSidebar/Sidebar';
+import { Container } from '@material-ui/core';
 import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
 import { MainPage } from './screens/MainPage';
 import { LogIn } from './screens/LogIn';

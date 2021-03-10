@@ -3,10 +3,12 @@ import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import { Grid } from '@material-ui/core';
+import HomeIcon from '@material-ui/icons/Home';
+import GroupIcon from '@material-ui/icons/Group';
+import { Grid, Typography } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/reducer';
 import { ProfileButton } from './ProfileButton';
@@ -26,33 +28,52 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export const Sidebar = (props: any) => {
+interface SidebarProps {
+    onClickClose?: () => void
+}
+
+export const Sidebar: React.FC<SidebarProps> = ({ onClickClose = () => { } }) => {
     const classes = useStyles();
     const user = useSelector((state: RootState) => state.authReducer.user)
 
     return (
-        <Grid item xs={3} className={classes.root}>
+        <Grid item className={classes.root}>
             <List component="nav" aria-label="main mailbox folders">
-                <ListItem button component={Link} to='/main' >
+                <ListItem button component={Link} onClick={onClickClose} to='/main' >
                     <ListItemIcon>
-                        <InboxIcon />
+                        <HomeIcon></HomeIcon>
                     </ListItemIcon>
-                    <ListItemText primary="Home" />
+                    <ListItemText>
+                        <Typography variant="h6">Home</Typography>
+                    </ListItemText>
                 </ListItem>
-                <ListItem button component={Link} to={`/main/profile/${user?._id}`} >
+                <ListItem button component={Link} onClick={onClickClose} to={`/main/profile/${user?._id}`} >
                     <ListItemIcon>
-                        <DraftsIcon />
+                        <AccountBoxIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Profile" />
+                    <ListItemText>
+                        <Typography variant="h6">Profile</Typography>
+                    </ListItemText>
                 </ListItem>
-                <ListItem button component={Link} to='/notifications'>
+                <ListItem button component={Link} onClick={onClickClose} to='/main/myFollows'>
                     <ListItemIcon>
-                        <DraftsIcon />
+                        <NotificationsIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Notifications" />
+                    <ListItemText >
+                        <Typography variant="h6">My Follows</Typography>
+                    </ListItemText>
                 </ListItem>
+                <ListItem button component={Link} onClick={onClickClose} to="/main/find">
+                    <ListItemIcon>
+                        <GroupIcon />
+                    </ListItemIcon>
+                    <ListItemText >
+                        <Typography variant="h6">Find Friends</Typography>
+                    </ListItemText>
+                </ListItem>
+
             </List>
-            {user && <ProfileButton user={user} />}
+            {user && <ProfileButton user={user} onClickDrawer={onClickClose} />}
         </Grid>
     );
 }

@@ -1,6 +1,6 @@
-import { Box, Button, Container, createStyles, IconButton, makeStyles, Theme } from '@material-ui/core'
-import MoreVertIcon from '@material-ui/icons/MoreVertOutlined';
+import { Box, createStyles, makeStyles, Theme } from '@material-ui/core'
 import React, { useRef, useState } from 'react'
+import SearchIcon from '@material-ui/icons/Search';
 import EditIcon from '@material-ui/icons/Edit';
 import { User } from '../../types/User';
 
@@ -12,11 +12,14 @@ const useStyles = makeStyles((theme: Theme) =>
         coverImageContainer: {
             width: "100%",
             minHeight: 200,
-            maxHeight: 450,
+            maxHeight: 350,
+            display: "flex",
+            justifyContent: "center"
         },
         coverImage: {
             maxWidth: "100%",
-            objectFit: "contain"
+            objectFit: "contain",
+            maxHeight: 350,
         },
         editCoverImage: {
             backgroundColor: "black",
@@ -32,13 +35,33 @@ const useStyles = makeStyles((theme: Theme) =>
             alignItems: "center"
         },
         userImageContainer: {
+            borderRadius: "50%",
             position: "absolute",
             left: "30px",
-            bottom: "-90px"
+            bottom: "-90px",
+            width: "180px",
+            height: "180px",
+            display: "flex",
+            justifyContent: "center",
+            [theme.breakpoints.down('sm')]: {
+                width: "120px",
+                height: "120px",
+                left: "30px",
+                bottom: '-60px'
+            }
+
         },
         userImage: {
-            border: "5px solid white",
             borderRadius: "50%",
+            objectFit: "cover",
+            width: "180px",
+            height: "180px",
+            border: "5px solid white",
+            backgroundColor: "gray",
+            [theme.breakpoints.down('sm')]: {
+                width: "120px",
+                height: "120px",
+            }
         },
         editUserImage: {
             backgroundColor: "black",
@@ -52,7 +75,12 @@ const useStyles = makeStyles((theme: Theme) =>
             visibility: "hidden",
             display: "flex",
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
+            [theme.breakpoints.down('sm')]: {
+                width: "120px",
+                height: "120px",
+                bottom: '-60px'
+            }
         },
         buttonHeigth: {
             height: "40px"
@@ -70,9 +98,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
     user: User
+    edit?: boolean
+    onClickCoverImage: () => void
+    onClickProfileImage: () => void
 }
 
-export const ProfileImages: React.FC<Props> = ({ user }) => {
+export const ProfileImages: React.FC<Props> = ({ user, edit, onClickCoverImage, onClickProfileImage }) => {
     const classes = useStyles()
     const [showEditAvatar, setShowEditAvatar] = useState<Boolean>(false)
     const [showEditCover, setShowEditCover] = useState<Boolean>(false)
@@ -81,11 +112,10 @@ export const ProfileImages: React.FC<Props> = ({ user }) => {
     const hoverEnter = (setter: React.Dispatch<React.SetStateAction<Boolean>>) => {
         setter(true)
     }
-
     const hoverLeaves = (setter: React.Dispatch<React.SetStateAction<Boolean>>) => {
         setter(false)
     }
-
+    
     return (
         <>
             <Box className={classes.container} >
@@ -93,31 +123,29 @@ export const ProfileImages: React.FC<Props> = ({ user }) => {
                     <img
                         ref={coverRef}
                         onMouseEnter={() => hoverEnter(setShowEditCover)}
-                        alt="user cover" src={"https://picsum.photos/1000/500"} className={classes.coverImage} />
+                        alt="user cover" src={user.cover || "/images/placeholder-image.png"} className={classes.coverImage}
+                        onClick={onClickCoverImage}
+                    />
                     <div
                         style={{ height: coverRef.current?.height }}
                         onMouseLeave={() => hoverLeaves(setShowEditCover)}
+                        onClick={onClickCoverImage}
                         className={`${classes.editCoverImage} ${showEditCover ? classes.visible : ""}`}>
-                        <EditIcon fontSize="large" color="primary"></EditIcon>
+                        {edit ? <EditIcon fontSize="large" color="primary"></EditIcon> : <SearchIcon fontSize="large" color="primary" ></SearchIcon>}
                     </div>
                 </div>
                 <div className={classes.userImageContainer}>
                     <img
                         onMouseEnter={() => hoverEnter(setShowEditAvatar)}
-                        alt="user profile image" src={user.profilePicture || "https://picsum.photos/180/180"} className={classes.userImage}></img>
+                        onClick={onClickProfileImage}
+                        alt="user profile " src={user.profilePicture || "/images/avatar-default.png"} className={classes.userImage}></img>
                     <div
-
+                        onClick={onClickProfileImage}
                         onMouseLeave={() => hoverLeaves(setShowEditAvatar)}
                         className={`${classes.editUserImage} ${showEditAvatar ? classes.visible : ""}`}>
-                        <EditIcon fontSize="large" color="primary"></EditIcon>
+                        {edit ? <EditIcon fontSize="large" color="primary"></EditIcon> : <SearchIcon fontSize="large" color="primary" ></SearchIcon>}
                     </div>
                 </div>
-            </Box>
-            <Box className={classes.buttonContainer}>
-                <IconButton color="primary" className={classes.buttonHeigth}>
-                    <MoreVertIcon></MoreVertIcon>
-                </IconButton>
-                <Button variant="outlined" color="primary" className={classes.buttonHeigth}> Follow</Button>
             </Box>
         </>
     )

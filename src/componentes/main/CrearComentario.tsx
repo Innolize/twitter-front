@@ -1,12 +1,12 @@
 import { Avatar, Box, Button, createStyles, Input, makeStyles, Theme } from '@material-ui/core';
-import PhotoIcon from '@material-ui/icons/Photo'
-import YouTubeIcon from '@material-ui/icons/YouTube';
 import SendIcon from '@material-ui/icons/Send';
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { User } from '../../types/User';
 import { createPost } from '../../api/post/createPost';
-import { PositionedSnackbar } from '../common/Snackbar'
-import { Post } from '../../types/Post';
+import { EmojiButton } from '../common/EmojiButton'
+import { IEmojiData } from 'emoji-picker-react'
+import { useDispatch } from 'react-redux';
+import { SET_ERROR, SET_SUCCESS } from '../../redux/types/AuthActionTypes';
 
 
 
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
             display: "flex",
             padding: 10,
             margin: 20,
-            border: "solid #E1E8ED 1px"
+            border: "solid #E1E8ED 3px"
         },
         contenedorMultimedia: {
             flexGrow: 1
@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme: Theme) =>
         contenedorBotones: {
             display: "flex",
             width: "90%",
-            alignItems: "center"
+            alignItems: "center",
+            justifyContent: "flex-end"
         }
     }),
 );
@@ -43,38 +44,58 @@ interface Props {
 }
 
 export const CrearComentario: React.FC<Props> = ({ user }) => {
+    const dispatch = useDispatch()
     const [postContent, setPostContent] = useState("")
-    const [error, setError] = useState<string>("")
-    const [success, setSuccess] = useState<any>(null)
     const classes = useStyles()
+
+
 
     const inputOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPostContent(e.target.value)
     }
 
+
+
     const sendNewPost = async () => {
-        const { success, response, error } = await createPost(postContent)
-        if (success) {
-            setSuccess(response)
+        const response = await createPost(postContent)
+        if (!response.success) {
+            dispatch({ type: SET_ERROR, payload: response.error })
+
+        } else {
+            dispatch({ type: SET_SUCCESS, payload: "Post successfuly created!" })
             setPostContent("")
-        } else if (error) {
-            setError(error)
+        }
+    }
+
+    const sendNewPostCallback = useCallback(sendNewPost, [dispatch, postContent])
+
+    const handleEmojiClick = (e: React.MouseEvent<Element, MouseEvent>, data: IEmojiData) => {
+        setPostContent(c => c + data.emoji)
+    }
+
+    useEffect(() => {
+
+        const enterEventListener = (e: KeyboardEvent) => {
+            if (e.key === 'Enter') {
+                sendNewPostCallback()
+            }
         }
 
-    }
+        document.addEventListener('keydown', enterEventListener)
+        return () => {
+            document.removeEventListener('keydown', enterEventListener)
+        }
+    }, [sendNewPostCallback])
+
 
     return (
         <>
             <Box className={classes.root}>
                 <Avatar alt="carlitos test" src={user.profilePicture || undefined} className={classes.large}></Avatar>
                 <Box style={{ width: "90%" }}>
-                    <Input placeholder="Que querés compartir hoy?" className={classes.textField} value={postContent} onChange={inputOnChange} />
+                    <Input autoFocus placeholder="Que querés compartir hoy?" className={classes.textField} value={postContent} onChange={inputOnChange} />
                     <Box className={classes.contenedorBotones} id="contenedor-botones" >
-                        <Box style={{ flexGrow: 1 }} id="contenedor-multimedia">
-                            <PhotoIcon fontSize="large" />
-                            <YouTubeIcon fontSize="large" />
-                        </Box>
-
+                        <EmojiButton onEmojiClick={handleEmojiClick}></EmojiButton>
                         <Button
                             size="small"
                             variant="contained"
@@ -87,8 +108,6 @@ export const CrearComentario: React.FC<Props> = ({ user }) => {
                     </Box>
                 </Box>
             </Box>
-            {success && <PositionedSnackbar open={true} severity="success" message="Posted successfuly!"></PositionedSnackbar>}
-            {error && <PositionedSnackbar open={true} severity="error" message={error || "error"}></PositionedSnackbar>}
         </>
     );
 }

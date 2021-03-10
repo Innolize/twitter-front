@@ -1,38 +1,48 @@
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import { MoreVert } from "@material-ui/icons";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { RootState } from "../../redux/reducer";
+import { useSelector } from 'react-redux'
 
-interface Props {
-    self: boolean,
-    removeAction?: () => void
+export interface OptionMenuAction {
+    description: string,
+    action: () => void
 }
 
-export const OptionsMenu: React.FC<Props> = ({ self, removeAction }) => {
+interface Props {
+    removeAction?: () => void
+    selfActions?: OptionMenuAction[]
+    authorId: string
+}
 
-    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+export const OptionsMenu: React.FC<Props> = ({ selfActions, authorId }) => {
+    const [show, setShow] = useState(false)
+    const buttonRef = useRef<HTMLButtonElement | null>(null)
+    const user = useSelector((state: RootState) => state.authReducer.user)
+    const self = authorId === user?._id
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        setAnchorEl(event.currentTarget);
+        setShow(true)
     };
 
     const handleClose = () => {
-        setAnchorEl(null);
+        setShow(false)
     };
 
     return (
         <div>
 
-            <IconButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+            <IconButton aria-controls="simple-menu" aria-haspopup="true" ref={buttonRef} onClick={handleClick}>
                 <MoreVert />
             </IconButton>
             <Menu
-                anchorEl={anchorEl}
+                anchorEl={buttonRef.current}
                 keepMounted
-                open={Boolean(anchorEl)}
+                open={show}
                 onClose={handleClose}
             >
-                {self && <MenuItem onClick={removeAction}>Remove</MenuItem>}
-                <MenuItem onClick={handleClose}>Unfollow User</MenuItem>
+                {self && selfActions && selfActions.map((sAction, i) => <MenuItem onClick={sAction.action} key={i}>{sAction.description}</MenuItem>)}
+
                 <MenuItem onClick={handleClose}>Report</MenuItem>
             </Menu>
         </div>

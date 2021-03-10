@@ -1,6 +1,6 @@
 import { Dispatch } from 'react'
 import { User } from '../../types/User'
-import { AuthActionTypes, LOGIN, LOADING, LOGIN_ERROR, loginPayload } from '../types/AuthActionTypes'
+import { AuthActionTypes, LOGIN, LOADING, LOGIN_ERROR } from '../types/AuthActionTypes'
 import { InitialState } from '../reducer/authReducer'
 import { axiosI } from '../../common/IAxios'
 
@@ -28,11 +28,10 @@ export const login = (data: logInfo, newAccount?: NewAccount) => async (dispatch
     } catch (error) {
         if (error.response) {
             let errors = error.response.data.message
-            dispatch({ type: LOGIN_ERROR, payload: { errors: errors } })
+            dispatch({ type: LOGIN_ERROR, payload: errors })
         }
     }
 }
-
 interface RefreshReponse {
     user: User,
     message?: string,
@@ -40,17 +39,17 @@ interface RefreshReponse {
 }
 
 export const handleRefreshToken = () => async (dispatch: Dispatch<AuthActionTypes>) => {
-
+    console.log('entre al handleRefreshToken')
     try {
         dispatch({ type: LOADING })
         const loggear: RefreshReponse = (await axiosI.post('/auth/refresh', { withCredentials: true })).data
         if (loggear.access_token) {
             dispatch({ type: LOGIN, payload: { user: loggear.user, access_token: loggear.access_token } })
         } else {
-            dispatch({ type: LOGIN_ERROR, payload: { errors: [loggear.message ? loggear.message : 'loggin error'] } })
+            dispatch({ type: LOGIN_ERROR, payload: { error: loggear.message ? loggear.message : 'loggin error' } })
         }
     } catch (err) {
-        dispatch({ type: LOGIN_ERROR, payload: { errors: ["error "] } })
+        dispatch({ type: LOGIN_ERROR, payload: { error: "error " } })
     }
 
 }

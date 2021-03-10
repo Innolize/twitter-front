@@ -1,22 +1,32 @@
-import { Avatar, Button, createStyles, List, ListItem, ListItemAvatar, ListItemText, makeStyles, Menu, MenuItem, Theme } from '@material-ui/core'
+import { Avatar, createStyles, List, ListItem, ListItemAvatar, ListItemText, makeStyles, Menu, MenuItem, Theme, Typography } from '@material-ui/core'
 import React, { useRef, useState } from 'react'
 import { User } from '../../types/User'
 import { LOG_OUT, } from '../../redux/types/AuthActionTypes'
 import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         rounded: {
             borderRadius: '25px'
+        },
+        profileButton: {
+            fontSize: "1.25rem",
+            display: "block",
+            overflow: "hidden",
+            width: "200px",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
         }
     })
 )
 
 interface ProfileButtonProps {
     user: User
+    onClickDrawer?: () => void
 }
 
-export const ProfileButton = ({ user }: ProfileButtonProps) => {
+export const ProfileButton: React.FC<ProfileButtonProps> = ({ user, onClickDrawer = () => { } }) => {
     const dispatch = useDispatch()
     const classes = useStyles()
     const buttonRef = useRef<HTMLDivElement>(null)
@@ -27,14 +37,15 @@ export const ProfileButton = ({ user }: ProfileButtonProps) => {
 
     return (
         <List>
-            <ListItem button className={classes.rounded} ref={buttonRef} onClick={() => {setShow(true); console.log('no tengo que entrar aca')}}>
+            <ListItem button className={classes.rounded} ref={buttonRef} onClick={() => { setShow(true) }}>
                 <ListItemAvatar>
                     <Avatar src={user && user.profilePicture ? user.profilePicture : undefined}
                         alt={user.name}
                     ></Avatar>
                 </ListItemAvatar>
                 <ListItemText
-                    primary={"" + user.name + " " + user.surname}
+                    // disableTypography
+                    primary={<Typography component="h1" noWrap className={classes.profileButton} title={user.name + " " + user.surname}>{user.name} {user.surname}</Typography>}
                 >
                 </ListItemText>
             </ListItem>
@@ -44,12 +55,13 @@ export const ProfileButton = ({ user }: ProfileButtonProps) => {
                 keepMounted
                 open={show}
                 onClose={() => setShow(false)}
+                anchorOrigin={{ vertical: "top", horizontal: "left" }}
+                transformOrigin={{ vertical: 100, horizontal: -100, }}
             >
+                <MenuItem button component={Link} onClick={onClickDrawer} to={`/main/profile/${user?._id}`}>My Profile</MenuItem>
                 <MenuItem onClick={logout}>Log out</MenuItem>
-                {/* <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem> */}
             </Menu>
-        </List>
+        </List >
     )
 
 }

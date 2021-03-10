@@ -2,38 +2,42 @@ import React from 'react'
 import { useParams } from 'react-router-dom';
 import { getPostById } from '../../../api/post/getPostById';
 import { useFetchReducer } from '../../../hooks/useFetch';
-import { Post } from './Post'
-import { Post as IPost } from '../../../types/Post';
-import { isPost } from '../../../types/typeguards/Post.typeguard';
-import { Box, CircularProgress } from '@material-ui/core';
-import { CommentContainer } from '../comment/CommentContainer';
+import { Post as IPost } from '../../../types/Post'
+import { getComments } from '../../../api/comment/getComments';
+import { Loading } from '../../common/Loading';
+import { IComment } from '../../../types/Comment';
+import ExtendedPost from './ExtendedPost';
 
 interface IParams {
     postId: string
 }
 
 export const DetailedPost: React.FC = () => {
-    const { postId } = useParams<IParams>()
-    const { successData, errorMessage, loading } = useFetchReducer({ fetchCallback: getPostById, fetchOptions: { id: postId } })
+    const param = useParams<IParams>()
+    const responsePost = useFetchReducer({ fetchCallback: getPostById, fetchOptions: { id: param.postId } })
+    const responseComments = useFetchReducer({ fetchCallback: getComments, fetchOptions: param.postId })
 
-    if (isPost(successData)) {
+    if (responsePost.successData && responseComments.successData) {
+        const post = responsePost.successData as IPost
+        const comments = responseComments.successData as IComment[]
         return (
-            <Box>
-                <Post post={successData} ></Post>
-                <CommentContainer postId={successData._id} ></CommentContainer>
-            </Box>
+            <ExtendedPost comments={comments} post={post} />
         )
     }
 
-    if (loading) {
-        return <CircularProgress></CircularProgress>
+
+    if (responsePost.errorMessage.length || responseComments.errorMessage.length) {
+        return (
+            <>
+                <div>{responsePost.errorMessage}</div>
+                <div>{responseComments.errorMessage}</div>
+            </>
+        )
     }
 
-    if (errorMessage) {
-        return <div>{errorMessage}</div>
+    if (responsePost.loading || responseComments.loading) {
+        return <Loading size={40} ></Loading>
     }
 
-    return (
-        null
-    );
+    return null
 }

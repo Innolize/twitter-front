@@ -1,16 +1,20 @@
 import { Avatar, Box, Card, CardContent, CardHeader, makeStyles, Typography, IconButton, createStyles, Theme } from '@material-ui/core'
 import { ThumbUp } from '@material-ui/icons'
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteComment } from '../../../api/comment/deleteComment'
+import { likeComment } from '../../../api/comment/likeComment'
 import { RootState } from '../../../redux/reducer'
+import { SET_ERROR, SET_SUCCESS } from '../../../redux/types/AuthActionTypes'
 import { IComment } from '../../../types/Comment'
-import { OptionsMenu } from '../../common/OptionsMenu'
+import { OptionMenuAction, OptionsMenu } from '../../common/OptionsMenu'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            padding: 0,
-            margin: "0px 20px"
+            padding: 10,
+            margin: "10px 30px",
+            border: "solid #E1E8ED 2px",
         },
         cardHeader: {
             padding: 8
@@ -22,8 +26,22 @@ const useStyles = makeStyles((theme: Theme) =>
             margin: 'auto 0px'
         },
         avatar: {
-            width: theme.spacing(3),
-            height: theme.spacing(3)
+            width: theme.spacing(5),
+            height: theme.spacing(5)
+        },
+        nombreUsuario: {
+            display: "block",
+            overflow: "hidden",
+            width: "200px",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            textTransform: "capitalize",
+            [theme.breakpoints.up('sm')]: {
+                width: 250
+            },
+            [theme.breakpoints.up('md')]: {
+                width: 300
+            }
         }
     })
 )
@@ -33,31 +51,51 @@ interface Props {
 }
 
 export const Comment: React.FC<Props> = ({ comment }) => {
-    const [showOptions, setShowOptions] = useState(false)
     const user = useSelector((state: RootState) => state.authReducer.user)
     const classes = useStyles()
+    const dispatch = useDispatch()
 
-    const self = comment.authorId === user?._id
+    const { name, profilePicture, surname, _id: authorId } = comment.author
+    const commentLiked = user && comment.likesArr.includes(user._id)
+    const removeComment = async (commentId: string) => {
+        const result = await deleteComment(commentId)
+        if (!result.success) {
+            console.log(result.error)
+            dispatch({ type: SET_ERROR, payload: result.error })
+        } else {
+            dispatch({ type: SET_SUCCESS, payload: result.data })
+        }
+    }
+
+    const removeCommentAction: OptionMenuAction = {
+        description: "Delete",
+        action: () => removeComment(comment._id)
+    }
+
+
+    const likeOnClick = async () => {
+        await likeComment(comment._id)
+        console.log("hice click al boton de like: ")
+    }
 
     return (
 
         <Card className={classes.root}
             variant="outlined"
-            onMouseEnter={() => setShowOptions(true)}
-            onMouseLeave={() => setShowOptions(false)}
         >
             <CardHeader
                 className={classes.cardHeader}
                 avatar={
-                    <Avatar aria-label="recipe" src={user?.profilePicture || undefined} className={classes.avatar} />
+                    <Avatar aria-label="recipe" src={profilePicture || undefined} className={classes.avatar} />
 
                 }
-                action={showOptions && user &&
+                action={
                     <OptionsMenu
-                        self={self}
-                        removeAction={() => console.log(12345)}
+                        removeAction={() => console.log("reported")}
+                        authorId={authorId}
+                        selfActions={[removeCommentAction]}
                     />}
-                title={<Typography variant="h6">{`${user?.name} ${user?.surname}`}</Typography>}
+                title={<Typography variant="h6" title={`${name} ${surname}`} className={classes.nombreUsuario}>{`${name} ${surname}`}</Typography>}
 
             />
             <CardContent>
@@ -65,11 +103,11 @@ export const Comment: React.FC<Props> = ({ comment }) => {
                     {comment.message}
                 </Typography>
             </CardContent>
-            <Box display='flex' justifyContent='space-around'>
-                <IconButton >
-                    {/* onClick={userLogged ? (userLike ? quitarLike : darLike) : () => console.log("usuario no logeado")} */}
-                    <ThumbUp color={'primary' || 'inherit'} />
-                    {/* {likes.length > 0 ? likes.length : null} */}
+            <Box display='flex' pl="16px">
+                <IconButton onClick={likeOnClick} >
+
+                    <ThumbUp color={commentLiked ? 'primary' : 'inherit'} />
+                    {comment.likesNumb > 0 ? comment.likesNumb : null}
                 </IconButton>
                 <Typography className={classes.centeredText}>
                     {/* {time} */}

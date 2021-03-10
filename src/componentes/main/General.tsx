@@ -1,30 +1,32 @@
-import Axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/reducer'
 import { CrearComentario } from './CrearComentario'
-import { Post } from './post/Post'
 import { useFetchReducer } from '../../hooks/useFetch'
 import { getPosts } from '../../api/post/getPosts'
-import { CircularProgress } from '@material-ui/core'
 import { isPostArray } from '../../types/typeguards/PostArray.typeguard'
-
+import { PostContainer } from './post/PostContainer'
+import { Loading } from '../common/Loading'
 
 export const General: React.FC = () => {
     const user = useSelector((state: RootState) => state.authReducer.user)
     const { errorMessage, loading, successData } = useFetchReducer({ fetchCallback: getPosts })
 
     if (loading) {
-        return <CircularProgress />
+        return <Loading></Loading>
     }
 
-    if (isPostArray(successData)) {
+    if (successData) {
+        const posts = successData
         return (
             <>
                 { user && <CrearComentario user={user} />}
-                { successData.map((el, i) => <Post post={el} order={i} key={i} />)}
+                { isPostArray(posts) && <PostContainer initialPosts={posts} ></PostContainer>}
             </>
         )
+    }
+    if (errorMessage) {
+        return <div>error</div>
     }
 
     return null

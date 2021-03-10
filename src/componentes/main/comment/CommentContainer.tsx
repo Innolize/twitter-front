@@ -1,47 +1,20 @@
-import { Box, CircularProgress } from '@material-ui/core'
-import React, { useState } from 'react'
-import { useFetchReducer } from '../../../hooks/useFetch'
+import { Box } from '@material-ui/core'
+import React from 'react'
 import { Comment } from './Comment'
-import { getComments } from '../../../api/comment/getComments'
-import { isCommentArray } from '../../../types/typeguards/CommentArray.typeguard'
+import { IComment } from '../../../types/Comment'
 import { CreateComment } from './CreateComment'
-import { RootState } from '../../../redux/reducer'
-import { useSelector } from 'react-redux'
 
 interface Props {
     postId: string
+    postComments: IComment[]
 }
 
-export const CommentContainer: React.FC<Props> = ({ postId }) => {
-    const user = useSelector((state: RootState) => state.authReducer.user)
-    const { successData, loading, errorMessage } = useFetchReducer({ fetchCallback: getComments, fetchOptions: { postId } })
-
-    if (isCommentArray(successData)) {
-        return (
-            <Box>
-                {successData.map((el, idx) => <Comment comment={el} key={idx}></Comment>)}
-                {user && <CreateComment postId={postId} userId={user._id}></CreateComment>}
-            </Box>
-        )
-    }
-
-    
-
-    if (loading) {
-        return (
-            <CircularProgress />
-        )
-    }
-
-    if (errorMessage.length) {
-        return (
-            <div>{errorMessage}</div>
-        )
-    }
+export const CommentContainer: React.FC<Props> = ({ postId, postComments }) => {
 
     return (
         <Box>
-            {user && <CreateComment postId={postId} userId={user._id}></CreateComment>}
+            {postComments && postComments.map((el, idx) => <Comment comment={el} key={idx}></Comment>)}
+            <CreateComment postId={postId}></CreateComment>
         </Box>
     )
 }

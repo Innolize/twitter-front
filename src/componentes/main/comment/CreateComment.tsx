@@ -1,13 +1,20 @@
 import { Box, Button, createStyles, makeStyles, TextField, Theme } from '@material-ui/core'
-import React, { useState } from 'react'
+import { IEmojiData } from 'emoji-picker-react'
+import React, { useEffect, useState, useCallback } from 'react'
+import { useDispatch } from 'react-redux'
 import { createComment } from '../../../api/comment/createComment'
+import { SET_ERROR, SET_SUCCESS } from '../../../redux/types/AuthActionTypes'
+import { EmojiButton } from '../../common/EmojiButton'
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
+            display: "flex",
+            alignItems: "center",
             padding: "10px",
-            margin: "0px 20px",
-            border: "1px solid rgba(0, 0, 0, 0.12)"
+            margin: "10px 30px",
+            border: "solid #E1E8ED 2px",
+            borderRadius: "4px"
         },
         textArea: {
             flexGrow: 1
@@ -16,12 +23,11 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 interface Props {
-    userId: string,
     postId: string
 }
 
 export const CreateComment: React.FC<Props> = ({ postId }) => {
-    console.log(postId)
+    const dispatch = useDispatch()
     const classes = useStyles()
     const [text, setText] = useState("")
 
@@ -29,14 +35,39 @@ export const CreateComment: React.FC<Props> = ({ postId }) => {
         setText(e.target.value)
     }
 
-    const buttonOnClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        const response = createComment({ message: text, postId })
-        console.log(response)
+    const buttonOnClick = useCallback(
+        async () => {
+            const response = await createComment({ message: text, postId })
+            if (!response.success) {
+                dispatch({ type: SET_ERROR, payload: response.error })
+            } else {
+                setText('')
+                dispatch({ type: SET_SUCCESS, payload: "Comment created" })
+            }
+        }
+        , [dispatch, postId, text])
+
+    useEffect(() => {
+        const enterEventListener = (e: KeyboardEvent) => {
+            if (e.key === 'Enter') {
+                buttonOnClick()
+            }
+        }
+
+        document.addEventListener('keydown', enterEventListener)
+        return () => {
+            document.removeEventListener('keydown', enterEventListener)
+        }
+    }, [buttonOnClick])
+
+    const addEmoji = (e: React.MouseEvent<Element, MouseEvent>, data: IEmojiData) => {
+        setText(c => c + data.emoji)
     }
 
     return (
         <Box display="flex" className={classes.root}>
-            <TextField onChange={textfieldOnChange} variant="outlined" placeholder='Write something...' className={classes.textArea} ></TextField>
+            <TextField value={text} onChange={textfieldOnChange} variant="outlined" placeholder='Write something...' className={classes.textArea} ></TextField>
+            <EmojiButton onEmojiClick={addEmoji}></EmojiButton>
             <Button onClick={buttonOnClick}> Send</Button>
         </Box>
     )

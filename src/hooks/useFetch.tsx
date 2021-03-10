@@ -1,9 +1,8 @@
 import { useEffect, useReducer } from "react"
-import { Post } from "../types/Post"
 import { ERROR, LOADING, SUCCESS, IinitialState, actions } from './useFetch.types'
 
 const initialState = {
-    successData: [],
+    successData: null,
     errorMessage: [],
     loading: false
 }
@@ -41,12 +40,13 @@ export const useFetchReducer = ({ fetchCallback, fetchOptions }: Props) => {
                 const request = (await fetchCallback(fetchOptions))
                 dispatch({ type: SUCCESS, payload: request })
             } catch (err) {
-                dispatch({ type: ERROR, payload: err })
+                dispatch({ type: ERROR, payload: err.response.data.message })
             }
 
         }
         customFecth()
-    }, [])
+        // eslint-disable-next-line
+    }, [fetchCallback])
 
     return state
 }
